@@ -8,6 +8,7 @@ public class Main {
 		System.out.println("Hola esto es una prueba");
 		System.out.println("hola");
 		System.out.println("hola hola");
+		System.out.println("hola prueba");
 	}
 
 }
