@@ -13,18 +13,19 @@ public class VentanaUsuario extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	public VentanaUsuario() {
-		setBounds(100,100,1000,500);
+		setBounds(100,100,900,600);
 		setTitle("User");
+		setLocationRelativeTo(null);
 		
 		JPanel pNorte = new JPanel();
-		JPanel pDrcha = new JPanel();
-		JPanel pIzq = new JPanel();
-		pIzq.setLayout(new GridLayout(4,1));
+		JPanel pEste = new JPanel();
+		pEste.setLayout(new GridLayout(4,1));
+		JPanel pOeste = new JPanel();
 		JPanel pSur = new JPanel();
 		
 		getContentPane().add(pSur,BorderLayout.SOUTH);
-		getContentPane().add(pDrcha,BorderLayout.WEST);
-		getContentPane().add(pIzq,BorderLayout.EAST);
+		getContentPane().add(pOeste,BorderLayout.WEST);
+		getContentPane().add(pEste,BorderLayout.EAST);
 		getContentPane().add(pNorte,BorderLayout.NORTH);
 		
 		
@@ -33,7 +34,9 @@ public class VentanaUsuario extends JFrame {
 		JTextField userName = new JTextField();
 		JTextField contra = new JTextField();
 		
-		
+		pEste.add(userName);
+		pEste.add(contra);
+		pEste.add(btnEntrar);
 		
 		setVisible(true);
 	}
