@@ -72,12 +72,6 @@ public class VentanaUsuario extends JFrame {
 		pEste.add(p3);
 		
 		
-		JLabel title = new JLabel("Title");
-		title.setFont(new Font("Arial", Font.BOLD, 50));
-		pNorte.add(title);
-		JPanel p4 = new JPanel();
-		p4.add(title);
-		pNorte.add(p4);
 		
 		JButton btnAtras= new JButton("Atrás");
 		btnAtras.setSize(new Dimension(300,300));
@@ -85,10 +79,19 @@ public class VentanaUsuario extends JFrame {
 		//lamda
 		btnAtras.addActionListener((e)->{
 			new VentanaInicial();
+			dispose();
 		});
 		
+		JPanel p4 = new JPanel();
+		p4.add(btnAtras);
+		pNorte.add(p4);
+		
+		JLabel title = new JLabel("Title");
+		title.setFont(new Font("Arial", Font.BOLD, 50));
+		pNorte.add(title);
+		
 		JPanel p5 = new JPanel();
-		p5.add(btnAtras);
+		p5.add(title);
 		pNorte.add(p5);
 		
 		
