@@ -1,4 +1,4 @@
-package revistaModa.src.main;
+package revistaModa.main;
 
 public class Main {
 
