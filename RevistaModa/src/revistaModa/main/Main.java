@@ -1,5 +1,6 @@
 package revistaModa.main;
 
+import revistaModa.gui.VentanaInicial;
 import revistaModa.gui.VentanaUsuario;
 
 public class Main {
