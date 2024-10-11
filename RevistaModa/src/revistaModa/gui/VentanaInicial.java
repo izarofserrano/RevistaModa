@@ -3,6 +3,8 @@ package revistaModa.gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -65,8 +67,6 @@ public class VentanaInicial extends JFrame {
 			System.out.println("No se pudo cargar la imagen: ");
 		} */
 		
-		btnBuscador = new JButton(new ImageIcon("/Users/ainhoa/Desktop"));
-		btnBuscador.setToolTipText("Buscar");
 		
 		pNorte.add(btnInicio);
 		pNorte.add(btnModa);
@@ -74,6 +74,17 @@ public class VentanaInicial extends JFrame {
 		pNorte.add(btnLogIn);
 		pNorte.add(btnBuscador);
 		
+		
+		btnLogIn.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				new VentanaUsuario();
+				
+			}
+			
+		});
 		
 		
 		setVisible(true);
