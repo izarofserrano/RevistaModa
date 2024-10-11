@@ -58,16 +58,6 @@ public class VentanaInicial extends JFrame {
 		ImageIcon imagen = new ImageIcon("img/lupa.png");
 		setIconImage(imagen.getImage());
 		
-		/*
-		try {
-			ImageIcon iconoLupa = new ImageIcon("img/lupa.png");
-			Image imgLupa = iconoLupa.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-			btnBuscador.setIcon(new ImageIcon(imgLupa));
-		} catch (Exception e){
-			System.out.println("No se pudo cargar la imagen: ");
-		} */
-		
-		
 		pNorte.add(btnInicio);
 		pNorte.add(btnModa);
 		pNorte.add(btnBelleza);
