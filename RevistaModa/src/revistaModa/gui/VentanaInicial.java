@@ -2,6 +2,7 @@ package revistaModa.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -12,13 +13,14 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 
 public class VentanaInicial extends JFrame {
-	private JButton btnInicio, btnModa, btnBelleza, btnLogIn, btnBuscador;
-	private JLabel lblTitulo, lblImagenPortada, lblContacto, lblUbi;
+	private JButton btnInicio, btnModa, btnBelleza, btnLogIn;
+	private JLabel lblTitulo, lblImagenPortada, lblContacto, lblUbi, lblLupa;
 	private JPanel pCentro, pNorte, pSur, pEste, pOeste;
-
+	private JTextField txtBuscador;
 	
 	private JFrame vActual;
 	
@@ -34,37 +36,55 @@ public class VentanaInicial extends JFrame {
 		pEste = new JPanel();
 		pOeste = new JPanel();
 		
-		getContentPane().add(pNorte, BorderLayout.NORTH);
-		getContentPane().add(pSur, BorderLayout.SOUTH);
-		getContentPane().add(pEste, BorderLayout.EAST);
-		getContentPane().add(pOeste, BorderLayout.WEST);
-		getContentPane().add(pCentro, BorderLayout.CENTER);
-		
 		btnInicio = new JButton("INICIO");
 		btnModa = new JButton("MODA");
 		btnBelleza = new JButton("BELLEZA");
 		btnLogIn = new JButton("Log In");
-		btnBuscador = new JButton("Buscar");
 		
 		Dimension buttonSize = new Dimension(100, 40);
 		btnInicio.setPreferredSize(buttonSize);
 		btnModa.setPreferredSize(buttonSize);
 		btnBelleza.setPreferredSize(buttonSize);
 		btnLogIn.setPreferredSize(buttonSize);
-		btnBuscador.setPreferredSize(buttonSize);
 		
-		pSur.setLayout(new GridLayout(10,30));
-		JLabel lblContacto = new JLabel("Contacto: a.ezkurdia@opendeusto.es");
-		JLabel lblUbi = new JLabel("Ubicación: Universidad de Deusto, Bilbao, Bizkaia, España");
 		
+		txtBuscador = new JTextField(15);
+		txtBuscador.setPreferredSize(new Dimension(150, 30));
+		txtBuscador.setText("Buscar");
+		
+		getContentPane().add(pNorte, BorderLayout.NORTH);
+		getContentPane().add(pSur, BorderLayout.SOUTH);
+		getContentPane().add(pEste, BorderLayout.EAST);
+		getContentPane().add(pOeste, BorderLayout.WEST);
+		getContentPane().add(pCentro, BorderLayout.CENTER);
+		
+		pNorte.setLayout(new FlowLayout(FlowLayout.CENTER));
 		pNorte.add(btnInicio);
 		pNorte.add(btnModa);
 		pNorte.add(btnBelleza);
 		pNorte.add(btnLogIn);
-		pNorte.add(btnBuscador);
 		
+		pSur.setLayout(new GridLayout(2,1));
+		JLabel lblContacto = new JLabel("Contacto: a.ezkurdia@opendeusto.es");
+		JLabel lblUbi = new JLabel("Ubicación: Universidad de Deusto, Bilbao, Bizkaia, España");
 		pSur.add(lblContacto);
 		pSur.add(lblUbi);
+		
+		JPanel pBuscador = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
+		try {
+			ImageIcon iconoLupa = new ImageIcon("img/lupa.jpeg");
+			Image imgLupa = iconoLupa.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+			JLabel lblLupa = new JLabel(new ImageIcon(imgLupa));
+			pBuscador.add(lblLupa);
+			
+		} catch (Exception e) {
+			System.out.println("No se ha podido cargar la imagen" + e.getMessage());
+		}	
+		
+		pBuscador.add(txtBuscador);
+		pNorte.add(pBuscador);
+		
 		
 		try {
 			ImageIcon iconoPortada = new ImageIcon("img/portada.jpeg");
@@ -75,8 +95,6 @@ public class VentanaInicial extends JFrame {
 		} catch (Exception e) {
 			System.out.println("No se ha podido cargar la imagen" + e.getMessage());
 		}
-		
-		
 		
 		
 		btnLogIn.addActionListener(new ActionListener() {
