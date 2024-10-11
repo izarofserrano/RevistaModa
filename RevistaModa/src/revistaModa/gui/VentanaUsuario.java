@@ -86,6 +86,7 @@ public class VentanaUsuario extends JFrame {
 		btnAtras.addActionListener((e)->{
 			new VentanaInicial();
 		});
+		
 		JPanel p5 = new JPanel();
 		p5.add(btnAtras);
 		pNorte.add(p5);
