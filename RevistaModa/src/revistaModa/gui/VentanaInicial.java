@@ -7,6 +7,9 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,7 +22,7 @@ import javax.swing.JTextField;
 public class VentanaInicial extends JFrame {
 	private JButton btnInicio, btnModa, btnBelleza, btnLogIn;
 	private JLabel lblTitulo, lblImagenPortada, lblContacto, lblUbi, lblLupa;
-	private JPanel pCentro, pNorte, pSur, pEste, pOeste;
+	private JPanel pCentro, pNorte, pSur, pEste, pOeste,pBelleza,pModa;
 	private JTextField txtBuscador;
 	
 	private JFrame vActual;
@@ -107,6 +110,57 @@ public class VentanaInicial extends JFrame {
 			}
 			
 		});
+		
+		btnBelleza.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				pCentro.removeAll();
+				
+			//Codigo de la de Belleza, lista de belleza...	
+				
+				pCentro.revalidate();
+				pCentro.repaint();
+				
+			}
+		});
+		
+		btnModa.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				pCentro.removeAll();
+				
+				//Codigo de la de Moda, lista de Moda...	
+					
+				pCentro.revalidate();
+				pCentro.repaint();
+			}
+		});
+		
+		
+		
+		txtBuscador.addMouseListener(new MouseAdapter() {
+				
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if(txtBuscador.getText().equals("Buscar")) {
+					txtBuscador.setText("");
+				}
+			}
+		});
+		
+		
+		
+			
+			
+		
+		
+			
+			
 		
 		
 		setVisible(true);
