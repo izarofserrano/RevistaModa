@@ -21,6 +21,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.OverlayLayout;
 
+import revistaModa.clases.RevistaModa;
+
 
 public class VentanaInicial extends JFrame {
 	private JButton btnInicio, btnModa, btnBelleza, btnLogIn;
@@ -223,7 +225,7 @@ public class VentanaInicial extends JFrame {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					// TODO Auto-generated method stub
-					
+					new VentanaArticulo(RevistaModa.getlArticulos().get(2));
 				}
 			});
 
