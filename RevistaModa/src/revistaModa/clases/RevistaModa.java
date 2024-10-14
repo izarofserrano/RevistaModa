@@ -9,7 +9,7 @@ public class RevistaModa {
 	
 	public static void cargarArticulos() {
 		Articulo a1 = new Articulo(1, "La belleza natural", "au1", "2024", "Belleza", 45, "desktop", "desktop");
-		Articulo a2 = new Articulo(2, "Tecnología en 2024", "au2", "2024", "Tecnología", 120, "C:/Users/izaro/OneDrive/Escritorio/HTMLProgra/moda.html", "techProfile");
+		Articulo a2 = new Articulo(2, "Tecnología en 2024", "au2", "2024", "Tecnología", 120, "RevistaModa/html/moda.html", "techProfile");
 		Articulo a3 = new Articulo(3, "El futuro del transporte", "au3", "2023", "Innovación", 85, "futuroTransporte", "transporteProfile");
 		Articulo a4 = new Articulo(4, "Cocina saludable", "au4", "2022", "Gastronomía", 60, "cocinaSaludable", "cocinaProfile");
 		Articulo a5 = new Articulo(5, "Avances en medicina", "au5", "2024", "Salud", 150, "medicinaAvances", "medicinaProfile");
