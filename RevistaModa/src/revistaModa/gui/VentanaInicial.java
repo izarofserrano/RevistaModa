@@ -111,6 +111,7 @@ public class VentanaInicial extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				new VentanaUsuario();
+				dispose();
 				
 			}
 			
