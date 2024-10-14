@@ -10,6 +10,7 @@ public class Main {
 		System.out.println("He borrado todo.");
 		VentanaInicial vInicial = new VentanaInicial();
 		VentanaPerfil vPerfil = new VentanaPerfil();
+		
 	}
 
 }
