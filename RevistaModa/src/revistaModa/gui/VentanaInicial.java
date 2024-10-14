@@ -90,7 +90,7 @@ public class VentanaInicial extends JFrame {
 		
 		
 		try {
-			ImageIcon iconoPortada = new ImageIcon("img/portada.jpeg");
+			ImageIcon iconoPortada = new ImageIcon("RevistaModa\\img\\portada.jpeg");
 			Image imgPortada = iconoPortada.getImage().getScaledInstance(getWidth(), 600, Image.SCALE_SMOOTH);
 			lblImagenPortada = new JLabel(new ImageIcon(imgPortada));
 			pCentro.add(lblImagenPortada);
@@ -134,7 +134,13 @@ public class VentanaInicial extends JFrame {
 				pCentro.removeAll();
 				
 				//Codigo de la de Moda, lista de Moda...	
-					
+				for (int i = 1; i <= 16; i++) { // 18 componentes para llenar el GridLayout de 6x3
+		            pCentro.setLayout(new GridLayout(4,4,10,10));
+					pCentro.add(new JButton(new ImageIcon("RevistaModa\\img\\ropa"+i+".jpg"))); // Puedes personalizar los componentes aquí
+		       
+				}
+				
+				
 				pCentro.revalidate();
 				pCentro.repaint();
 			}

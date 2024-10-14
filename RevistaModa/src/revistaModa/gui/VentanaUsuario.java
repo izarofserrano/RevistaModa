@@ -99,7 +99,7 @@ public class VentanaUsuario extends JFrame {
 		
 		JLabel lblimagen = new JLabel();
 		try {
-			ImageIcon iconoPortada = new ImageIcon("img/SesionInicioImagen.jpg");
+			ImageIcon iconoPortada = new ImageIcon("RevistaModa\\img\\SesionInicioImagen.jpg");
 			Image imgPortada = iconoPortada.getImage().getScaledInstance(370 ,500, Image.SCALE_SMOOTH);
 			lblimagen = new JLabel(new ImageIcon(imgPortada));
 			pOeste.add(lblimagen);
