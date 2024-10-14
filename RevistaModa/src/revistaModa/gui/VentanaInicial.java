@@ -11,12 +11,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.OverlayLayout;
 
 
 public class VentanaInicial extends JFrame {
@@ -132,13 +134,8 @@ public class VentanaInicial extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				pCentro.removeAll();
-				
-				//Codigo de la de Moda, lista de Moda...	
-				for (int i = 1; i <= 16; i++) { // 18 componentes para llenar el GridLayout de 6x3
-		            pCentro.setLayout(new GridLayout(4,4,10,10));
-					pCentro.add(new JButton(new ImageIcon("RevistaModa\\img\\ropa"+i+".jpg"))); // Puedes personalizar los componentes aquí
-		       
-				}
+			
+				reloadModa(pCentro);
 				
 				
 				pCentro.revalidate();
@@ -159,17 +156,53 @@ public class VentanaInicial extends JFrame {
 			}
 		});
 		
-		
-		
-			
-			
-		
-		
-			
-			
-		
-		
 		setVisible(true);
 	}
-	
+	private JPanel reloadModa(JPanel pCentro) {
+		pCentro.setLayout(new GridLayout(2,4,10,10));
+
+		for (int i = 1; i <= 8; i++) { 
+
+			JPanel panel = new JPanel();
+			panel.setLayout(new OverlayLayout(panel));
+			panel.setPreferredSize(new Dimension(250,250));
+			JLabel lbl = null;
+
+
+			try {
+				ImageIcon icono = new ImageIcon("RevistaModa/img/ropa"+i+".jpg");
+				Image imagen = icono.getImage().getScaledInstance(250 ,250, Image.SCALE_SMOOTH);
+				lbl = new JLabel(new ImageIcon(imagen));
+				lbl.setAlignmentX(RIGHT_ALIGNMENT);
+				lbl.setAlignmentY(BOTTOM_ALIGNMENT);
+
+			} catch (Exception u) {
+				System.out.println("No se ha podido cargar la imagen" + u.getMessage());
+			}
+
+			ImageIcon iconoLike = new ImageIcon("RevistaModa/img/like2.png");
+			Image imagenLike = iconoLike.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+			JButton btn = new JButton(new ImageIcon(imagenLike));
+			btn.setContentAreaFilled(false);
+			btn.setBorderPainted(false);    
+			btn.setFocusPainted(true);      
+			btn.setAlignmentX(RIGHT_ALIGNMENT);
+			btn.setAlignmentY(BOTTOM_ALIGNMENT); 
+			panel.add(btn);
+			panel.add(lbl);
+
+			btn.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					System.out.println("Has clicado");
+				}
+			});
+			pCentro.add(panel);
+
+		}
+		return pCentro;
+
+	}
 }
