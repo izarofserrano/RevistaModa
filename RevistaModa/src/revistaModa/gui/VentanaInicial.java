@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -162,7 +163,15 @@ public class VentanaInicial extends JFrame {
 		pCentro.setLayout(new GridLayout(2,4,10,10));
 
 		for (int i = 1; i <= 8; i++) { 
-
+		
+			JLabel contador = new JLabel("Likes: ");
+			contador.setAlignmentX(RIGHT_ALIGNMENT);
+			contador.setAlignmentY(TOP_ALIGNMENT);
+			
+			
+			
+			
+			
 			JPanel panel = new JPanel();
 			panel.setLayout(new OverlayLayout(panel));
 			panel.setPreferredSize(new Dimension(250,250));
@@ -189,17 +198,34 @@ public class VentanaInicial extends JFrame {
 			btn.setAlignmentX(RIGHT_ALIGNMENT);
 			btn.setAlignmentY(BOTTOM_ALIGNMENT); 
 			panel.add(btn);
+			panel.add(contador);
+		
 			panel.add(lbl);
 
 			btn.addActionListener(new ActionListener() {
-
+				int contador2 =0;
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					System.out.println("Has clicado");
+					contador2++;
+					contador.setText("Likes: "+contador2);
+					
+					
+				
 				}
 			});
 			pCentro.add(panel);
+			
+			lbl.addMouseListener(new MouseAdapter() {
+				
+				
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
 
 		}
 		return pCentro;
