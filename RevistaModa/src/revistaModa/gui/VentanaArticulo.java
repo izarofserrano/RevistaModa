@@ -55,6 +55,20 @@ public class VentanaArticulo extends JFrame {
 
 		pNorte.setBorder(new EmptyBorder(20, 20, 20, 20)); // Margen de 20 píxeles en todos los lados
 
+		JPanel pSlider = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		slValoracion = new JSlider(0, 5, 0);
+		slValoracion.setMajorTickSpacing(1);
+		slValoracion.setPaintTicks(true);
+		slValoracion.setPaintLabels(true);
+		
+		btnSend = new JButton("Valorar");
+		
+		pSlider.add(slValoracion);
+		pSlider.add(btnSend);
+		
+		
+		pNorte.add(pSlider);
+		pNorte.add(btnSend);
 		pNorte.add(lblTituloArt); 
 		pNorte.add(lblAutorFecha); 
 
@@ -75,7 +89,8 @@ public class VentanaArticulo extends JFrame {
 		JScrollPane scrollPane = new JScrollPane(editorPane);
 
 		pCentro.add(scrollPane, BorderLayout.CENTER);
-
+		
+		
 		setVisible(true);
 	}
 
