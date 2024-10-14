@@ -42,7 +42,7 @@ public class VentanaUsuario extends JFrame {
 		
 		JTextField userName = new JTextField();
 		userName.setSize(new Dimension(300,75));
-		userName.setColumns(40);
+		userName.setColumns(30);
 		
 		JLabel Usuario = new JLabel("Usuario: ");
 		Usuario.setVerticalAlignment(SwingConstants.EAST);
@@ -57,7 +57,7 @@ public class VentanaUsuario extends JFrame {
 		
 		JPasswordField contra = new JPasswordField();
 		contra.setSize(new Dimension(300,75));
-		contra.setColumns(40);
+		contra.setColumns(30);
 		
 		JLabel password = new JLabel("Contraseña: ");
 		password.setVerticalAlignment(SwingConstants.EAST);
@@ -96,6 +96,21 @@ public class VentanaUsuario extends JFrame {
 		JPanel p5 = new JPanel();
 		p5.add(title);
 		pNorte.add(p5);
+		
+		
+		
+		JButton btnIniSesion= new JButton("Registráte!");
+		//lamda
+		btnIniSesion.addActionListener((e)->{
+					pEste.removeAll();
+					
+					
+					pEste.revalidate();
+					pEste.repaint();
+				});
+		JPanel p6 = new JPanel();
+		p6.add(btnIniSesion);
+		pEste.add(p6);
 		
 		JLabel lblimagen = new JLabel();
 		try {
