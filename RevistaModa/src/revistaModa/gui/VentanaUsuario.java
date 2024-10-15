@@ -22,13 +22,16 @@ public class VentanaUsuario extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
+	private JPanel p1, p2, p3;
+	private JPanel pEste;
+
 	public VentanaUsuario() {
 		setBounds(100, 100, 900, 600);
 		setTitle("User");
 		setLocationRelativeTo(null);
 
 		JPanel pNorte = new JPanel();
-		JPanel pEste = new JPanel();
+		pEste = new JPanel();
 		pEste.setLayout(new GridLayout(4, 1));
 		JPanel pOeste = new JPanel();
 		JPanel pSur = new JPanel();
@@ -46,7 +49,7 @@ public class VentanaUsuario extends JFrame {
 		Usuario.setVerticalAlignment(SwingConstants.EAST);
 		Usuario.setFont(new Font("Arial", Font.BOLD, 18));
 
-		JPanel p1 = new JPanel();
+		p1 = new JPanel();
 		p1.add(Usuario);
 		p1.add(txtUserName);
 		pEste.add(p1);
@@ -59,20 +62,23 @@ public class VentanaUsuario extends JFrame {
 		password.setVerticalAlignment(SwingConstants.EAST);
 		password.setFont(new Font("Arial", Font.BOLD, 18));
 
-		JPanel p2 = new JPanel();
+		p2 = new JPanel();
 		p2.add(password);
 		p2.add(contra);
 		pEste.add(p2);
 
 		JButton btnEntrar = new JButton("Entrar");
-		JPanel p3 = new JPanel();
+		JButton btnRegistrarse = new JButton("Registráte!");
+		p3 = new JPanel();
 		p3.add(btnEntrar);
+		p3.add(btnRegistrarse);
 		pEste.add(p3);
 
 		JButton btnAtras = new JButton("Atrás");
 		btnAtras.setSize(new Dimension(300, 300));
 		btnAtras.setAlignmentX(SwingConstants.WEST);
-		// lamda
+
+		// ATRAS lamda
 		btnAtras.addActionListener((e) -> {
 			new VentanaInicial();
 			dispose();
@@ -90,18 +96,18 @@ public class VentanaUsuario extends JFrame {
 		p5.add(title);
 		pNorte.add(p5);
 
-		JButton btnRegistrarse = new JButton("Registráte!");
-		// lamda
+		// btn Registrarse
 		btnRegistrarse.addActionListener((e) -> {
 			pEste.removeAll();
+			JPanel p6 = new JPanel();
+			p6.add(Usuario);
+			p6.add(txtUserName);
+			pEste.add(p6);
 
-			p1.add(Usuario);
-			p1.add(txtUserName);
-			pEste.add(p1);
-
-			p2.add(password);
-			p2.add(contra);
-			pEste.add(p2);
+			JPanel p7 = new JPanel();
+			p7.add(password);
+			p7.add(contra);
+			pEste.add(p7);
 
 			JTextField txtCorreo = new JTextField();
 			txtCorreo.setSize(new Dimension(300, 75));
@@ -111,15 +117,15 @@ public class VentanaUsuario extends JFrame {
 			mail.setVerticalAlignment(SwingConstants.EAST);
 			mail.setFont(new Font("Arial", Font.BOLD, 18));
 
-			JPanel p7 = new JPanel();
-			p7.add(mail);
-			p7.add(txtCorreo);
-			pEste.add(p7);
+			JPanel p8 = new JPanel();
+			p8.add(mail);
+			p8.add(txtCorreo);
+			pEste.add(p8);
 
 			JButton btnRegistrar = new JButton("Resgistrame");
-			JPanel p8 = new JPanel();
-			p8.add(btnRegistrar);
-			pEste.add(p8);
+			JPanel p9 = new JPanel();
+			p9.add(btnRegistrar);
+			pEste.add(p9);
 
 			btnRegistrar.addActionListener(new ActionListener() {
 
@@ -138,30 +144,29 @@ public class VentanaUsuario extends JFrame {
 				}
 			});
 			JButton btnIniSesion = new JButton("Iniciar Sesión");
-			p8.add(btnIniSesion);
-			pEste.add(p8);
+			p9.add(btnIniSesion);
+			pEste.add(p9);
 
 			/* Metodo que vuelve a la pantalla de iniciar sesion */
 
-//					btnRegistrar.addActionListener(new ActionListener() {
-//						
-//						@Override
-//						public void actionPerformed(ActionEvent e) {
-//							pEste.removeAll();
-//							
-//							pEste.add(p1);
-//							pEste.add(p2);
-//							pEste.add(p3);
-//							//pEste.add(p6);
-//						}
-//					});
+			btnIniSesion.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					pEste.removeAll();
+
+					pEste.add(p1);
+					pEste.add(p2);
+					pEste.add(p3);
+
+					pEste.revalidate();
+					pEste.repaint();
+				}
+			});
 
 			pEste.revalidate();
 			pEste.repaint();
 		});
-		JPanel p6 = new JPanel();
-		p6.add(btnRegistrarse);
-		pEste.add(p6);
 
 		JLabel lblimagen = new JLabel();
 		try {

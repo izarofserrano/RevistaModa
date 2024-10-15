@@ -12,9 +12,9 @@ public class Main {
 		System.out.println("He borrado todo.");
 		VentanaInicial vInicial = new VentanaInicial();
 		//	VentanaPerfil vPerfil = new VentanaPerfil();
-		RevistaModa.cargarArticulos();
+		//RevistaModa.cargarArticulos();
 
-		VentanaArticulo vArt = new VentanaArticulo(RevistaModa.getlArticulos().get(1));
+		//VentanaArticulo vArt = new VentanaArticulo(RevistaModa.getlArticulos().get(1));
 
 	}
 
