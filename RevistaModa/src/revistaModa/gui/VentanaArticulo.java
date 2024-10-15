@@ -1,7 +1,10 @@
 package revistaModa.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +28,7 @@ public class VentanaArticulo extends JFrame {
 	private JPanel pCentro, pNorte, pSur, pEste, pOeste, pCentroTexto, pCentroImagen;
 	private JEditorPane editorPane;
 	private JSlider slValoracion;
-	private JButton btnSend;
+	private JButton btnValorar;
 
 	public VentanaArticulo(Articulo art) {
 
@@ -47,10 +50,7 @@ public class VentanaArticulo extends JFrame {
 		getContentPane().add(pOeste, BorderLayout.WEST);
 		getContentPane().add(pCentro, BorderLayout.CENTER);
 
-		lblTituloArt = new JLabel("<html><h1>" + art.getTitulo() + "</h1></html>");
-
-		lblAutorFecha = new JLabel("<html><i>" + art.getAutor() + ", " + art.getFechaPublicacion() + "</i></html>");
-
+		
 		pNorte.setLayout(new BoxLayout(pNorte, BoxLayout.Y_AXIS));
 
 		pNorte.setBorder(new EmptyBorder(20, 20, 20, 20)); // Margen de 20 píxeles en todos los lados
@@ -61,14 +61,24 @@ public class VentanaArticulo extends JFrame {
 		slValoracion.setPaintTicks(true);
 		slValoracion.setPaintLabels(true);
 		
-		btnSend = new JButton("Valorar");
+		btnValorar = new JButton("Valorar");
+		
+		// Estilo del JSlider
+        slValoracion.setBackground(Color.LIGHT_GRAY);  // Cambiar el fondo
+        slValoracion.setForeground(Color.DARK_GRAY);   // Cambiar el color de las marcas y etiquetas
+        slValoracion.setFont(new Font("Arial", Font.BOLD, 14));  // Cambiar la fuente de las etiquetas
+        slValoracion.setPreferredSize(new Dimension(300, 60));  // Tamaño preferido
 		
 		pSlider.add(slValoracion);
-		pSlider.add(btnSend);
+		pSlider.add(btnValorar);
 		
 		
 		pNorte.add(pSlider);
-		pNorte.add(btnSend);
+		
+		lblTituloArt = new JLabel("<html><h1>" + art.getTitulo() + "</h1></html>");
+		lblAutorFecha = new JLabel("<html><i>" + art.getAutor() + ", " + art.getFechaPublicacion() + "</i></html>");
+
+		
 		pNorte.add(lblTituloArt); 
 		pNorte.add(lblAutorFecha); 
 
