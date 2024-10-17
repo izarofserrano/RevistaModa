@@ -1,4 +1,5 @@
 package revistaModa.gui;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -206,3 +207,4 @@ public class VentanaArticulo extends JFrame {
         setVisible(true);
     }
 }
+
