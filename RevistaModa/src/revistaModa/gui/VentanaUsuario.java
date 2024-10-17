@@ -21,14 +21,17 @@ import javax.swing.SwingConstants;
 public class VentanaUsuario extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-
-	private JPanel p1, p2, p3;
+	
+	private JPanel p1, p2, p3; 
+	private JTextField txtUserName, txtCorreo; 
+	private JPasswordField contra;
 	private JPanel pEste;
 
 	public VentanaUsuario() {
 		setBounds(100, 100, 900, 600);
 		setTitle("User");
 		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel pNorte = new JPanel();
 		pEste = new JPanel();
@@ -41,7 +44,7 @@ public class VentanaUsuario extends JFrame {
 		getContentPane().add(pEste, BorderLayout.EAST);
 		getContentPane().add(pNorte, BorderLayout.NORTH);
 
-		JTextField txtUserName = new JTextField();
+		txtUserName = new JTextField();
 		txtUserName.setSize(new Dimension(300, 75));
 		txtUserName.setColumns(30);
 
@@ -54,7 +57,7 @@ public class VentanaUsuario extends JFrame {
 		p1.add(txtUserName);
 		pEste.add(p1);
 
-		JPasswordField contra = new JPasswordField();
+		contra = new JPasswordField();
 		contra.setSize(new Dimension(300, 75));
 		contra.setColumns(30);
 
@@ -90,7 +93,6 @@ public class VentanaUsuario extends JFrame {
 
 		JLabel title = new JLabel("Title");
 		title.setFont(new Font("Arial", Font.BOLD, 50));
-		pNorte.add(title);
 
 		JPanel p5 = new JPanel();
 		p5.add(title);
@@ -98,75 +100,10 @@ public class VentanaUsuario extends JFrame {
 
 		// btn Registrarse
 		btnRegistrarse.addActionListener((e) -> {
-			pEste.removeAll();
-			JPanel p6 = new JPanel();
-			p6.add(Usuario);
-			p6.add(txtUserName);
-			pEste.add(p6);
-
-			JPanel p7 = new JPanel();
-			p7.add(password);
-			p7.add(contra);
-			pEste.add(p7);
-
-			JTextField txtCorreo = new JTextField();
-			txtCorreo.setSize(new Dimension(300, 75));
-			txtCorreo.setColumns(30);
-
-			JLabel mail = new JLabel("Correo: ");
-			mail.setVerticalAlignment(SwingConstants.EAST);
-			mail.setFont(new Font("Arial", Font.BOLD, 18));
-
-			JPanel p8 = new JPanel();
-			p8.add(mail);
-			p8.add(txtCorreo);
-			pEste.add(p8);
-
-			JButton btnRegistrar = new JButton("Resgistrame");
-			JPanel p9 = new JPanel();
-			p9.add(btnRegistrar);
-			pEste.add(p9);
-
-			btnRegistrar.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					/* TEMPORAL HASTA LA BDD */
-					String password = new String(contra.getPassword());
-					System.out.println(txtUserName.getText() + "-" + password + "-" + txtCorreo.getText());
-					JOptionPane.showConfirmDialog(null, "has sido registrado con éxito", "RESGISTRO",
-							JOptionPane.CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-
-					txtUserName.setText("");
-					contra.setText("");
-					txtCorreo.setText("");
-
-				}
-			});
-			JButton btnIniSesion = new JButton("Iniciar Sesión");
-			p9.add(btnIniSesion);
-			pEste.add(p9);
-
-			/* Metodo que vuelve a la pantalla de iniciar sesion */
-
-			btnIniSesion.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					pEste.removeAll();
-
-					pEste.add(p1);
-					pEste.add(p2);
-					pEste.add(p3);
-
-					pEste.revalidate();
-					pEste.repaint();
-				}
-			});
-
-			pEste.revalidate();
-			pEste.repaint();
+			mostrarPantallaRegistro();
+		
 		});
+		
 
 		JLabel lblimagen = new JLabel();
 		try {
@@ -181,5 +118,77 @@ public class VentanaUsuario extends JFrame {
 
 		setVisible(true);
 	}
+	
+	
+	private void mostrarPantallaRegistro() {
+		pEste.removeAll();
+			
+		
+		JLabel mail = new JLabel("Correo: ");
+		mail.setVerticalAlignment(SwingConstants.EAST);
+		mail.setFont(new Font("Arial", Font.BOLD, 18));
+		
+		txtCorreo = new JTextField();
+		txtCorreo.setSize(new Dimension(300, 75));
+		txtCorreo.setColumns(30);
+		
+		JPanel pCorreo = new JPanel();
+		pCorreo.add(mail);
+		pCorreo.add(txtCorreo);
+		
 
+		JButton btnRegistrar = new JButton("Resgistrame");
+		JButton btnIniSesion = new JButton("Iniciar Sesión");
+		JPanel p9 = new JPanel();
+		p9.add(btnRegistrar);
+		p9.add(btnIniSesion);
+		
+		pEste.add(p1);
+		pEste.add(p2);
+		pEste.add(pCorreo);
+		pEste.add(p9);
+
+		btnRegistrar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				/* TEMPORAL HASTA LA BDD */
+				String password = new String(contra.getPassword());
+				System.out.println(txtUserName.getText() + "-" + password + "-" + txtCorreo.getText());
+				JOptionPane.showConfirmDialog(null, "has sido registrado con éxito", "RESGISTRO",
+						JOptionPane.CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+				txtUserName.setText("");
+				contra.setText("");
+				txtCorreo.setText("");
+
+			}
+		});
+		
+
+		/* Metodo que vuelve a la pantalla de iniciar sesion */
+
+		btnIniSesion.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mostrarPantallaIniSesion();
+			}
+		});
+		
+		pEste.revalidate();
+		pEste.repaint();
+		}
+
+		private void mostrarPantallaIniSesion() {
+			pEste.removeAll();
+
+			pEste.add(p1);
+			pEste.add(p2);
+			pEste.add(p3);
+
+			pEste.revalidate();
+			pEste.repaint();
+		}
+	
 }
