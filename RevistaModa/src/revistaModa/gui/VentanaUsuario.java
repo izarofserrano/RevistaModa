@@ -223,6 +223,7 @@ public class VentanaUsuario extends JFrame {
 		pEste.repaint();
 		}
 
+	
 		private void mostrarPantallaIniSesion() {
 			pEste.removeAll();
 

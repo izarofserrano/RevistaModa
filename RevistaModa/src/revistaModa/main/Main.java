@@ -15,6 +15,7 @@ public class Main {
 		RevistaModa.cargarArticulos();
 		RevistaModa.cargarUsuarios();
 
+		
 		VentanaArticulo vArt = new VentanaArticulo(RevistaModa.getlArticulos().get(1));
 
 	}
