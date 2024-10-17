@@ -13,6 +13,7 @@ public class Main {
 		VentanaInicial vInicial = new VentanaInicial();
 		VentanaPerfil vPerfil = new VentanaPerfil();
 		RevistaModa.cargarArticulos();
+		RevistaModa.cargarUsuarios();
 
 		VentanaArticulo vArt = new VentanaArticulo(RevistaModa.getlArticulos().get(1));
 

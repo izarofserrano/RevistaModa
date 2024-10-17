@@ -1,12 +1,14 @@
 package revistaModa.clases;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class RevistaModa {
 	private static ArrayList<Articulo> lArticulos = new ArrayList<>();
+	 private static List<Usuario> lUsuarios = new ArrayList<>();
 	
-	
+
 	public static void cargarArticulos() {
 		Articulo a1 = new Articulo(1, "La belleza natural", "au1", "2024", "Belleza", 45, "desktop", "desktop");
 		Articulo a2 = new Articulo(2, "Tecnología en 2024", "au2", "2024", "Tecnología", 120, "RevistaModa/html/moda.html", "techProfile");
@@ -38,8 +40,21 @@ public class RevistaModa {
 
 	public static void cargarUsuarios() {
 
+		lUsuarios.add(new Usuario(1, "johndoe", "johndoe", "john.doe@example.com"));
+		lUsuarios.add(new Usuario(2, "janedoe", "janedoe", "jane.doe@example.com"));
+		lUsuarios.add(new Usuario(3, "alicewonder", "alicewonder", "alice.w@example.com"));
+		lUsuarios.add(new Usuario(4, "bobsmith", "bobsmith", "bob.smith@example.com"));
+		lUsuarios.add(new Usuario(5, "charliebrown", "charliebrown", "charlie.b@example.com"));
+
 	}
 
+	public static List<Usuario> getlUsuarios() {
+		return lUsuarios;
+	}
+
+	public static void setlUsuarios(List<Usuario> lUsuarios) {
+		RevistaModa.lUsuarios = lUsuarios;
+	}
 
 
 }

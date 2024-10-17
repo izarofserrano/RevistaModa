@@ -3,11 +3,11 @@ package revistaModa.gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,6 +20,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import revistaModa.clases.Usuario;
+
 public class VentanaUsuario extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -29,7 +31,12 @@ public class VentanaUsuario extends JFrame {
 	private JPasswordField contra;
 	private JPanel pEste;
 
-	public VentanaUsuario() {
+	private List<Usuario> lUsuarios;
+
+	public VentanaUsuario(
+			//List<Usuario> lUsuarios
+			) {
+        //this.lUsuarios = lUsuarios;
 		setBounds(100, 100, 900, 600);
 		setTitle("User");
 		setLocationRelativeTo(null);
@@ -87,8 +94,30 @@ public class VentanaUsuario extends JFrame {
 		//al iniciar sesion en tu cuenta vuelves a aparecer con la ventana inicial
 		//pero ahora te sale la opcion de entrar a tu cuenta
 		btnEntrar.addActionListener((e)->{
+//			boolean usuarioEncontrado = false;
+//			  String Password = new String(contra.getPassword()); 
+//
+//			for (Usuario user : lUsuarios) {
+//				if (txtUserName.getText().equals(user.getUsername())) {
+//					usuarioEncontrado = true;
+//					if(Password.equals(user.getContrasenya())) {
+//						new VentanaInicial();
+//						dispose();
+//						return;
+//				}else {
+//					JOptionPane.showConfirmDialog(null, "La contraseña no coincide", "Error password", JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+//					return;
+//				}
+//				}
+//			}
+//			if (!usuarioEncontrado) {
+//					JOptionPane.showConfirmDialog(null, "No existe ese user", "Error user", JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+//			}
+			
 			new VentanaInicial();
 			dispose();
+			return;
+			
 		});
 
 		JButton btnAtras = new JButton("Atrás");
