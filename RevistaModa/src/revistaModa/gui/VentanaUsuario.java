@@ -83,6 +83,13 @@ public class VentanaUsuario extends JFrame {
 		p3.add(btnEntrar);
 		p3.add(btnRegistrarse);
 		pEste.add(p3);
+		
+		//al iniciar sesion en tu cuenta vuelves a aparecer con la ventana inicial
+		//pero ahora te sale la opcion de entrar a tu cuenta
+		btnEntrar.addActionListener((e)->{
+			new VentanaInicial();
+			dispose();
+		});
 
 		JButton btnAtras = new JButton("Atrás");
 		btnAtras.setSize(new Dimension(300, 300));
