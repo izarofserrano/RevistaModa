@@ -162,6 +162,7 @@ public class VentanaInicial extends JFrame {
 		
 		setVisible(true);
 	}
+	
 	private JPanel reloadModa(JPanel pCentro) {
 		pCentro.setLayout(new GridLayout(2,4,10,10));
 
@@ -172,17 +173,14 @@ public class VentanaInicial extends JFrame {
 			contador.setAlignmentY(TOP_ALIGNMENT);
 			
 			
-			
-			
-			
 			JPanel panel = new JPanel();
 			panel.setLayout(new OverlayLayout(panel));
-			panel.setPreferredSize(new Dimension(250,250));
+			panel.setPreferredSize(new Dimension(250,350));
 			JLabel lbl = null;
 
 
 			try {
-				ImageIcon icono = new ImageIcon("RevistaModa/img/ropa"+i+".jpg");
+				ImageIcon icono = new ImageIcon("RevistaModa/img/ropa"+i+".jpeg");
 				Image imagen = icono.getImage().getScaledInstance(250 ,250, Image.SCALE_SMOOTH);
 				lbl = new JLabel(new ImageIcon(imagen));
 				lbl.setAlignmentX(RIGHT_ALIGNMENT);
