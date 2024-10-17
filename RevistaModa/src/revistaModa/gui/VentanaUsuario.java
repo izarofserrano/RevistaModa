@@ -3,6 +3,7 @@ package revistaModa.gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -17,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 public class VentanaUsuario extends JFrame {
 
@@ -33,24 +35,28 @@ public class VentanaUsuario extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		JPanel pNorte = new JPanel();
+		JPanel pNorte = new JPanel(new BorderLayout());
 		pEste = new JPanel();
 		pEste.setLayout(new GridLayout(4, 1));
+		pEste.setBorder(new EmptyBorder(90, 90, 90, 90));
 		JPanel pOeste = new JPanel();
 		JPanel pSur = new JPanel();
 
+		
 		getContentPane().add(pSur, BorderLayout.SOUTH);
 		getContentPane().add(pOeste, BorderLayout.WEST);
 		getContentPane().add(pEste, BorderLayout.EAST);
 		getContentPane().add(pNorte, BorderLayout.NORTH);
+		
 
 		txtUserName = new JTextField();
-		txtUserName.setSize(new Dimension(300, 75));
-		txtUserName.setColumns(30);
+		
+		txtUserName.setColumns(25);
 
-		JLabel Usuario = new JLabel("Usuario: ");
+		JLabel Usuario = new JLabel("Usuario:        ");
 		Usuario.setVerticalAlignment(SwingConstants.EAST);
-		Usuario.setFont(new Font("Arial", Font.BOLD, 18));
+		Usuario.setFont(new Font("Arial", Font.BOLD, 12));
+		Usuario.setPreferredSize(new Dimension(100, 20)); 
 
 		p1 = new JPanel();
 		p1.add(Usuario);
@@ -58,12 +64,13 @@ public class VentanaUsuario extends JFrame {
 		pEste.add(p1);
 
 		contra = new JPasswordField();
-		contra.setSize(new Dimension(300, 75));
-		contra.setColumns(30);
+		
+		contra.setColumns(25);
 
-		JLabel password = new JLabel("Contraseña: ");
+		JLabel password = new JLabel("Contraseña:   ");
 		password.setVerticalAlignment(SwingConstants.EAST);
-		password.setFont(new Font("Arial", Font.BOLD, 18));
+		password.setFont(new Font("Arial", Font.BOLD, 12));
+		password.setPreferredSize(new Dimension(100, 20)); 
 
 		p2 = new JPanel();
 		p2.add(password);
@@ -79,7 +86,7 @@ public class VentanaUsuario extends JFrame {
 
 		JButton btnAtras = new JButton("Atrás");
 		btnAtras.setSize(new Dimension(300, 300));
-		btnAtras.setAlignmentX(SwingConstants.WEST);
+		
 
 		// ATRAS lamda
 		btnAtras.addActionListener((e) -> {
@@ -89,7 +96,7 @@ public class VentanaUsuario extends JFrame {
 
 		JPanel p4 = new JPanel();
 		p4.add(btnAtras);
-		pNorte.add(p4);
+		pNorte.add(p4, BorderLayout.WEST);
 
 		JLabel title = new JLabel("Title");
 		title.setFont(new Font("Arial", Font.BOLD, 50));
@@ -126,11 +133,11 @@ public class VentanaUsuario extends JFrame {
 		
 		JLabel mail = new JLabel("Correo: ");
 		mail.setVerticalAlignment(SwingConstants.EAST);
-		mail.setFont(new Font("Arial", Font.BOLD, 18));
+		mail.setFont(new Font("Arial", Font.BOLD, 12));
+		mail.setPreferredSize(new Dimension(100, 20)); 
 		
 		txtCorreo = new JTextField();
-		txtCorreo.setSize(new Dimension(300, 75));
-		txtCorreo.setColumns(30);
+		txtCorreo.setColumns(25);
 		
 		JPanel pCorreo = new JPanel();
 		pCorreo.add(mail);
@@ -190,5 +197,4 @@ public class VentanaUsuario extends JFrame {
 			pEste.revalidate();
 			pEste.repaint();
 		}
-	
 }
