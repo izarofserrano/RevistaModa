@@ -171,36 +171,44 @@ public class VentanaInicial extends JFrame {
 		pCentro.setLayout(new GridLayout(2,4,10,10));
 
 		for (int i = 1; i <= 8; i++) { 
-		
-			JLabel contador = new JLabel("Likes: ");
-			contador.setAlignmentX(RIGHT_ALIGNMENT);
-			contador.setAlignmentY(TOP_ALIGNMENT);
-			
-			
 			JPanel panel = new JPanel();
 			panel.setLayout(new OverlayLayout(panel));
 			panel.setPreferredSize(new Dimension(250, 450));
+		
 			JLabel lbl = null;
 
 			try {
 				ImageIcon icono = new ImageIcon("RevistaModa/img/ropa"+i+".jpeg");
 				Image imagen = icono.getImage().getScaledInstance(250 ,350, Image.SCALE_SMOOTH);
 				lbl = new JLabel(new ImageIcon(imagen));
-				lbl.setAlignmentX(RIGHT_ALIGNMENT);
-				lbl.setAlignmentY(BOTTOM_ALIGNMENT);
+				lbl.setAlignmentX(LEFT_ALIGNMENT);
+				lbl.setAlignmentY(TOP_ALIGNMENT);
 			
 			} catch (Exception u) {
 				System.out.println("No se ha podido cargar la imagen" + u.getMessage());
 			}
 			
+			JPanel panelCorazon = new JPanel();
+			panelCorazon.setLayout(null);
+			panelCorazon.setOpaque(false);
+			panelCorazon.setPreferredSize(new Dimension(250, 350));
+			
+			
 			ImageIcon iconoGris = new ImageIcon("RevistaModa/img/megusta1.png");
-			Image imgGris = iconoGris.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+			Image imgGris = iconoGris.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 			JButton btn = new JButton(new ImageIcon(imgGris));
 			
 			
 			btn.setContentAreaFilled(false);
 			btn.setBorderPainted(false);    
-			btn.setFocusPainted(true);   
+			btn.setFocusPainted(false);  
+			btn.setBounds(215, 320, 30, 30);
+
+			JLabel contador = new JLabel("Fav");
+			contador.setBounds(195, 320, 60, 30);
+			
+			panelCorazon.add(btn);
+			panelCorazon.add(contador);
 			
 			btn.addMouseListener(new MouseAdapter() {
 				boolean like = false;
@@ -209,7 +217,7 @@ public class VentanaInicial extends JFrame {
 				public void mouseEntered(MouseEvent e) {
 					if (!like) {
 						ImageIcon iconoLikeHover = new ImageIcon("RevistaModa/img/megusta2.png");
-						Image imagenLikeHover = iconoGris.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+						Image imagenLikeHover = iconoGris.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 						btn.setIcon(new ImageIcon(imagenLikeHover));
 					}
 				}
@@ -225,7 +233,7 @@ public class VentanaInicial extends JFrame {
 				public void mouseClicked(MouseEvent e) {
 					if (e.getClickCount() == 1) {
 						ImageIcon iconoLikeSelected = new ImageIcon("RevistaModa/img/megusta2.png");
-						Image imagenLikeSelected = iconoLikeSelected.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+						Image imagenLikeSelected = iconoLikeSelected.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 						btn.setIcon(new ImageIcon(imagenLikeSelected));
 						like = true;
 					} else {
@@ -237,9 +245,8 @@ public class VentanaInicial extends JFrame {
 			}
 				);
 			
-			panel.add(btn);
-			panel.add(contador);
 			
+			panel.add(panelCorazon);
 			panel.add(lbl);
 			
 			
@@ -250,7 +257,7 @@ public class VentanaInicial extends JFrame {
 					// TODO Auto-generated method stub
 					System.out.println("Has clicado");
 					contador2++;
-					contador.setText("Likes: "+contador2);
+					contador.setText(String.valueOf(contador2));
 					
 					
 				
