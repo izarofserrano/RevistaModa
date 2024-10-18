@@ -10,23 +10,23 @@ public class RevistaModa {
 	
 
 	public static void cargarArticulos() {
-		Articulo a1 = new Articulo(1, "Tendencias de moda otoño 2024", "Ana González", "2024-09-15", "Tendencias", "/archivos/moda_otono_2024.pdf", "/fotos/autores/ana_gonzalez.jpg");
-        a1.getSetUsuariosLike().add("usuario1"); 
-        a1.getSetUsuariosLike().add("usuario2");
-        a1.getMapaUsuariosVal().put("usuario1", 5); 
-        a1.getMapaUsuariosVal().put("usuario2", 4);
+		Articulo a1 = new Articulo(1, "Tendencias de moda otoño 2024", "Ana González", "2024-09-15", "Tendencias", "RevistaModa/html/moda.html", "/fotos/autores/ana_gonzalez.jpg");
+        a1.getSetUsuariosLike().add("johndoe"); 
+        a1.getSetUsuariosLike().add("janedoe");
+        a1.getMapaUsuariosVal().put("johndoe", 5); 
+        a1.getMapaUsuariosVal().put("charliebrown", 4);
 
         // Artículo 2
-        Articulo a2 = new Articulo(2, "La evolución del streetwear", "Carlos López", "2024-08-10", "Historia", "/archivos/evolucion_streetwear.pdf", "/fotos/autores/carlos_lopez.jpg");
-        a2.getSetUsuariosLike().add("usuario3");
-        a2.getMapaUsuariosVal().put("usuario3", 5);
+        Articulo a2 = new Articulo(2, "La evolución del streetwear", "Carlos López", "2024-08-10", "Historia", "RevistaModa/html/moda.html", "/fotos/autores/carlos_lopez.jpg");
+        a2.getSetUsuariosLike().add("janedoe");
+        a2.getMapaUsuariosVal().put("alicewonder", 5);
 
         // Artículo 3
-        Articulo a3 = new Articulo(3, "Accesorios que marcarán el 2024", "Lucía Martínez", "2024-10-01", "Accesorios", "/archivos/accesorios_2024.pdf", "/fotos/autores/lucia_martinez.jpg");
-        a3.getSetUsuariosLike().add("usuario2"); 
-        a3.getSetUsuariosLike().add("usuario4");
-        a3.getMapaUsuariosVal().put("usuario2", 3); 
-        a3.getMapaUsuariosVal().put("usuario4", 4);
+        Articulo a3 = new Articulo(3, "Accesorios que marcarán el 2024", "Lucía Martínez", "2024-10-01", "Accesorios", "RevistaModa/html/moda.html", "/fotos/autores/lucia_martinez.jpg");
+        a3.getSetUsuariosLike().add("johndoe"); 
+        a3.getSetUsuariosLike().add("janedoe");
+        a3.getMapaUsuariosVal().put("charliebrown", 3); 
+        a3.getMapaUsuariosVal().put("bobsmith", 4);
 
 		lArticulos.add(a1);
 		lArticulos.add(a2);
@@ -59,3 +59,4 @@ public class RevistaModa {
 
 
 }
+

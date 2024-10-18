@@ -2,10 +2,7 @@ package revistaModa.clases;
 
 import java.util.HashSet;
 import java.util.Set;
-<<<<<<< HEAD
-=======
 import java.util.TreeMap;
->>>>>>> branch 'master' of https://github.com/izarofserrano/RevistaModa.git
 
 public class Articulo {
 	
@@ -16,16 +13,10 @@ public class Articulo {
 	private String tipoArt;
 	private String rutaArchivoArt;
 	private String rutaFotoPerfil;
-<<<<<<< HEAD
-	private Set<String> usuario;
-
-	public Articulo(int idArt, String titulo, String autor, String fechaPublicacion, String tipoArt, int cantLikes,
-=======
 	private Set<String> setUsuariosLike;
 	private TreeMap<String,Integer> mapaUsuariosVal;
 	
 	public Articulo(int idArt, String titulo, String autor, String fechaPublicacion, String tipoArt,
->>>>>>> branch 'master' of https://github.com/izarofserrano/RevistaModa.git
 			String rutaArchivoArt, String rutaFotoPerfil) {
 		super();
 		this.idArt = idArt;
@@ -35,13 +26,9 @@ public class Articulo {
 		this.tipoArt = tipoArt;
 		this.rutaArchivoArt = rutaArchivoArt;
 		this.rutaFotoPerfil = rutaFotoPerfil;
-<<<<<<< HEAD
-		this.usuario = new HashSet<>();
-=======
 		setUsuariosLike = new HashSet<String>();
 		mapaUsuariosVal = new TreeMap<String, Integer>();
 				
->>>>>>> branch 'master' of https://github.com/izarofserrano/RevistaModa.git
 	}
 	public int getIdArt() {
 		return idArt;
@@ -105,10 +92,5 @@ public class Articulo {
 				+ rutaFotoPerfil + ", setUsuariosLike=" + setUsuariosLike + ", mapaUsuariosVal=" + mapaUsuariosVal
 				+ "]";
 	}
-	
-	
-	
-
-
 	
 }
