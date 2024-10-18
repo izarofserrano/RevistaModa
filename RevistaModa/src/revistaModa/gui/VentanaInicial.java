@@ -3,12 +3,14 @@ package revistaModa.gui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -32,10 +34,10 @@ public class VentanaInicial extends JFrame {
 	private JFrame vActual;
 	
 	
-	public VentanaInicial() {
+	public VentanaInicial(boolean mostrarComponenteExtra) {
 		vActual = this;
 		
-		setBounds(100, 100, 900, 600);
+		setBounds(100, 100, 1000, 600);
 		setLocationRelativeTo(null);
 		setTitle("VOGUE");
 		
@@ -72,6 +74,49 @@ public class VentanaInicial extends JFrame {
 		pNorte.add(btnModa);
 		pNorte.add(btnBelleza);
 		pNorte.add(btnLogIn);
+		
+		if (mostrarComponenteExtra) {
+            JLabel lblNuevoComponente = new JLabel("Bienvenido de nuevo, usuario!");
+            lblNuevoComponente.setFont(new Font("Arial", Font.ITALIC, 11));
+            pNorte.add(lblNuevoComponente);  // Agregamos el nuevo componente si es necesario
+            
+            lblNuevoComponente.addMouseListener(new MouseListener() {
+				
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mousePressed(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseExited(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					//Cambia el cursor a una mano al pasar por encima
+					lblNuevoComponente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+					
+				}
+				
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					new VentanaPerfil();
+					
+				}
+			});
+        }
+		pNorte.revalidate();
+		pNorte.repaint();
+		
 		
 		pSur.setLayout(new GridLayout(2,1));
 		JLabel lblContacto = new JLabel("Contacto: a.ezkurdia@opendeusto.es");
