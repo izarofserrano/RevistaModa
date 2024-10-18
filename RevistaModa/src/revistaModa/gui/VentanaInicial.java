@@ -5,18 +5,14 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.util.List;
 
-import javax.swing.BoxLayout;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,6 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.OverlayLayout;
 
 import revistaModa.clases.RevistaModa;
+import revistaModa.clases.Usuario;
 
 
 public class VentanaInicial extends JFrame {
@@ -38,7 +35,7 @@ public class VentanaInicial extends JFrame {
 	public VentanaInicial() {
 		vActual = this;
 		
-		setBounds(1000, 1000, 10000, 6000);
+		setBounds(100, 100, 900, 600);
 		setLocationRelativeTo(null);
 		setTitle("VOGUE");
 		
@@ -113,8 +110,8 @@ public class VentanaInicial extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				new VentanaUsuario();
+				List<Usuario> lUsuarios = RevistaModa.getlUsuarios();
+				new VentanaUsuario(lUsuarios);
 				dispose();
 				
 			}

@@ -33,9 +33,7 @@ public class VentanaUsuario extends JFrame {
 
 	private List<Usuario> lUsuarios;
 
-	public VentanaUsuario(
-			//List<Usuario> lUsuarios
-			) {
+	public VentanaUsuario(List<Usuario> lUsuarios) {
         //this.lUsuarios = lUsuarios;
 		setBounds(100, 100, 900, 600);
 		setTitle("User");
@@ -94,25 +92,25 @@ public class VentanaUsuario extends JFrame {
 		//al iniciar sesion en tu cuenta vuelves a aparecer con la ventana inicial
 		//pero ahora te sale la opcion de entrar a tu cuenta
 		btnEntrar.addActionListener((e)->{
-//			boolean usuarioEncontrado = false;
-//			  String Password = new String(contra.getPassword()); 
-//
-//			for (Usuario user : lUsuarios) {
-//				if (txtUserName.getText().equals(user.getUsername())) {
-//					usuarioEncontrado = true;
-//					if(Password.equals(user.getContrasenya())) {
-//						new VentanaInicial();
-//						dispose();
-//						return;
-//				}else {
-//					JOptionPane.showConfirmDialog(null, "La contraseña no coincide", "Error password", JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
-//					return;
-//				}
-//				}
-//			}
-//			if (!usuarioEncontrado) {
-//					JOptionPane.showConfirmDialog(null, "No existe ese user", "Error user", JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
-//			}
+			boolean usuarioEncontrado = false;
+			  String Password = new String(contra.getPassword()); 
+
+			for (Usuario user : lUsuarios) {
+				if (txtUserName.getText().equals(user.getUsername())) {
+					usuarioEncontrado = true;
+					if(Password.equals(user.getContrasenya())) {
+						new VentanaInicial();
+						dispose();
+						return;
+				}else {
+					JOptionPane.showConfirmDialog(null, "La contraseña no coincide", "Error password", JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				}
+			}
+			if (!usuarioEncontrado) {
+					JOptionPane.showConfirmDialog(null, "No existe ese user", "Error user", JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+			}
 			
 			new VentanaInicial();
 			dispose();
