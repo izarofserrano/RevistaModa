@@ -233,6 +233,7 @@ public class VentanaInicial extends JFrame {
 				public void mouseClicked(MouseEvent e) {
 					if (e.getClickCount() == 1) {
 						if(!like) { //si no like, añadimos
+							
 							like = true;
 							contador.setText(String.valueOf(Integer.parseInt(contador.getText())+1));
 							ImageIcon iconoLikeSelected = new ImageIcon("RevistaModa/img/megusta2.png");
