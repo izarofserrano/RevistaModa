@@ -1,5 +1,7 @@
 package revistaModa.clases;
 
+import java.util.HashSet;
+import java.util.Set;
 
 public class Articulo {
 	
@@ -11,7 +13,7 @@ public class Articulo {
 	private int cantLikes;
 	private String rutaArchivoArt;
 	private String rutaFotoPerfil;
-
+	private Set<String> usuario;
 
 	public Articulo(int idArt, String titulo, String autor, String fechaPublicacion, String tipoArt, int cantLikes,
 			String rutaArchivoArt, String rutaFotoPerfil) {
@@ -24,6 +26,7 @@ public class Articulo {
 		this.cantLikes = cantLikes;
 		this.rutaArchivoArt = rutaArchivoArt;
 		this.rutaFotoPerfil = rutaFotoPerfil;
+		this.usuario = new HashSet<>();
 	}
 
 
