@@ -12,12 +12,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
-
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -117,18 +114,23 @@ public class VentanaArticulo extends JFrame {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-            	// Si se hace doble clic, cambiar la imagen permanentemente
-            	if(!setUsuariosLike.contains(lUsu.get(1).getUsername())) {
-            		ImageIcon iconoLikeFixed = new ImageIcon("RevistaModa/img/megusta2.png");
-            		Image imageLikeFixed = iconoLikeFixed.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-            		btnLike.setIcon(new ImageIcon(imageLikeFixed));
-            		likeFijo = true;  // Marcar que la imagen ahora es fija
-            	}else {
-                    JOptionPane.showMessageDialog(null, "No puedes volver a darle like");
-            	}
+                String username = lUsu.get(2).getUsername();  // Obtener el nombre de usuario actual
 
-
+                if (!setUsuariosLike.contains(username)) {
+                    // Si el usuario no ha dado like, añadir su nombre y cambiar la imagen a "megusta2.png"
+                    setUsuariosLike.add(username);
+                    ImageIcon iconoLikeFixed = new ImageIcon("RevistaModa/img/megusta2.png");
+                    Image imageLikeFixed = iconoLikeFixed.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+                    btnLike.setIcon(new ImageIcon(imageLikeFixed));
+                    likeFijo = true;  // Marcar que el "like" está activo
+                } else {
+                    // Si el usuario ya ha dado like, quitar su nombre y volver a "megusta1.png"
+                    setUsuariosLike.remove(username);
+                    btnLike.setIcon(new ImageIcon(imagenLike));  // Volver a la imagen original
+                    likeFijo = false;  // Marcar que el "like" ya no está activo
+                }
             }
+
             
         });
         
@@ -193,6 +195,9 @@ public class VentanaArticulo extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				if(!mapaUsuariosVal.containsKey(lUsu.get(1).getUsername())) {
 					mapaUsuariosVal.put(lUsu.get(1).getUsername(), slValoracion.getValue());
+				}else {
+			        mapaUsuariosVal.put(lUsu.get(1).getUsername(), slValoracion.getValue());
+			        JOptionPane.showMessageDialog(null, "Tu valoración se ha actualizado");
 				}
 				System.out.println(mapaUsuariosVal);
 				
@@ -234,4 +239,3 @@ public class VentanaArticulo extends JFrame {
         setVisible(true);
     }
 }
-
