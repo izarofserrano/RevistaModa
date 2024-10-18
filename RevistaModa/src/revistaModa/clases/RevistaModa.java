@@ -46,7 +46,7 @@ public class RevistaModa {
 		lUsuarios.add(new Usuario(3, "alicewonder", "alicewonder", "alice.w@example.com"));
 		lUsuarios.add(new Usuario(4, "bobsmith", "bobsmith", "bob.smith@example.com"));
 		lUsuarios.add(new Usuario(5, "charliebrown", "charliebrown", "charlie.b@example.com"));
-
+		lUsuarios.add(new Usuario(6, "admin", "admin", "admin@admin.com"));
 	}
 
 	public static List<Usuario> getlUsuarios() {

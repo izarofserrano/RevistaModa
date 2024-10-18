@@ -23,7 +23,7 @@ public class VentanaPerfil extends JFrame{
 		setBounds(100, 100, 1000, 600);
 		setLayout(new BorderLayout(10, 10));
 		setTitle("Mi Perfil");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		
 		pCentro = new JPanel();
