@@ -232,13 +232,18 @@ public class VentanaInicial extends JFrame {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					if (e.getClickCount() == 1) {
-						ImageIcon iconoLikeSelected = new ImageIcon("RevistaModa/img/megusta2.png");
-						Image imagenLikeSelected = iconoLikeSelected.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-						btn.setIcon(new ImageIcon(imagenLikeSelected));
-						like = true;
-					} else {
-						btn.setIcon(new ImageIcon(imgGris));
+						if(!like) { //si no like, añadimos
+							like = true;
+							contador.setText(String.valueOf(Integer.parseInt(contador.getText())+1));
+							ImageIcon iconoLikeSelected = new ImageIcon("RevistaModa/img/megusta2.png");
+							Image imagenLikeSelected = iconoLikeSelected.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+							btn.setIcon(new ImageIcon(imagenLikeSelected));
+						}
+						
+					} else { //si like, quitamos
 						like = false;
+						contador.setText(String.valueOf(Integer.parseInt(contador.getText())-1));
+						btn.setIcon(new ImageIcon(imgGris));
 					}
 				}
 				
