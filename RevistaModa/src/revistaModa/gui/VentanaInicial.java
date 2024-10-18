@@ -12,9 +12,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -32,10 +34,12 @@ public class VentanaInicial extends JFrame {
 	
 	private JFrame vActual;
 	
+	
 	public VentanaInicial() {
 		vActual = this;
 		
-		setBounds(100, 100, 1000, 600);
+		setBounds(1000, 1000, 10000, 6000);
+		setLocationRelativeTo(null);
 		setTitle("VOGUE");
 		
 		pCentro = new JPanel();
@@ -175,34 +179,70 @@ public class VentanaInicial extends JFrame {
 			
 			JPanel panel = new JPanel();
 			panel.setLayout(new OverlayLayout(panel));
-			panel.setPreferredSize(new Dimension(250,350));
+			panel.setPreferredSize(new Dimension(250, 450));
 			JLabel lbl = null;
-
 
 			try {
 				ImageIcon icono = new ImageIcon("RevistaModa/img/ropa"+i+".jpeg");
-				Image imagen = icono.getImage().getScaledInstance(250 ,250, Image.SCALE_SMOOTH);
+				Image imagen = icono.getImage().getScaledInstance(250 ,350, Image.SCALE_SMOOTH);
 				lbl = new JLabel(new ImageIcon(imagen));
 				lbl.setAlignmentX(RIGHT_ALIGNMENT);
 				lbl.setAlignmentY(BOTTOM_ALIGNMENT);
-
+			
 			} catch (Exception u) {
 				System.out.println("No se ha podido cargar la imagen" + u.getMessage());
 			}
-
-			ImageIcon iconoLike = new ImageIcon("RevistaModa/img/like2.png");
-			Image imagenLike = iconoLike.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
-			JButton btn = new JButton(new ImageIcon(imagenLike));
+			
+			ImageIcon iconoGris = new ImageIcon("RevistaModa/img/megusta1.png");
+			Image imgGris = iconoGris.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+			JButton btn = new JButton(new ImageIcon(imgGris));
+			
+			
 			btn.setContentAreaFilled(false);
 			btn.setBorderPainted(false);    
-			btn.setFocusPainted(true);      
-			btn.setAlignmentX(RIGHT_ALIGNMENT);
-			btn.setAlignmentY(BOTTOM_ALIGNMENT); 
+			btn.setFocusPainted(true);   
+			
+			btn.addMouseListener(new MouseAdapter() {
+				boolean like = false;
+
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					if (!like) {
+						ImageIcon iconoLikeHover = new ImageIcon("RevistaModa/img/megusta2.png");
+						Image imagenLikeHover = iconoGris.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+						btn.setIcon(new ImageIcon(imagenLikeHover));
+					}
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e) {
+					if (!like) {
+						btn.setIcon(new ImageIcon(imgGris));
+					}
+				}
+
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if (e.getClickCount() == 1) {
+						ImageIcon iconoLikeSelected = new ImageIcon("RevistaModa/img/megusta2.png");
+						Image imagenLikeSelected = iconoLikeSelected.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+						btn.setIcon(new ImageIcon(imagenLikeSelected));
+						like = true;
+					} else {
+						btn.setIcon(new ImageIcon(imgGris));
+						like = false;
+					}
+				}
+				
+			}
+				);
+			
 			panel.add(btn);
 			panel.add(contador);
-		
+			
 			panel.add(lbl);
-
+			
+			
 			btn.addActionListener(new ActionListener() {
 				int contador2 =0;
 				@Override
@@ -218,17 +258,16 @@ public class VentanaInicial extends JFrame {
 			});
 			pCentro.add(panel);
 			
-			lbl.addMouseListener(new MouseAdapter() {
-				
-				
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					// TODO Auto-generated method stub
-					new VentanaArticulo(RevistaModa.getlArticulos().get(2));
-				}
-			});
-
-		}
+			if (lbl != null) {
+	            lbl.addMouseListener(new MouseAdapter() {
+	                @Override
+	                public void mouseClicked(MouseEvent e) {
+	                    new VentanaArticulo(RevistaModa.getlArticulos().get(2));
+	                }
+	            });
+	        }
+	    }
+		
 		return pCentro;
 
 	}
