@@ -13,6 +13,10 @@ import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeMap;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -20,12 +24,15 @@ import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.border.EmptyBorder;
 
 import revistaModa.clases.Articulo;
+import revistaModa.clases.RevistaModa;
+import revistaModa.clases.Usuario;
 
 public class VentanaArticulo extends JFrame {
     private VentanaArticulo vActual;
@@ -34,7 +41,11 @@ public class VentanaArticulo extends JFrame {
     private JEditorPane editorPane;
     private JSlider slValoracion;
     private JButton btnValorar, btnLike;
-    private ArrayList<Integer> lValoraciones;
+    private Set<String> setUsuariosLike;
+    TreeMap<String,Integer> mapaUsuariosVal;
+    
+    //PRUEBA (NO SE DONDE PONER - MEJORAR)
+    private List<Usuario> lUsu;
 
     private boolean likeFijo = false;  // Variable para mantener si la imagen se queda fija en "megusta2.png"
 
@@ -42,6 +53,11 @@ public class VentanaArticulo extends JFrame {
         vActual = this;
         setBounds(100, 100, 1000, 600);
         setTitle("UDVogue");
+        
+        setUsuariosLike = art.getSetUsuariosLike();
+        mapaUsuariosVal = art.getMapaUsuariosVal();
+        lUsu = RevistaModa.getlUsuarios();
+        
 
         pCentro = new JPanel();
         pNorte = new JPanel();
@@ -101,15 +117,21 @@ public class VentanaArticulo extends JFrame {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                // Si se hace doble clic, cambiar la imagen permanentemente
-                if (e.getClickCount() == 1) {
-                    ImageIcon iconoLikeFixed = new ImageIcon("RevistaModa/img/megusta2.png");
-                    Image imageLikeFixed = iconoLikeFixed.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-                    btnLike.setIcon(new ImageIcon(imageLikeFixed));
-                    likeFijo = true;  // Marcar que la imagen ahora es fija
-                }
+            	// Si se hace doble clic, cambiar la imagen permanentemente
+            	if(!setUsuariosLike.contains(lUsu.get(1).getUsername())) {
+            		ImageIcon iconoLikeFixed = new ImageIcon("RevistaModa/img/megusta2.png");
+            		Image imageLikeFixed = iconoLikeFixed.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+            		btnLike.setIcon(new ImageIcon(imageLikeFixed));
+            		likeFijo = true;  // Marcar que la imagen ahora es fija
+            	}else {
+                    JOptionPane.showMessageDialog(null, "No puedes volver a darle like");
+            	}
+
+
             }
+            
         });
+        
 
         pTitulo = new JPanel(new FlowLayout(FlowLayout.LEFT));
         pTitulo.add(lblTituloArt);
@@ -139,7 +161,8 @@ public class VentanaArticulo extends JFrame {
         btnValorar = new JButton("Valorar");
         btnValorar.setPreferredSize(new Dimension(80, 25));
         
-        lValoraciones = new ArrayList<Integer>();
+        
+        
         btnValorar.addMouseListener(new MouseListener() {
 			
 			@Override
@@ -168,8 +191,12 @@ public class VentanaArticulo extends JFrame {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				lValoraciones.add(slValoracion.getValue());
-				System.out.println(lValoraciones);
+				if(!mapaUsuariosVal.containsKey(lUsu.get(1).getUsername())) {
+					mapaUsuariosVal.put(lUsu.get(1).getUsername(), slValoracion.getValue());
+				}
+				System.out.println(mapaUsuariosVal);
+				
+				
 				
 			}
 		});
