@@ -2,6 +2,7 @@ package revistaModa.clases;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 
 public class RevistaModa {
@@ -57,6 +58,25 @@ public class RevistaModa {
 		RevistaModa.lUsuarios = lUsuarios;
 	}
 
+	public  static float valoracionMedia(Articulo art) {
+		
+		int contador = 0;
+		TreeMap<String,Integer> mapa =art.getMapaUsuariosVal();
+		
+		for(Usuario u : lUsuarios) {
+			if(mapa.containsKey(u)) {
+				contador = contador + mapa.get(u);
+			}else {
+				
+		}}
+		float result = contador/mapa.size();
+		
+		
+		return result;
+		
+		
+	
 
+}
 }
 

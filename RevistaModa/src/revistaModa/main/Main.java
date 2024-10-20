@@ -17,7 +17,7 @@ public class Main {
 
 		
 		VentanaArticulo vArt = new VentanaArticulo(RevistaModa.getlArticulos().get(1));
-
+		VentanaPerfil vPer = new VentanaPerfil();
 	}
 
 }
