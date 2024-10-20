@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 import revistaModa.clases.Articulo;
 
 public class VentanaPerfil extends JFrame{
+	
 	private JPanel pCentro, pNorte, pSur, pEste,pOeste,pOesteSup,pOesteInf;
 	private JButton btnEstadistica, btnInformacion, btnFavoritos, btnVistos;
 	private JLabel lblFotoPerfil, lblTitulo, lblNombreUsuario;
@@ -98,6 +99,7 @@ public class VentanaPerfil extends JFrame{
 		setVisible(true);
 		
 	}
+	
 	private JPanel estadisticas (JPanel panel) {
 		panel.removeAll();
 		
@@ -105,6 +107,7 @@ public class VentanaPerfil extends JFrame{
 		tablaEstadistica.setModel(new ModeloEstadisticas(articulos));
 		
 		panel.add(new JScrollPane(tablaEstadistica), BorderLayout.CENTER);
+		
 		panel.validate();
 		panel.repaint();
 		
@@ -113,22 +116,30 @@ public class VentanaPerfil extends JFrame{
 		
 	}
 	private JPanel MiInformacion (JPanel panel){
+		
 		panel.removeAll();
 		panel.setLayout(new GridLayout(4,1,40,40));
+		
 		JLabel lbl1 = new JLabel("Nombre: ");
 		lbl1.setHorizontalAlignment(((int) CENTER_ALIGNMENT));
+		
 		JLabel lbl2 = new JLabel("Correo: ");
 		lbl2.setHorizontalAlignment(((int) CENTER_ALIGNMENT));
+		
 		JLabel lbl3 = new JLabel("Contraseña Actual: ");
 		lbl3.setHorizontalAlignment(((int) CENTER_ALIGNMENT));
+		
 		JLabel lbl4 = new JLabel("Nueva Contraseña: ");
 		lbl4.setHorizontalAlignment(((int) CENTER_ALIGNMENT));
+		
 		panel.add(lbl1);
 		panel.add(lbl2);
 		panel.add(lbl3);
 		panel.add(lbl4);
+		
 		panel.validate();
 		panel.repaint();
+		
 		return panel;
 		
 	}
