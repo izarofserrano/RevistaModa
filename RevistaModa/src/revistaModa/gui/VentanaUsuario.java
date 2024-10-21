@@ -33,7 +33,7 @@ public class VentanaUsuario extends JFrame {
 
 	private List<Usuario> lUsuarios;
 
-	public VentanaUsuario(List<Usuario> lUsuarios) {
+	public  VentanaUsuario(List<Usuario> lUsuarios) {
 		this.lUsuarios = lUsuarios;
 		setBounds(100, 100, 1000, 600);
 		setTitle("User");

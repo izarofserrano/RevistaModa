@@ -80,25 +80,8 @@ public class VentanaInicial extends JFrame {
             lblNuevoComponente.setFont(new Font("Arial", Font.ITALIC, 11));
             pNorte.add(lblNuevoComponente);  // Agregamos el nuevo componente si es necesario
             
-            lblNuevoComponente.addMouseListener(new MouseListener() {
+            lblNuevoComponente.addMouseListener(new MouseAdapter() {
 				
-				@Override
-				public void mouseReleased(MouseEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void mousePressed(MouseEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void mouseExited(MouseEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
 				
 				@Override
 				public void mouseEntered(MouseEvent e) {
@@ -109,7 +92,7 @@ public class VentanaInicial extends JFrame {
 				
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					new VentanaPerfil();
+					
 					
 				}
 			});
