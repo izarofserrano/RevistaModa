@@ -1,6 +1,7 @@
 package revistaModa.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -241,11 +242,17 @@ public class VentanaInicial extends JFrame {
 			btn.setFocusPainted(false); 
 			btn.setBounds(215, 320, 30, 30);
 
+			JPanel panelContador = new JPanel();
+			panelContador.setBackground(new Color (255, 255, 255, 180));
+			panelContador.setBounds(10, 320, 60, 30);
+			panelContador.setLayout(new FlowLayout(FlowLayout.CENTER));
+			
 			JLabel contador = new JLabel("0");
-			contador.setBounds(10, 320, 60, 30);
+			contador.setForeground(Color.BLACK);
+			panelContador.add(contador);
 			
 			panelCorazon.add(btn);
-			panelCorazon.add(contador);
+			panelCorazon.add(panelContador);
 			
 			btn.addMouseListener(new MouseAdapter() {
 				boolean like = false;
