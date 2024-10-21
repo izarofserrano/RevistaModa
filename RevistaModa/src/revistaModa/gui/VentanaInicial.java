@@ -20,6 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.OverlayLayout;
 
@@ -74,6 +75,10 @@ public class VentanaInicial extends JFrame {
 		getContentPane().add(pEste, BorderLayout.EAST);
 		getContentPane().add(pOeste, BorderLayout.WEST);
 		getContentPane().add(pCentro, BorderLayout.CENTER);
+		
+		JScrollPane scrollPane = new JScrollPane(pCentro);
+		scrollPane.setPreferredSize(new Dimension(1000, 500));
+		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
 		pNorte.setLayout(new FlowLayout(FlowLayout.CENTER));
 		pNorte.add(btnInicio);
