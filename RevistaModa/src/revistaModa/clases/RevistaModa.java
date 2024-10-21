@@ -13,7 +13,6 @@ public class RevistaModa {
 
     // Cargar los artículos con datos, incluyendo fotos, likes y valoraciones
     public static void cargarArticulos() {
-    	cargarFotos();
         // Artículo 1
         Articulo a1 = new Articulo(1, "Tendencias de moda otoño 2024", "Ana González", "2024-09-15", "Tendencias",
                 "RevistaModa/html/moda.html", getlFotos(), new HashSet<>(), new TreeMap<>());
@@ -54,10 +53,10 @@ public class RevistaModa {
 
     // Cargar las fotos
     public static void cargarFotos() {
-        FotoArt foto1 = new FotoArt(1, "Foto de portada otoño 2024", "RevistaModa/img/ropa1.jpg");
-        FotoArt foto2 = new FotoArt(2, "Accesorios de moda", "RevistaModa/img/ropa2.jpg");
-        FotoArt foto3 = new FotoArt(3, "Estilos streetwear 2024", "RevistaModa/img/ropa3.jpg");
-        FotoArt foto4 = new FotoArt(4, "Calzado tendencia 2024", "RevistaModa/img/ropa4.jpg");
+        FotoArt foto1 = new FotoArt(1, "Foto de portada otoño 2024", "RevistaModa/img/ropa1.jpeg");
+        FotoArt foto2 = new FotoArt(2, "Accesorios de moda", "RevistaModa/img/ropa2.jpeg");
+        FotoArt foto3 = new FotoArt(3, "Estilos streetwear 2024", "RevistaModa/img/ropa3.jpeg");
+        FotoArt foto4 = new FotoArt(4, "Calzado tendencia 2024", "RevistaModa/img/ropa4.jpeg");
 
         lFotos.add(foto1);
         lFotos.add(foto2);
