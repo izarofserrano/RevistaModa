@@ -85,6 +85,10 @@ public class Articulo {
 	public void setMapaUsuariosVal(TreeMap<String, Integer> mapaUsuariosVal) {
 		this.mapaUsuariosVal = mapaUsuariosVal;
 	}
+	
+	public int getLikesCount() {
+		return setUsuariosLike.size();
+	}
 	@Override
 	public String toString() {
 		return "Articulo [idArt=" + idArt + ", titulo=" + titulo + ", autor=" + autor + ", fechaPublicacion="
