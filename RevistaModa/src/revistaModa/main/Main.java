@@ -12,8 +12,10 @@ public class Main {
 		System.out.println("He borrado todo.");
 		VentanaInicial vInicial = new VentanaInicial(false);
 		
+		RevistaModa.cargarFotos();
 		RevistaModa.cargarArticulos();
 		RevistaModa.cargarUsuarios();
+		
 
 		
 		VentanaArticulo vArt = new VentanaArticulo(RevistaModa.getlArticulos().get(1));
