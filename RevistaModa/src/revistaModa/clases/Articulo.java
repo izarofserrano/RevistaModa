@@ -108,7 +108,14 @@ public class Articulo {
 	public void setMapaUsuariosVal(TreeMap<String, Integer> mapaUsuariosVal) {
 		this.mapaUsuariosVal = mapaUsuariosVal;
 	}
+<<<<<<< HEAD
 
+=======
+	
+	public int getLikesCount() {
+		return setUsuariosLike.size();
+	}
+>>>>>>> branch 'master' of https://github.com/izarofserrano/RevistaModa.git
 	@Override
 	public String toString() {
 		return "Articulo [idArt=" + idArt + ", titulo=" + titulo + ", autor=" + autor + ", fechaPublicacion="
