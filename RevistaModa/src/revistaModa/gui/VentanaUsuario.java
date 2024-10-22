@@ -275,6 +275,7 @@ public class VentanaUsuario extends JFrame {
 		pEste.add(p2);
 		pEste.add(p3);
 
+		
 		pSur.add(p22);
 		pEste.revalidate();
 		pEste.repaint();
