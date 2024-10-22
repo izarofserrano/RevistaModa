@@ -26,10 +26,10 @@ public class VentanaUsuario extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	private JPanel p1, p2, p3;
+	private JPanel p1, p2, p22, p3;
 	private JTextField txtUserName, txtCorreo;
 	private JPasswordField contra;
-	private JPanel pEste;
+	private JPanel pEste, pSur;
 
 	private List<Usuario> lUsuarios;
 
@@ -45,7 +45,7 @@ public class VentanaUsuario extends JFrame {
 		pEste.setLayout(new GridLayout(4, 1));
 		pEste.setBorder(new EmptyBorder(90, 90, 90, 90));
 		JPanel pOeste = new JPanel();
-		JPanel pSur = new JPanel();
+		pSur = new JPanel();
 
 		getContentPane().add(pSur, BorderLayout.SOUTH);
 		getContentPane().add(pOeste, BorderLayout.WEST);
@@ -74,12 +74,22 @@ public class VentanaUsuario extends JFrame {
 		password.setVerticalAlignment(SwingConstants.EAST);
 		password.setFont(new Font("Arial", Font.BOLD, 12));
 		password.setPreferredSize(new Dimension(100, 20));
+		
 
 		p2 = new JPanel();
 		p2.add(password);
 		p2.add(contra);
 		pEste.add(p2);
 
+		
+		JLabel caracteristicas= new JLabel("<html>- La contraseña debe tener:<br>Una mayúscula y un número</html>");
+		caracteristicas.setVerticalAlignment(SwingConstants.EAST);
+		caracteristicas.setFont(new Font("Arial", Font.ITALIC,11));
+		p22= new JPanel();
+		p22.add(caracteristicas);
+		pSur.add(p22);
+		
+		
 		JButton btnEntrar = new JButton("Entrar");
 		JButton btnRegistrarse = new JButton("Registráte!");
 		p3 = new JPanel();
@@ -128,11 +138,16 @@ public class VentanaUsuario extends JFrame {
 		p4.add(btnAtras);
 		pNorte.add(p4, BorderLayout.WEST);
 
-		JLabel title = new JLabel("Title");
-		title.setFont(new Font("Arial", Font.BOLD, 50));
+		
+		ImageIcon iconoTitle = new ImageIcon("RevistaModa\\img\\Logo_UD_Vogue.png");
+		Image fotoTitle = iconoTitle.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+		JLabel lblTitle = new JLabel(new ImageIcon(fotoTitle));
+		
+//		JLabel title = new JLabel("Title");
+//		title.setFont(new Font("Arial", Font.BOLD, 50));
 
 		JPanel p5 = new JPanel();
-		p5.add(title);
+		p5.add(lblTitle);
 		pNorte.add(p5);
 
 		// btn Registrarse
@@ -143,8 +158,8 @@ public class VentanaUsuario extends JFrame {
 
 		JLabel lblimagen = new JLabel();
 		try {
-			ImageIcon iconoPortada = new ImageIcon("RevistaModa\\img\\SesionInicioImagen.jpg");
-			Image imgPortada = iconoPortada.getImage().getScaledInstance(360, 500, Image.SCALE_SMOOTH);
+			ImageIcon iconoPortada = new ImageIcon("RevistaModa\\img\\Logo_UD_Vogue.png");
+			Image imgPortada = iconoPortada.getImage().getScaledInstance(500, 500, Image.SCALE_SMOOTH);
 			lblimagen = new JLabel(new ImageIcon(imgPortada));
 			pOeste.add(lblimagen);
 
@@ -180,6 +195,7 @@ public class VentanaUsuario extends JFrame {
 		pEste.add(p2);
 		pEste.add(pCorreo);
 		pEste.add(p9);
+		pSur.add(p22);
 
 		btnRegistrar.addActionListener(new ActionListener() {
 
@@ -259,6 +275,7 @@ public class VentanaUsuario extends JFrame {
 		pEste.add(p2);
 		pEste.add(p3);
 
+		pSur.add(p22);
 		pEste.revalidate();
 		pEste.repaint();
 	}
