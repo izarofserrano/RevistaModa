@@ -44,7 +44,7 @@ public class VentanaUsuario extends JFrame {
 		pEste = new JPanel();
 		pEste.setLayout(new GridLayout(4, 1));
 		pEste.setBorder(new EmptyBorder(90, 90, 90, 90));
-		JPanel pOeste = new JPanel();
+		JPanel pOeste = new JPanel(new BorderLayout());
 		pSur = new JPanel();
 
 		getContentPane().add(pSur, BorderLayout.SOUTH);
@@ -137,10 +137,19 @@ public class VentanaUsuario extends JFrame {
 		JPanel p4 = new JPanel();
 		p4.add(btnAtras);
 		pNorte.add(p4, BorderLayout.WEST);
-
+		
+		try {
+			ImageIcon iconoVentana = new ImageIcon("RevistaModa\\img\\ImgIcon.png");
+			Image fotoIcon = iconoVentana.getImage();
+			setIconImage(fotoIcon);
+		}catch(Exception e){
+			System.out.println("No se ha podido cargar la imagen"+e.getMessage());
+		}
+		
 		
 		ImageIcon iconoTitle = new ImageIcon("RevistaModa\\img\\Logo_UD_Vogue.png");
 		Image fotoTitle = iconoTitle.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+
 		JLabel lblTitle = new JLabel(new ImageIcon(fotoTitle));
 		
 //		JLabel title = new JLabel("Title");
@@ -161,7 +170,7 @@ public class VentanaUsuario extends JFrame {
 			ImageIcon iconoPortada = new ImageIcon("RevistaModa\\img\\Logo_UD_Vogue.png");
 			Image imgPortada = iconoPortada.getImage().getScaledInstance(500, 500, Image.SCALE_SMOOTH);
 			lblimagen = new JLabel(new ImageIcon(imgPortada));
-			pOeste.add(lblimagen);
+			pOeste.add(lblimagen,BorderLayout.CENTER);
 
 		} catch (Exception e) {
 			System.out.println("No se ha podido cargar la imagen" + e.getMessage());

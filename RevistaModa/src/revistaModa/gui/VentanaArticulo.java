@@ -48,7 +48,8 @@ public class VentanaArticulo extends JFrame {
         vActual = this;
         setBounds(100, 100, 1000, 600);
         setTitle("UDVogue");
-        
+        setLocationRelativeTo(null);
+       
         setUsuariosLike = art.getSetUsuariosLike();
         mapaUsuariosVal = art.getMapaUsuariosVal();
         lUsu = RevistaModa.getlUsuarios();
