@@ -15,22 +15,29 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
+
+
 
 import revistaModa.clases.Articulo;
+import revistaModa.clases.RevistaModa;
 import revistaModa.clases.Usuario;
 
 public class VentanaPerfil extends JFrame{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel pCentro, pNorte, pSur, pEste,pOeste,pOesteSup,pOesteInf;
-	private JButton btnEstadistica, btnInformacion, btnFavoritos, btnVistos,btnCambiarContra;
+	private JButton btnEstadistica, btnInformacion, btnFavoritos, btnCambiarContra;
 	private JLabel lblFotoPerfil, lblTitulo, lblNombreUsuario;
 	private JTextField txtNuevaContra;
+	private RendererEstadistica renderer;
 	
 	private JTable tablaEstadistica ;
 	
 	private JFrame vActual;
-	private List<Articulo> articulos;
+	private List<Articulo> articulos = RevistaModa.getlArticulos();
 	
 	public VentanaPerfil(Usuario u) {//Hace falta meter un usuario como 
 							//parametro para poder ejercutar la foto de perfil y su nombre etc...
@@ -47,13 +54,12 @@ public class VentanaPerfil extends JFrame{
 		pSur = new JPanel();
 		pEste = new JPanel();
 		pOeste = new JPanel(new GridLayout(2,1));
-		pOesteInf = new JPanel(new GridLayout(5,1,0,20));
+		pOesteInf = new JPanel(new GridLayout(4,1,0,20));
 		pOesteSup = new JPanel(new GridLayout(2,1));
 		
 		btnEstadistica = new JButton("Estadisticas");
 		btnInformacion = new JButton("Mi información");
 		btnFavoritos = new JButton("Mis Favoritos");
-		btnVistos = new JButton("Vistos Recientemente");
 		btnCambiarContra = new JButton("Cambiar Contraseña");
 		
 		lblFotoPerfil = new JLabel();
@@ -77,7 +83,6 @@ public class VentanaPerfil extends JFrame{
 		pOesteSup.add(lblFotoPerfil);
 		pOesteInf.add(btnInformacion);
 		pOesteInf.add(btnFavoritos);
-		pOesteInf.add(btnVistos);
 		pOesteInf.add(btnEstadistica);
 		pOesteInf.add(btnCambiarContra);
 		
@@ -126,6 +131,12 @@ public class VentanaPerfil extends JFrame{
 		
 		tablaEstadistica = new JTable();
 		tablaEstadistica.setModel(new ModeloEstadisticas(articulos));
+		renderer = new RendererEstadistica();
+		
+		for (int i=0; i<tablaEstadistica.getColumnModel().getColumnCount()-1; i++) {
+			tablaEstadistica.getColumnModel().getColumn(i).setCellRenderer(renderer);
+		}
+		
 		
 		panel.add(new JScrollPane(tablaEstadistica), BorderLayout.CENTER);
 		

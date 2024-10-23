@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -41,7 +42,7 @@ public class VentanaInicial extends JFrame {
 	private JFrame vActual;
 	
 	
-	public VentanaInicial(boolean mostrarComponenteExtra, String nomUser) {
+	public VentanaInicial(boolean mostrarComponenteExtra, Usuario u) {
 		vActual = this;
 		lUsu = RevistaModa.getlUsuarios();
 		
@@ -114,8 +115,8 @@ public class VentanaInicial extends JFrame {
 		pNorte.add(pBuscador);
 		
 		if (mostrarComponenteExtra) {
-            lblNuevoComponente = new JLabel(nomUser);
-            lblNuevoComponente.setText("<html><u>" + nomUser + "</u></html>");
+            lblNuevoComponente = new JLabel(u.getUsername());
+            lblNuevoComponente.setText("<html><u>" + u.getUsername() + "</u></html>");
             lblNuevoComponente.setFont(new Font("Arial", Font.ITALIC, 12));
             pNorte.add(lblNuevoComponente);
             
@@ -133,7 +134,7 @@ public class VentanaInicial extends JFrame {
 				
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					new VentanaPerfil(null);
+					new VentanaPerfil(u);
 				}
 			});
         }
@@ -347,6 +348,15 @@ public class VentanaInicial extends JFrame {
 		
 		return pCentro;
 
+	}private Panel ReloadBelleza(Panel pCentro) {
+		pCentro.removeAll();
+		
+		pCentro.validate();
+		pCentro.repaint();
+		
+		
+		return pCentro;
+		
 	}
 }
 

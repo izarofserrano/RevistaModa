@@ -107,7 +107,7 @@ public class VentanaUsuario extends JFrame {
 				if (txtUserName.getText().equals(user.getUsername())) {
 					usuarioEncontrado = true;
 					if (Password.equals(user.getContrasenya())) {
-						new VentanaInicial(true,user.getUsername());
+						new VentanaInicial(true,user);
 						dispose();
 						return;
 					} else {
