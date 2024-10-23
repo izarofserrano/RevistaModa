@@ -11,11 +11,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,7 +32,7 @@ import revistaModa.clases.Usuario;
 
 public class VentanaInicial extends JFrame {
 	private JButton btnInicio, btnModa, btnBelleza, btnLogIn;
-	private JLabel lblTitulo, lblImagenPortada, lblContacto, lblUbi, lblLupa;
+	private JLabel lblTitulo, lblImagenPortada, lblContacto, lblUbi, lblLupa, lblNuevoComponente;
 	private JPanel pCentro, pNorte, pSur, pEste, pOeste,pBelleza,pModa;
 	private JTextField txtBuscador;
 	private List<Usuario> lUsu;
@@ -40,7 +41,7 @@ public class VentanaInicial extends JFrame {
 	private JFrame vActual;
 	
 	
-	public VentanaInicial(boolean mostrarComponenteExtra) {
+	public VentanaInicial(boolean mostrarComponenteExtra, String nomUser) {
 		vActual = this;
 		lUsu = RevistaModa.getlUsuarios();
 		
@@ -51,6 +52,7 @@ public class VentanaInicial extends JFrame {
 		
 		pCentro = new JPanel();
 		pNorte = new JPanel();
+		pNorte= new JPanel();
 		pSur = new JPanel();
 		pEste = new JPanel();
 		pOeste = new JPanel();
@@ -87,30 +89,6 @@ public class VentanaInicial extends JFrame {
 		pNorte.add(btnBelleza);
 		pNorte.add(btnLogIn);
 		
-		if (mostrarComponenteExtra) {
-            JLabel lblNuevoComponente = new JLabel("Bienvenido de nuevo, usuario!");
-            lblNuevoComponente.setFont(new Font("Arial", Font.ITALIC, 11));
-            pNorte.add(lblNuevoComponente);  // Agregamos el nuevo componente si es necesario
-            
-            lblNuevoComponente.addMouseListener(new MouseAdapter() {
-				
-				
-				@Override
-				public void mouseEntered(MouseEvent e) {
-					//Cambia el cursor a una mano al pasar por encima
-					lblNuevoComponente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-					
-				}
-				
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					
-					
-				}
-			});
-        }
-		pNorte.revalidate();
-		pNorte.repaint();
 		
 		
 		pSur.setLayout(new GridLayout(2,1));
@@ -135,6 +113,32 @@ public class VentanaInicial extends JFrame {
 		pBuscador.add(txtBuscador);
 		pNorte.add(pBuscador);
 		
+		if (mostrarComponenteExtra) {
+            lblNuevoComponente = new JLabel(nomUser);
+            lblNuevoComponente.setText("<html><u>" + nomUser + "</u></html>");
+            lblNuevoComponente.setFont(new Font("Arial", Font.ITALIC, 12));
+            pNorte.add(lblNuevoComponente);
+            
+            pNorte.remove(btnLogIn);
+            
+            lblNuevoComponente.addMouseListener(new MouseAdapter() {
+			
+				
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					//Cambia el cursor a una mano al pasar por encima
+					lblNuevoComponente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+					
+				}
+				
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					new VentanaPerfil(null);
+				}
+			});
+        }
+		pNorte.revalidate();
+		pNorte.repaint();
 		
 		try {
 			ImageIcon iconoPortada = new ImageIcon("RevistaModa\\img\\portada.jpeg");
@@ -216,11 +220,12 @@ public class VentanaInicial extends JFrame {
 			JLabel lbl = null;
 
 			try {
+				lbl = new JLabel();
+				lbl.setSize(panel.getWidth(),panel.getHeight());
 				ImageIcon icono = new ImageIcon("RevistaModa/img/ropa"+i+".jpeg");
-				Image imagen = icono.getImage().getScaledInstance(250 ,350, Image.SCALE_SMOOTH);
-				lbl = new JLabel(new ImageIcon(imagen));
-				lbl.setAlignmentX(LEFT_ALIGNMENT);
-				lbl.setAlignmentY(TOP_ALIGNMENT);
+				ImageIcon imagenConDimensiones = new ImageIcon(icono.getImage().getScaledInstance(lbl.getWidth(), lbl.getHeight(), Image.SCALE_DEFAULT));
+				lbl.setIcon(imagenConDimensiones);
+				
 			
 			} catch (Exception u) {
 				System.out.println("No se ha podido cargar la imagen" + u.getMessage());
