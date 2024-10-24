@@ -221,23 +221,25 @@ public class VentanaInicial extends JFrame {
 	        JPanel panel = new JPanel();
 	        panel.setLayout(new OverlayLayout(panel));
 	        panel.setPreferredSize(new Dimension(250, 450));
-
 	        JLabel lbl = null;
 
 	        try {
-	            lbl = new JLabel();
-	            lbl.setSize(panel.getWidth(), panel.getHeight());
-	            ImageIcon icono = new ImageIcon("RevistaModa/img/" + tipo + i + ".jpeg"); // Cambia aquí el nombre de la carpeta
-	            Image imagen = icono.getImage().getScaledInstance(250, 350, Image.SCALE_SMOOTH);
-	            lbl = new JLabel(new ImageIcon(imagen));
-	            lbl.setAlignmentX(LEFT_ALIGNMENT);
-	            lbl.setAlignmentY(TOP_ALIGNMENT);
+	        	lbl = new JLabel();
+				lbl.setSize(panel.getWidth(),panel.getHeight());
+				ImageIcon icono = new ImageIcon("RevistaModa/img/" + tipo + i + ".jpeg");
+				Image imagen = icono.getImage().getScaledInstance(250 ,350, Image.SCALE_SMOOTH);
+				lbl = new JLabel(new ImageIcon(imagen));
+				lbl.setAlignmentX(LEFT_ALIGNMENT);
+				lbl.setAlignmentY(TOP_ALIGNMENT);
+				ImageIcon imagenConDimensiones = new ImageIcon(icono.getImage().getScaledInstance(lbl.getWidth(), lbl.getHeight(), Image.SCALE_DEFAULT));
+				lbl.setIcon(imagenConDimensiones);
 	        } catch (Exception u) {
 	            System.out.println("No se ha podido cargar la imagen" + u.getMessage());
 	        }
 
 	        panel.add(lbl, BorderLayout.CENTER);
 			pCentro.add(panel);
+			
 			
 			JPanel panelCorazon = new JPanel();
 			panelCorazon.setLayout(null);
@@ -297,7 +299,7 @@ public class VentanaInicial extends JFrame {
 						ImageIcon iconoLikeFixed = new ImageIcon("RevistaModa/img/megusta2.png");
 						Image imagenLikeFixed = iconoLikeFixed.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 						btn.setIcon(new ImageIcon(imagenLikeFixed));
-					} else { //si el usuario ya ha dado like, quitar su nombre y decrementar el contador
+					} else { 
 						setUsuariosLike.remove(username);
 						totalLikes--;
 						contador.setText(String.valueOf(totalLikes));
@@ -329,6 +331,6 @@ public class VentanaInicial extends JFrame {
 	}
 
 	private JPanel ReloadBelleza(JPanel pCentro) {
-	    return cargarArticulos(pCentro, "belleza"); // Suponiendo que los archivos de belleza están en la misma carpeta
+	    return cargarArticulos(pCentro, "belleza"); 
 	}
 }
