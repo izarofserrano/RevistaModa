@@ -9,7 +9,6 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -23,11 +22,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import revistaModa.clases.Articulo;
+import revistaModa.clases.FotoArt;
 import revistaModa.clases.RevistaModa;
 import revistaModa.clases.Usuario;
 
@@ -41,50 +41,45 @@ public class VentanaArticulo extends JFrame {
     private Set<String> setUsuariosLike;
     TreeMap<String,Integer> mapaUsuariosVal;
     
-    //PRUEBA (NO SE DONDE PONER - MEJORAR)
     private List<Usuario> lUsu;
-
-    private boolean likeFijo = false;  // Variable para mantener si la imagen se queda fija en "megusta2.png"
+    private boolean likeFijo = false;  
 
     public VentanaArticulo(Articulo art) {
         vActual = this;
         setBounds(100, 100, 1000, 600);
         setTitle("UDVogue");
-        
+        setLocationRelativeTo(null);
+       
         setUsuariosLike = art.getSetUsuariosLike();
         mapaUsuariosVal = art.getMapaUsuariosVal();
         lUsu = RevistaModa.getlUsuarios();
-        
-
+    
+        // Configuración de los paneles
         pCentro = new JPanel();
         pNorte = new JPanel();
         pSur = new JPanel();
         pEste = new JPanel();
         pOeste = new JPanel();
 
-        pCentro.setLayout(new BorderLayout());
+        // Configuración del Layout
+        pCentro.setLayout(new BorderLayout()); // Cambiar a GridLayout con 1 fila y 2 columnas
 
         getContentPane().add(pNorte, BorderLayout.NORTH);
         getContentPane().add(pSur, BorderLayout.SOUTH);
-        getContentPane().add(pEste, BorderLayout.EAST);
-        getContentPane().add(pOeste, BorderLayout.WEST);
-        getContentPane().add(pCentro, BorderLayout.CENTER);
+        getContentPane().add(pCentro, BorderLayout.CENTER); // Añadir pCentro con GridLayout al centro
 
-        // Configuración del panel norte con GridLayout (1,2)
         pNorte.setLayout(new GridLayout(1, 2));
         pNorte.setBorder(new EmptyBorder(20, 20, 20, 20));  // Margen de 20 píxeles en todos los lados
 
-        // Subpanel para el título y el autor (BoxLayout vertical)
+        // Panel para título y like
         pSubNorte = new JPanel();
         pSubNorte.setLayout(new BoxLayout(pSubNorte, BoxLayout.Y_AXIS));
-        lblTituloArt = new JLabel("<html><h1>" + art.getTitulo() + "</h1><</html>");
+        lblTituloArt = new JLabel("<html><h1>" + art.getTitulo() + "</h1></html>");
 
-        // Imagen inicial del botón
         ImageIcon iconoLike = new ImageIcon("RevistaModa/img/megusta1.png");
         Image imagenLike = iconoLike.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
         btnLike = new JButton(new ImageIcon(imagenLike));
 
-        // Tamaño y configuración del botón
         btnLike.setPreferredSize(new Dimension(30, 30));
         btnLike.setContentAreaFilled(false);
         btnLike.setBorderPainted(false);
@@ -92,11 +87,10 @@ public class VentanaArticulo extends JFrame {
         btnLike.setAlignmentX(RIGHT_ALIGNMENT);
         btnLike.setAlignmentY(BOTTOM_ALIGNMENT);
 
-        // Cambiar la imagen temporalmente cuando el ratón pasa por encima
+        // Evento de ratón para el botón de "Like"
         btnLike.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                // Cambiar a la nueva imagen sólo si no se ha hecho el doble clic
                 if (!likeFijo) {
                     ImageIcon iconoLikeHover = new ImageIcon("RevistaModa/img/megusta2.png");
                     Image imageLikeHover = iconoLikeHover.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -106,7 +100,6 @@ public class VentanaArticulo extends JFrame {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                // Restaurar la imagen original sólo si no se ha hecho el doble clic
                 if (!likeFijo) {
                     btnLike.setIcon(new ImageIcon(imagenLike));
                 }
@@ -114,45 +107,37 @@ public class VentanaArticulo extends JFrame {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                String username = lUsu.get(2).getUsername();  // Obtener el nombre de usuario actual
+                String username = lUsu.get(2).getUsername();  
 
                 if (!setUsuariosLike.contains(username)) {
-                    // Si el usuario no ha dado like, añadir su nombre y cambiar la imagen a "megusta2.png"
                     setUsuariosLike.add(username);
                     ImageIcon iconoLikeFixed = new ImageIcon("RevistaModa/img/megusta2.png");
                     Image imageLikeFixed = iconoLikeFixed.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
                     btnLike.setIcon(new ImageIcon(imageLikeFixed));
-                    likeFijo = true;  // Marcar que el "like" está activo
+                    likeFijo = true;  
                 } else {
-                    // Si el usuario ya ha dado like, quitar su nombre y volver a "megusta1.png"
                     setUsuariosLike.remove(username);
-                    btnLike.setIcon(new ImageIcon(imagenLike));  // Volver a la imagen original
-                    likeFijo = false;  // Marcar que el "like" ya no está activo
+                    btnLike.setIcon(new ImageIcon(imagenLike));  
+                    likeFijo = false;  
                 }
             }
-
-            
         });
-        
 
         pTitulo = new JPanel(new FlowLayout(FlowLayout.LEFT));
         pTitulo.add(lblTituloArt);
         pTitulo.add(btnLike);
-
         pSubNorte.add(pTitulo);
 
-        // Crear un nuevo panel pAutorFecha con FlowLayout(FlowLayout.LEFT) para alinear a la izquierda
+        // Panel para autor y fecha
         pAutorFecha = new JPanel(new FlowLayout(FlowLayout.LEFT));
         lblAutorFecha = new JLabel("<html><i>" + art.getAutor() + ", " + art.getFechaPublicacion() + "</i></html>");
         pAutorFecha.add(lblAutorFecha);
-
-        // Añadir el panel pAutorFecha a pSubNorte
         pSubNorte.add(pAutorFecha);
 
-        // Agregar el subpanel (con título y autor) a la primera columna del GridLayout
-        pNorte.add(pSubNorte);  // Esto es la posición (1,1)
+        // Añadir los subpaneles a pNorte
+        pNorte.add(pSubNorte);
 
-        // Panel para el slider y el botón de valoración
+        // Panel para el slider y valoración
         pSlider = new JPanel(new BorderLayout());
         pSubSlider = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         slValoracion = new JSlider(0, 5, 0);
@@ -162,61 +147,25 @@ public class VentanaArticulo extends JFrame {
 
         btnValorar = new JButton("Valorar");
         btnValorar.setPreferredSize(new Dimension(80, 25));
-        
-        
-        
-        btnValorar.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				
-				
-			}
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(!mapaUsuariosVal.containsKey(lUsu.get(1).getUsername())) {
-					mapaUsuariosVal.put(lUsu.get(1).getUsername(), slValoracion.getValue());
-				}else {
-			        mapaUsuariosVal.put(lUsu.get(1).getUsername(), slValoracion.getValue());
-			        JOptionPane.showMessageDialog(null, "Tu valoración se ha actualizado");
-				}
-				System.out.println(mapaUsuariosVal);
-				
-				
-				
-			}
-		});
-        
 
-        // Estilo del JSlider
-        slValoracion.setForeground(Color.DARK_GRAY);
-        slValoracion.setFont(new Font("Arial", Font.BOLD, 12));
-        slValoracion.setPreferredSize(new Dimension(180, 40));
+        btnValorar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (!mapaUsuariosVal.containsKey(lUsu.get(1).getUsername())) {
+                    mapaUsuariosVal.put(lUsu.get(1).getUsername(), slValoracion.getValue());
+                } else {
+                    mapaUsuariosVal.put(lUsu.get(1).getUsername(), slValoracion.getValue());
+                    JOptionPane.showMessageDialog(null, "Tu valoración se ha actualizado");
+                }
+                System.out.println(mapaUsuariosVal);
+            }
+        });
 
         pSubSlider.add(slValoracion);
         pSubSlider.add(btnValorar);
         pSlider.add(pSubSlider);
 
-        // Agregar el panel del slider a la segunda columna del GridLayout
+        // Añadir el panel del slider a pNorte
         pNorte.add(pSlider);
 
         // EditorPane para mostrar contenido HTML
@@ -232,9 +181,31 @@ public class VentanaArticulo extends JFrame {
             editorPane.setText("<html><body><h1>Error cargando el archivo HTML</h1></body></html>");
         }
 
-        JScrollPane scrollPane = new JScrollPane(editorPane);
+        JPanel panelIzquierdo = new JPanel(new BorderLayout());
+        JScrollPane scrollIzquierdo = new JScrollPane(editorPane);
+        panelIzquierdo.add(scrollIzquierdo, BorderLayout.CENTER);
 
-        pCentro.add(scrollPane, BorderLayout.CENTER);
+        JPanel panelDerecho = new JPanel();
+        panelDerecho.setLayout(new BoxLayout(panelDerecho, BoxLayout.Y_AXIS)); // Usar BoxLayout para organizar verticalmente
+        panelDerecho.setPreferredSize(new Dimension(250,0));
+        for (FotoArt f : art.getlFotos()) {
+        	System.out.println(f.toString());
+            ImageIcon icono = new ImageIcon(f.getRutaFoto());
+            
+            Image img = icono.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH); 
+            JLabel label = new JLabel(new ImageIcon(img));
+            label.setHorizontalAlignment(JLabel.CENTER);
+            panelDerecho.add(label); 
+        }
+
+        pCentro.add(panelIzquierdo,BorderLayout.CENTER);  
+        pCentro.add(panelDerecho,BorderLayout.EAST);     
+
+        // Forzar actualización del panel
+        panelDerecho.revalidate();
+        panelDerecho.repaint();
+        
+        
 
         setVisible(true);
     }

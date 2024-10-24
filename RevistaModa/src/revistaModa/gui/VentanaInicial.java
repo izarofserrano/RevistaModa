@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -41,7 +42,7 @@ public class VentanaInicial extends JFrame {
 	private JFrame vActual;
 	
 	
-	public VentanaInicial(boolean mostrarComponenteExtra, String nomUser) {
+	public VentanaInicial(boolean mostrarComponenteExtra, Usuario u) {
 		vActual = this;
 		lUsu = RevistaModa.getlUsuarios();
 		
@@ -114,8 +115,8 @@ public class VentanaInicial extends JFrame {
 		pNorte.add(pBuscador);
 		
 		if (mostrarComponenteExtra) {
-            lblNuevoComponente = new JLabel(nomUser);
-            lblNuevoComponente.setText("<html><u>" + nomUser + "</u></html>");
+            lblNuevoComponente = new JLabel(u.getUsername());
+            lblNuevoComponente.setText("<html><u>" + u.getUsername() + "</u></html>");
             lblNuevoComponente.setFont(new Font("Arial", Font.ITALIC, 12));
             pNorte.add(lblNuevoComponente);
             
@@ -133,7 +134,7 @@ public class VentanaInicial extends JFrame {
 				
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					new VentanaPerfil(null);
+					new VentanaPerfil(u);
 				}
 			});
         }
@@ -218,6 +219,7 @@ public class VentanaInicial extends JFrame {
 			panel.setPreferredSize(new Dimension(250, 450));
 		
 			JLabel lbl = null;
+			
 
 			try {
 				lbl = new JLabel();
@@ -226,10 +228,18 @@ public class VentanaInicial extends JFrame {
 				ImageIcon imagenConDimensiones = new ImageIcon(icono.getImage().getScaledInstance(lbl.getWidth(), lbl.getHeight(), Image.SCALE_DEFAULT));
 				lbl.setIcon(imagenConDimensiones);
 				
+				 lbl.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+		         lbl.setAlignmentY(JLabel.CENTER_ALIGNMENT);
+		         
+		         panel.add(lbl);
+				
 			
 			} catch (Exception u) {
 				System.out.println("No se ha podido cargar la imagen" + u.getMessage());
 			}
+			
+			panel.add(lbl, BorderLayout.CENTER);
+			pCentro.add(panel);
 			
 			JPanel panelCorazon = new JPanel();
 			panelCorazon.setLayout(null);
@@ -297,20 +307,7 @@ public class VentanaInicial extends JFrame {
 					}
 					
 					
-					/*if (e.getClickCount() == 1) {
-						if(!like) { //si no like, añadimos
-							like = true;
-							contador.setText(String.valueOf(Integer.parseInt(contador.getText())+1));
-							ImageIcon iconoLikeSelected = new ImageIcon("RevistaModa/img/megusta2.png");
-							Image imagenLikeSelected = iconoLikeSelected.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-							btn.setIcon(new ImageIcon(imagenLikeSelected));
-						}
-						
-					} else { //si like, quitamos
-						like = false;
-						contador.setText(String.valueOf(Integer.parseInt(contador.getText())-1));
-						btn.setIcon(new ImageIcon(imgGris));
-					}*/
+					
 				}
 				
 			}
@@ -318,23 +315,9 @@ public class VentanaInicial extends JFrame {
 			
 			
 			panel.add(panelCorazon);
-			panel.add(lbl);
 			
 			
-			/*btn.addActionListener(new ActionListener() {
-				int contador2 =0;
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					System.out.println("Has clicado");
-					contador2++;
-					contador.setText(String.valueOf(contador2));
-					
-					
-				
-				}
-			});*/
-			pCentro.add(panel);
+			
 			
 			if (lbl != null) {
 	            lbl.addMouseListener(new MouseAdapter() {
@@ -348,5 +331,16 @@ public class VentanaInicial extends JFrame {
 		
 		return pCentro;
 
+	}
+	
+	private Panel ReloadBelleza(Panel pCentro) {
+		pCentro.removeAll();
+		
+		pCentro.validate();
+		pCentro.repaint();
+		
+		
+		return pCentro;
+		
 	}
 }
