@@ -27,6 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.OverlayLayout;
 
+import revistaModa.clases.Articulo;
 import revistaModa.clases.RevistaModa;
 import revistaModa.clases.Usuario;
 
@@ -53,7 +54,6 @@ public class VentanaInicial extends JFrame {
 		
 		pCentro = new JPanel();
 		pNorte = new JPanel();
-		pNorte= new JPanel();
 		pSur = new JPanel();
 		pEste = new JPanel();
 		pOeste = new JPanel();
@@ -161,9 +161,9 @@ public class VentanaInicial extends JFrame {
 				dispose();
 				
 			}
-			
-		});
 		
+		});
+	
 		btnBelleza.addActionListener(new ActionListener() {
 			
 			@Override
@@ -171,7 +171,7 @@ public class VentanaInicial extends JFrame {
 				// TODO Auto-generated method stub
 				pCentro.removeAll();
 				
-			//Codigo de la de Belleza, lista de belleza...	
+				ReloadBelleza(pCentro);
 				
 				pCentro.revalidate();
 				pCentro.repaint();
@@ -210,6 +210,7 @@ public class VentanaInicial extends JFrame {
 		setVisible(true);
 	}
 	
+	
 	private JPanel reloadModa(JPanel pCentro) {
 		pCentro.setLayout(new GridLayout(2,4,10,10));
 
@@ -225,13 +226,12 @@ public class VentanaInicial extends JFrame {
 				lbl = new JLabel();
 				lbl.setSize(panel.getWidth(),panel.getHeight());
 				ImageIcon icono = new ImageIcon("RevistaModa/img/ropa"+i+".jpeg");
+				Image imagen = icono.getImage().getScaledInstance(250 ,350, Image.SCALE_SMOOTH);
+				lbl = new JLabel(new ImageIcon(imagen));
+				lbl.setAlignmentX(LEFT_ALIGNMENT);
+				lbl.setAlignmentY(TOP_ALIGNMENT);
 				ImageIcon imagenConDimensiones = new ImageIcon(icono.getImage().getScaledInstance(lbl.getWidth(), lbl.getHeight(), Image.SCALE_DEFAULT));
 				lbl.setIcon(imagenConDimensiones);
-				
-				 lbl.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-		         lbl.setAlignmentY(JLabel.CENTER_ALIGNMENT);
-		         
-		         panel.add(lbl);
 				
 			
 			} catch (Exception u) {
@@ -309,11 +309,12 @@ public class VentanaInicial extends JFrame {
 					
 					
 				}
-				
+			
 			});
 			
 			
 			panel.add(panelCorazon);
+			panel.add(lbl);
 			
 			if (lbl != null) {
 	            lbl.addMouseListener(new MouseAdapter() {
@@ -323,20 +324,127 @@ public class VentanaInicial extends JFrame {
 	                }
 	            });
 	        }
-	    }
+		}
 		
 		return pCentro;
 
 	}
 	
-	private Panel ReloadBelleza(Panel pCentro) {
-		pCentro.removeAll();
+	private JPanel ReloadBelleza(JPanel pCentro) {
+		pCentro.setLayout(new GridLayout(2,4,10,10));
+
+		for (int i = 1; i <= 8; i++) { 
+			JPanel panel = new JPanel();
+			panel.setLayout(new OverlayLayout(panel));
+			panel.setPreferredSize(new Dimension(250, 450));
 		
-		pCentro.validate();
-		pCentro.repaint();
-		
+			JLabel lbl = null;
+			
+
+			try {
+				lbl = new JLabel();
+				lbl.setSize(panel.getWidth(),panel.getHeight());
+				ImageIcon icono = new ImageIcon("RevistaModa/img/belleza"+i+".jpeg");
+				Image imagen = icono.getImage().getScaledInstance(250 ,350, Image.SCALE_SMOOTH);
+				lbl = new JLabel(new ImageIcon(imagen));
+				lbl.setAlignmentX(LEFT_ALIGNMENT);
+				lbl.setAlignmentY(TOP_ALIGNMENT);
+				ImageIcon imagenConDimensiones = new ImageIcon(icono.getImage().getScaledInstance(lbl.getWidth(), lbl.getHeight(), Image.SCALE_DEFAULT));
+				lbl.setIcon(imagenConDimensiones);
+				
+			
+			} catch (Exception u) {
+				System.out.println("No se ha podido cargar la imagen" + u.getMessage());
+			}
+			
+			panel.add(lbl, BorderLayout.CENTER);
+			pCentro.add(panel);
+			
+			JPanel panelCorazon = new JPanel();
+			panelCorazon.setLayout(null);
+			panelCorazon.setOpaque(false);
+			panelCorazon.setPreferredSize(new Dimension(250, 350));
+			
+			
+			ImageIcon iconoGris = new ImageIcon("RevistaModa/img/megusta1.png");
+			Image imgGris = iconoGris.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+			JButton btn = new JButton(new ImageIcon(imgGris));
+			
+			btn.setMinimumSize(new Dimension(30,30));
+			btn.setContentAreaFilled(false);
+			btn.setBorderPainted(false);    
+			btn.setFocusPainted(false); 
+			btn.setBounds(215, 320, 30, 30);
+
+			JPanel panelContador = new JPanel();
+			panelContador.setBackground(new Color (255, 255, 255, 180));
+			panelContador.setBounds(10, 320, 60, 30);
+			panelContador.setLayout(new FlowLayout(FlowLayout.CENTER));
+			
+			JLabel contador = new JLabel("0");
+			contador.setForeground(Color.BLACK);
+			panelContador.add(contador);
+			
+			panelCorazon.add(btn);
+			panelCorazon.add(panelContador);
+			
+			btn.addMouseListener(new MouseAdapter() {
+				boolean like = false;
+
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					if (!like) {
+						ImageIcon iconoLikeHover = new ImageIcon("RevistaModa/img/megusta2.png");
+						Image imagenLikeHover = iconoGris.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+						btn.setIcon(new ImageIcon(imagenLikeHover));
+					}
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e) {
+					if (!like) {
+						btn.setIcon(new ImageIcon(imgGris));
+					}
+				}
+
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					String username = lUsu.get(2).getUsername();
+					
+					if(!setUsuariosLike.contains(username)) {
+						setUsuariosLike.add(username);
+						totalLikes++;
+						contador.setText(String.valueOf(totalLikes));
+						ImageIcon iconoLikeFixed = new ImageIcon("RevistaModa/img/megusta2.png");
+						Image imagenLikeFixed = iconoLikeFixed.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+						btn.setIcon(new ImageIcon(imagenLikeFixed));
+					} else { //si el usuario ya ha dado like, quitar su nombre y decrementar el contador
+						setUsuariosLike.remove(username);
+						totalLikes--;
+						contador.setText(String.valueOf(totalLikes));
+						btn.setIcon(new ImageIcon(imgGris));
+					}
+					
+					
+					
+				}
+			
+			});
+			
+			
+			panel.add(panelCorazon);
+			panel.add(lbl);
+			
+			if (lbl != null) {
+	            lbl.addMouseListener(new MouseAdapter() {
+	                @Override
+	                public void mouseClicked(MouseEvent e) {
+	                    new VentanaArticulo(RevistaModa.getlArticulos().get(2));
+	                }
+	            });
+	        }
+		}
 		
 		return pCentro;
-		
 	}
 }
