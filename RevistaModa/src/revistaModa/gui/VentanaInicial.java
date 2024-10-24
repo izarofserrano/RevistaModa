@@ -102,7 +102,7 @@ public class VentanaInicial extends JFrame {
 		JPanel pBuscador = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
 		try {
-			ImageIcon iconoLupa = new ImageIcon("img/lupa.jpeg");
+			ImageIcon iconoLupa = new ImageIcon("RevistaModa/img/lupa.jpeg");
 			Image imgLupa = iconoLupa.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
 			JLabel lblLupa = new JLabel(new ImageIcon(imgLupa));
 			pBuscador.add(lblLupa);
@@ -142,7 +142,7 @@ public class VentanaInicial extends JFrame {
 		pNorte.repaint();
 		
 		try {
-			ImageIcon iconoPortada = new ImageIcon("RevistaModa\\img\\portada.jpeg");
+			ImageIcon iconoPortada = new ImageIcon("RevistaModa/img/portada.jpeg");
 			Image imgPortada = iconoPortada.getImage().getScaledInstance(getWidth(), 600, Image.SCALE_SMOOTH);
 			lblImagenPortada = new JLabel(new ImageIcon(imgPortada));
 			pCentro.add(lblImagenPortada);
