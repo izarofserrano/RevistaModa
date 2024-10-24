@@ -310,14 +310,10 @@ public class VentanaInicial extends JFrame {
 					
 				}
 				
-			}
-				);
+			});
 			
 			
 			panel.add(panelCorazon);
-			
-			
-			
 			
 			if (lbl != null) {
 	            lbl.addMouseListener(new MouseAdapter() {
