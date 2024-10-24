@@ -128,12 +128,15 @@ public class VentanaPerfil extends JFrame{
 	
 	private JPanel estadisticas (JPanel panel) {
 		panel.removeAll();
+		panel.setLayout(new GridLayout(1,1));
 		
 		tablaEstadistica = new JTable();
+		tablaEstadistica.setRowHeight(70);
+		
 		tablaEstadistica.setModel(new ModeloEstadisticas(articulos));
 		renderer = new RendererEstadistica();
 		
-		for (int i=0; i<tablaEstadistica.getColumnModel().getColumnCount()-1; i++) {
+		for (int i=0; i<tablaEstadistica.getColumnModel().getColumnCount(); i++) {
 			tablaEstadistica.getColumnModel().getColumn(i).setCellRenderer(renderer);
 		}
 		
