@@ -50,6 +50,10 @@ public class VentanaPerfil extends JFrame{
 		setTitle("Mi Perfil");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
+		setTitle("UDVogue_Perfil");
+		
+		ImageIcon imagen = new ImageIcon("RevistaModa/img/Logo_UD_Vogue_iconito.png");
+		setIconImage(imagen.getImage());
 		
 		pCentro = new JPanel();
 		pNorte = new JPanel();

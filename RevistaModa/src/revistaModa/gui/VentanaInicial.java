@@ -115,6 +115,10 @@ public class VentanaInicial extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// Editar para que cuando se pulse se ponga la pantalla inicial
+				pCentro.removeAll();
+				
+				volverInicio(pCentro);
+				
 				pCentro.revalidate();
 				pCentro.repaint();
 				

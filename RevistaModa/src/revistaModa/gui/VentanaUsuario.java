@@ -36,7 +36,7 @@ public class VentanaUsuario extends JFrame {
 	public  VentanaUsuario(List<Usuario> lUsuarios) {
 		this.lUsuarios = lUsuarios;
 		setBounds(100, 100, 1000, 600);
-		setTitle("User");
+		setTitle("UDVogue_LogIn");
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
