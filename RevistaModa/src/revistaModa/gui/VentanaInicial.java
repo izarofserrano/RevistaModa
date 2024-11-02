@@ -237,6 +237,15 @@ public class VentanaInicial extends JFrame {
 			}
 		});
 		
+		btnInicio.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				volverInicio(pCentro);
+			}
+		});
+		
 		
 		
 		txtBuscador.addMouseListener(new MouseAdapter() {
@@ -251,6 +260,22 @@ public class VentanaInicial extends JFrame {
 		});
 		
 		setVisible(true);
+	}
+	private JPanel volverInicio ( JPanel pCentro) {
+		pCentro.removeAll();
+		try {
+			ImageIcon iconoPortada = new ImageIcon("RevistaModa/img/portada.jpeg");
+			Image imgPortada = iconoPortada.getImage().getScaledInstance(getWidth(), 600, Image.SCALE_SMOOTH);
+			lblImagenPortada = new JLabel(new ImageIcon(imgPortada));
+			pCentro.add(lblImagenPortada);
+		
+		} catch (Exception e) {
+			System.out.println("No se ha podido cargar la imagen" + e.getMessage());
+		}
+		pCentro.validate();
+		pCentro.repaint();
+		return pCentro;
+		
 	}
 	
 	
