@@ -10,6 +10,11 @@ import revistaModa.clases.RevistaModa;
 
 public class ModeloEstadisticas extends DefaultTableModel{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private List<Articulo> articulos;
 	private final List<String> cabecero = Arrays.asList(
 			"Titulo",

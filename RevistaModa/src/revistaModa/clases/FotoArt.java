@@ -1,10 +1,6 @@
 package revistaModa.clases;
 
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.TreeMap;
 
-import javax.swing.JFrame;
 
 public class FotoArt {
 	

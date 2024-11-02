@@ -1,10 +1,9 @@
 package revistaModa.main;
 
 import revistaModa.clases.RevistaModa;
-import revistaModa.gui.VentanaArticulo;
+
 import revistaModa.gui.VentanaInicial;
-import revistaModa.gui.VentanaPerfil;
-import revistaModa.gui.VentanaUsuario;
+
 
 public class Main {
 
@@ -14,6 +13,7 @@ public class Main {
 		RevistaModa.cargarArticulos();
 		RevistaModa.cargarUsuarios();
 		
+		@SuppressWarnings("unused")
 		VentanaInicial vInicial = new VentanaInicial(false,null);
 
 
