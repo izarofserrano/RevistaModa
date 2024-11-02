@@ -51,7 +51,10 @@ public class VentanaInicial extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 600);
 		setLocationRelativeTo(null);
-		setTitle("VOGUE");
+		setTitle("UDVogue");
+		
+		ImageIcon imagen = new ImageIcon("RevistaModa/img/Logo_UD_Vogue_iconito.png");
+		setIconImage(imagen.getImage());
 		
 		pCentro = new JPanel();
 		pNorte = new JPanel();

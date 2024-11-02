@@ -53,6 +53,9 @@ public class VentanaArticulo extends JFrame {
         setUsuariosLike = art.getSetUsuariosLike();
         mapaUsuariosVal = art.getMapaUsuariosVal();
         lUsu = RevistaModa.getlUsuarios();
+        
+        ImageIcon imagen = new ImageIcon("RevistaModa/img/Logo_UD_Vogue_iconito.png");
+		setIconImage(imagen.getImage());
     
         // Configuración de los paneles
         pCentro = new JPanel();
