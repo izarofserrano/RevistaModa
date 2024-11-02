@@ -3,10 +3,12 @@ package revistaModa.gui;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,7 +32,7 @@ public class VentanaPerfil extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private JPanel pCentro, pNorte, pSur, pEste,pOeste,pOesteSup,pOesteInf;
 	private JButton btnEstadistica, btnInformacion, btnFavoritos, btnCambiarContra;
-	private JLabel lblFotoPerfil, lblTitulo, lblNombreUsuario;
+	private JLabel lblFotoPerfil, lblTitulo, lblNombreUsuario,lblImagenBienvenido;
 	private JTextField txtNuevaContra;
 	private RendererEstadistica renderer;
 	
@@ -49,7 +51,7 @@ public class VentanaPerfil extends JFrame{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
 		
-		pCentro = new JPanel(new FlowLayout());
+		pCentro = new JPanel();
 		pNorte = new JPanel();
 		pSur = new JPanel();
 		pEste = new JPanel();
@@ -65,6 +67,15 @@ public class VentanaPerfil extends JFrame{
 		lblFotoPerfil = new JLabel();
 		lblTitulo = new JLabel("MI PERFIL");
 		lblNombreUsuario = new JLabel("Usuario prueba");
+		
+		
+		ImageIcon iconoBienvenida = new ImageIcon("RevistaModa/img/imagenBienvenidaPerfil.jpeg");
+		Image imgBienvenida = iconoBienvenida.getImage().getScaledInstance(700, 600, Image.SCALE_SMOOTH);
+		lblImagenBienvenido = new JLabel(new ImageIcon(imgBienvenida));
+		pCentro.add(lblImagenBienvenido);
+		pCentro.validate();
+		pCentro.repaint();
+		
 		
 	
 		getContentPane().add(pNorte, BorderLayout.NORTH);
@@ -85,6 +96,9 @@ public class VentanaPerfil extends JFrame{
 		pOesteInf.add(btnFavoritos);
 		pOesteInf.add(btnEstadistica);
 		pOesteInf.add(btnCambiarContra);
+		
+		
+		
 		
 		btnEstadistica.addActionListener(new ActionListener() {
 			
@@ -113,11 +127,20 @@ public class VentanaPerfil extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(txtNuevaContra == null) {
+				String password = txtNuevaContra.getText();
+				
+				if(password.equals("")|password.equals(" ")) {
 					JOptionPane.showConfirmDialog(null,"Debes de introducir una nueva contraseña","Error al cambiar Contraseña" ,JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
-				}else {
+				}
+				
+				else if (!validarContra(password)) {
+					JOptionPane.showConfirmDialog(null,"Debes de introducir al menos una Mayuscula y un numero","Error al cambiar Contraseña" ,JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+					
+				}
+				
+				else {
 					u.setContrasenya(txtNuevaContra.getText());
-					System.out.println("Contraseña Cambiada con exito");
+					JOptionPane.showConfirmDialog(null,"Contrasela cambiada con exito","Update Contraseña" ,JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
 					System.out.println(u.getContrasenya());
 				}
 				
@@ -186,6 +209,21 @@ public class VentanaPerfil extends JFrame{
 		
 		return panel;
 		
+	}
+	public boolean validarContra(String password) {
+		boolean Mayus = false;
+		boolean Num = false;
+		for (Character c : password.toCharArray()) {
+			if (Character.isUpperCase(c)) {
+				Mayus = true;
+			}
+			if (Character.isDigit(c)) {
+				Num = true;
+			}
+
+			// Op AND
+		}
+		return Mayus && Num;
 	}
 
 }
