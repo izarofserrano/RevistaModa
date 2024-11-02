@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,7 +35,7 @@ import revistaModa.clases.Usuario;
 
 public class VentanaInicial extends JFrame {
 	private JButton btnInicio, btnModa, btnBelleza, btnLogIn;
-	private JLabel lblTitulo, lblImagenPortada, lblContacto, lblUbi, lblLupa, lblNuevoComponente;
+	private JLabel lblTitulo, lblImagenPortada, lblContacto, lblUbi, lblLupa, lblNuevoComponente,lblHeaderIco;
 	private JPanel pCentro, pNorte, pSur, pEste, pOeste,pBelleza,pModa;
 	private JTextField txtBuscador;
 	private List<Usuario> lUsu;
@@ -74,6 +75,7 @@ public class VentanaInicial extends JFrame {
 		txtBuscador.setPreferredSize(new Dimension(150, 30));
 		txtBuscador.setText("Buscar");
 		
+		
 		getContentPane().add(pNorte, BorderLayout.NORTH);
 		getContentPane().add(pSur, BorderLayout.SOUTH);
 		getContentPane().add(pEste, BorderLayout.EAST);
@@ -84,12 +86,49 @@ public class VentanaInicial extends JFrame {
 		scrollPane.setPreferredSize(new Dimension(1000, 500));
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
-		pNorte.setLayout(new FlowLayout(FlowLayout.CENTER));
-		pNorte.add(btnInicio);
-		pNorte.add(btnModa);
-		pNorte.add(btnBelleza);
-		pNorte.add(btnLogIn);
+		pNorte.setLayout(new BoxLayout(pNorte, BoxLayout.Y_AXIS));
 		
+		JPanel pNorteTop = new JPanel();
+		pNorteTop.setLayout(new FlowLayout(FlowLayout.CENTER));
+		
+		lblHeaderIco = new JLabel();
+		ImageIcon imgIco = new ImageIcon("RevistaModa/img/Logo_UD_Vogue.png");
+		Image img = imgIco.getImage().getScaledInstance(imgIco.getIconWidth()/3, imgIco.getIconHeight()/3, Image.SCALE_SMOOTH);
+		lblHeaderIco.setIcon(new ImageIcon(img));
+		
+		lblHeaderIco.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblHeaderIco.setOpaque(false);
+				lblHeaderIco.setBackground(vActual.getBackground());
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblHeaderIco.setOpaque(true);
+				lblHeaderIco.setBackground(new Color(237, 235, 231));
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// Editar para que cuando se pulse se ponga la pantalla inicial
+				pCentro.revalidate();
+				pCentro.repaint();
+				
+			}
+		});
+		
+		
+		pNorteTop.add(lblHeaderIco);	
+		pNorte.add(pNorteTop);
+
+		JPanel pNorteBottom = new JPanel();
+		pNorteBottom.setLayout(new FlowLayout(FlowLayout.CENTER));
+		pNorteBottom.add(btnInicio);
+		pNorteBottom.add(btnModa);
+		pNorteBottom.add(btnBelleza);
+		pNorteBottom.add(btnLogIn);
+			
 		
 		
 		pSur.setLayout(new GridLayout(2,1));
@@ -112,7 +151,8 @@ public class VentanaInicial extends JFrame {
 		}	
 		
 		pBuscador.add(txtBuscador);
-		pNorte.add(pBuscador);
+		pNorteBottom.add(pBuscador);
+		pNorte.add(pNorteBottom);
 		
 		if (mostrarComponenteExtra) {
             lblNuevoComponente = new JLabel(u.getUsername());
