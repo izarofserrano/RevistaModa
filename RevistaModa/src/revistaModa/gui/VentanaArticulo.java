@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
+
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -26,6 +28,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.OverlayLayout;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
@@ -45,7 +48,7 @@ public class VentanaArticulo extends JFrame {
     TreeMap<String,Integer> mapaUsuariosVal;
     
     private List<Usuario> lUsu;
-    private boolean likeFijo = false;  
+    private boolean likeFijo = false,likeFijoFt = false;  
     private JPanel panelDerecho;
 
     public VentanaArticulo(Articulo art) {
@@ -84,12 +87,15 @@ public class VentanaArticulo extends JFrame {
         Image imagenLike = iconoLike.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
         btnLike = new JButton(new ImageIcon(imagenLike));
 
+      //IAG: ChatGPT
         btnLike.setPreferredSize(new Dimension(30, 30));
         btnLike.setContentAreaFilled(false);
         btnLike.setBorderPainted(false);
         btnLike.setFocusPainted(false);
         btnLike.setAlignmentX(RIGHT_ALIGNMENT);
         btnLike.setAlignmentY(BOTTOM_ALIGNMENT);
+        // Evento de ratón para el botón de "Like"
+        //SIN CAMBIOS
         
         // Evento de ratón para el botón de "Like"
         btnLike.addMouseListener(new MouseAdapter() {
@@ -153,16 +159,16 @@ public class VentanaArticulo extends JFrame {
         btnValorar.setPreferredSize(new Dimension(80, 25));
 
         btnValorar.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (!mapaUsuariosVal.containsKey(lUsu.get(1).getUsername())) {
-                    mapaUsuariosVal.put(lUsu.get(1).getUsername(), slValoracion.getValue());
-                } else {
-                    mapaUsuariosVal.put(lUsu.get(1).getUsername(), slValoracion.getValue());
-                    JOptionPane.showMessageDialog(null, "Tu valoración se ha actualizado");
-                }
-                System.out.println(mapaUsuariosVal);
-            }
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		if (!mapaUsuariosVal.containsKey(lUsu.get(1).getUsername())) {
+        			mapaUsuariosVal.put(lUsu.get(1).getUsername(), slValoracion.getValue());
+        		} else {
+        			mapaUsuariosVal.put(lUsu.get(1).getUsername(), slValoracion.getValue());
+        			JOptionPane.showMessageDialog(null, "Tu valoración se ha actualizado");
+        		}
+        		System.out.println(mapaUsuariosVal);
+        	}
         });
 
         pSubSlider.add(slValoracion);
@@ -177,38 +183,112 @@ public class VentanaArticulo extends JFrame {
         editorPane.setEditable(false);
 
         try {
-            File archivoHtml = new File(art.getRutaArchivoArt());
-            editorPane.setPage(archivoHtml.toURI().toURL());
+        	File archivoHtml = new File(art.getRutaArchivoArt());
+        	editorPane.setPage(archivoHtml.toURI().toURL());
         } catch (IOException e) {
-            e.printStackTrace();
-            editorPane.setContentType("text/html");
-            editorPane.setText("<html><body><h1>Error cargando el archivo HTML</h1></body></html>");
+        	e.printStackTrace();
+        	editorPane.setContentType("text/html");
+        	editorPane.setText("<html><body><h1>Error cargando el archivo HTML</h1></body></html>");
         }
 
         JPanel panelIzquierdo = new JPanel(new BorderLayout());
         JScrollPane scrollIzquierdo = new JScrollPane(editorPane);
         panelIzquierdo.add(scrollIzquierdo, BorderLayout.CENTER);
-        
+
 
         panelDerecho = new JPanel();
         panelDerecho.setLayout(new BoxLayout(panelDerecho, BoxLayout.Y_AXIS)); // Usar BoxLayout para organizar verticalmente
         //panelDerecho.setPreferredSize(new Dimension(250,0));
-        
-        int tamanoFoto = 350;
-        
-        for (FotoArt f : art.getlFotos()) {
-        	System.out.println(f.toString());
-            ImageIcon icono = new ImageIcon(f.getRutaFoto());
+
+        //int tamanoFoto = 350;
+
+        for(FotoArt fArt : art.getlFotos()) {
+            JPanel panelFoto = new JPanel();
+            panelFoto.setLayout(new OverlayLayout(panelFoto)); // Cambiado a OverlayLayout para superponer componentes
+            panelFoto.setPreferredSize(new Dimension(250, 300));
             
-            Image img = icono.getImage().getScaledInstance(tamanoFoto, tamanoFoto, Image.SCALE_SMOOTH); 
-            JLabel label = new JLabel(new ImageIcon(img));
-            label.setHorizontalAlignment(JLabel.CENTER);
-            panelDerecho.add(label); 
+            JLabel foto = new JLabel();
+            try {
+                ImageIcon imgIco = new ImageIcon(fArt.getRutaFoto());
+                Image img = imgIco.getImage().getScaledInstance(panelFoto.getPreferredSize().width, panelFoto.getPreferredSize().height, Image.SCALE_SMOOTH);
+                foto.setIcon(new ImageIcon(img));
+                panelFoto.add(foto); // Añadir la imagen al panel
+            } catch (Exception e) {
+                System.err.println("La foto del artículo no se ha podido cargar");
+                foto.setText("Error foto");
+                foto.setPreferredSize(new Dimension(250,450));
+                panelFoto.add(foto);
+            }
+
+            foto.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    foto.setToolTipText(null);
+                }
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    foto.setToolTipText(fArt.getDescripción());
+                }
+            });
+
+            // Crear el botón de "Me gusta" sobre la imagen
+            ImageIcon iconoGris = new ImageIcon("RevistaModa/img/megusta1.png");
+            Image imgGris = iconoGris.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+            JButton btnLikeFt = new JButton(new ImageIcon(imgGris));
+
+            btnLikeFt.setContentAreaFilled(false);
+            btnLikeFt.setBorderPainted(false);
+            btnLikeFt.setFocusPainted(false);
+            btnLikeFt.setPreferredSize(new Dimension(25, 25));
+            
+            // Añadir el botón de "Me gusta" sobre la imagen en la parte inferior
+            JPanel panelCorazon = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+            panelCorazon.setOpaque(false);
+            panelCorazon.setPreferredSize(new Dimension(250, 25));
+            panelCorazon.add(btnLikeFt);
+            panelFoto.add(Box.createVerticalGlue());
+            panelFoto.add(panelCorazon);
+
+            btnLikeFt.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    if (!likeFijoFt) {
+                        ImageIcon iconoLikeHover2 = new ImageIcon("RevistaModa/img/megusta2.png");
+                        Image imageLikeHover2 = iconoLikeHover2.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+                        btnLikeFt.setIcon(new ImageIcon(imageLikeHover2));
+                    }
+                }
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    if (!likeFijoFt) {
+                        btnLikeFt.setIcon(new ImageIcon(imgGris));
+                    }
+                }
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    String username = lUsu.get(2).getUsername();
+                    if (!setUsuariosLike.contains(username)) {
+                        setUsuariosLike.add(username);
+                        ImageIcon iconoLikeFixed2 = new ImageIcon("RevistaModa/img/megusta2.png");
+                        Image imageLikeFixed2 = iconoLikeFixed2.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+                        btnLikeFt.setIcon(new ImageIcon(imageLikeFixed2));
+                        likeFijoFt = true;
+                    } else {
+                        setUsuariosLike.remove(username);
+                        btnLikeFt.setIcon(new ImageIcon(imgGris));
+                        likeFijoFt = false;
+                    }
+                }
+            });
+
+            panelDerecho.add(panelFoto);
         }
-        
+
+
         JScrollPane spDerecha = new JScrollPane(panelDerecho);
         spDerecha.setPreferredSize(new Dimension(250, 0));
-        
+
         spDerecha.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); //IAG (herramienta: ChatGPT)
         spDerecha.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); //IAG (herramienta: ChatGPT)
 
@@ -254,8 +334,8 @@ public class VentanaArticulo extends JFrame {
         	}
         }
     
-        Image imagenLike = new ImageIcon("RevistaModa/img/megusta1.png").getImage().getScaledInstance(anchoV / 30, altoV / 30, Image.SCALE_SMOOTH); //IAG (herramienta: ChatGPT)
-        btnLike.setIcon(new ImageIcon(imagenLike));
+        /*Image imagenLike = new ImageIcon("RevistaModa/img/megusta1.png").getImage().getScaledInstance(anchoV / 30, altoV / 30, Image.SCALE_SMOOTH); //IAG (herramienta: ChatGPT)
+        btnLike.setIcon(new ImageIcon(imagenLike));*/
     }
     
     private void cambiarTexto(JEditorPane pane, int tam) {
