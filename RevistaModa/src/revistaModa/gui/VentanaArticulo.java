@@ -190,7 +190,7 @@ public class VentanaArticulo extends JFrame {
         panelIzquierdo.add(scrollIzquierdo, BorderLayout.CENTER);
         
 
-        JPanel panelDerecho = new JPanel();
+        panelDerecho = new JPanel();
         panelDerecho.setLayout(new BoxLayout(panelDerecho, BoxLayout.Y_AXIS)); // Usar BoxLayout para organizar verticalmente
         //panelDerecho.setPreferredSize(new Dimension(250,0));
         
