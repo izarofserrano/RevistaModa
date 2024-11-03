@@ -17,8 +17,8 @@ public class Main {
 		RevistaModa.cargarUsuarios();
 		
 
-		//VentanaArticulo vArt = new VentanaArticulo(RevistaModa.getlArticulos().get(1));
-		//VentanaPerfil vPer = new VentanaPerfil(RevistaModa.getlUsuarios().get(0));
+		VentanaArticulo vArt = new VentanaArticulo(RevistaModa.getlArticulos().get(1));
+		VentanaPerfil vPer = new VentanaPerfil(RevistaModa.getlUsuarios().get(0));
 		VentanaUsuario vUser= new VentanaUsuario(RevistaModa.getlUsuarios());
 	}
 

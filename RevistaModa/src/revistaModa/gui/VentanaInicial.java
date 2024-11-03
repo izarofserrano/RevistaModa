@@ -143,7 +143,7 @@ public class VentanaInicial extends JFrame {
 		
 		try {
 			ImageIcon iconoPortada = new ImageIcon("RevistaModa/img/portada.jpeg");
-			Image imgPortada = iconoPortada.getImage().getScaledInstance(getWidth(), 600, Image.SCALE_SMOOTH);
+			Image imgPortada = iconoPortada.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
 			lblImagenPortada = new JLabel(new ImageIcon(imgPortada));
 			pCentro.add(lblImagenPortada);
 		
@@ -211,6 +211,8 @@ public class VentanaInicial extends JFrame {
 	}
 	
 	
+
+	
 	private JPanel cargarArticulos(JPanel pCentro, String tipo) {
 	    pCentro.setLayout(new GridLayout(2, 4, 10, 10));
 
@@ -269,7 +271,9 @@ public class VentanaInicial extends JFrame {
 			panelCorazon.add(btn);
 			panelCorazon.add(panelContador);
 			
-			btn.addMouseListener(new MouseAdapter() {
+			
+	
+			btn.addMouseListener(new MouseAdapter() { //IAG (herramienta: ChatGPT)
 				boolean like = false;
 
 				@Override

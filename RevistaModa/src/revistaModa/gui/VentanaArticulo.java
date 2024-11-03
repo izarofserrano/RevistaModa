@@ -2,11 +2,14 @@ package revistaModa.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -43,6 +46,7 @@ public class VentanaArticulo extends JFrame {
     
     private List<Usuario> lUsu;
     private boolean likeFijo = false;  
+    private JPanel panelDerecho;
 
     public VentanaArticulo(Articulo art) {
         vActual = this;
@@ -86,7 +90,7 @@ public class VentanaArticulo extends JFrame {
         btnLike.setFocusPainted(false);
         btnLike.setAlignmentX(RIGHT_ALIGNMENT);
         btnLike.setAlignmentY(BOTTOM_ALIGNMENT);
-
+        
         // Evento de ratón para el botón de "Like"
         btnLike.addMouseListener(new MouseAdapter() {
             @Override
@@ -184,29 +188,80 @@ public class VentanaArticulo extends JFrame {
         JPanel panelIzquierdo = new JPanel(new BorderLayout());
         JScrollPane scrollIzquierdo = new JScrollPane(editorPane);
         panelIzquierdo.add(scrollIzquierdo, BorderLayout.CENTER);
+        
 
         JPanel panelDerecho = new JPanel();
         panelDerecho.setLayout(new BoxLayout(panelDerecho, BoxLayout.Y_AXIS)); // Usar BoxLayout para organizar verticalmente
-        panelDerecho.setPreferredSize(new Dimension(250,0));
+        //panelDerecho.setPreferredSize(new Dimension(250,0));
+        
+        int tamanoFoto = 350;
+        
         for (FotoArt f : art.getlFotos()) {
         	System.out.println(f.toString());
             ImageIcon icono = new ImageIcon(f.getRutaFoto());
             
-            Image img = icono.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH); 
+            Image img = icono.getImage().getScaledInstance(tamanoFoto, tamanoFoto, Image.SCALE_SMOOTH); 
             JLabel label = new JLabel(new ImageIcon(img));
             label.setHorizontalAlignment(JLabel.CENTER);
             panelDerecho.add(label); 
         }
+        
+        JScrollPane spDerecha = new JScrollPane(panelDerecho);
+        spDerecha.setPreferredSize(new Dimension(250, 0));
+        
+        spDerecha.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); //IAG (herramienta: ChatGPT)
+        spDerecha.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED); //IAG (herramienta: ChatGPT)
 
         pCentro.add(panelIzquierdo,BorderLayout.CENTER);  
-        pCentro.add(panelDerecho,BorderLayout.EAST);     
+        pCentro.add(spDerecha,BorderLayout.EAST);     
 
         // Forzar actualización del panel
         panelDerecho.revalidate();
         panelDerecho.repaint();
         
         
+        //Redimensionar para adaptarse bien al tamaño de pantalla
+        addComponentListener(new ComponentAdapter() {
+
+			@Override
+			public void componentResized(ComponentEvent e) {
+				ajustarBien();
+
+			}
+        	
+        });
+        
 
         setVisible(true);
     }
+    
+    private void ajustarBien() {
+    	int anchoV = getWidth();
+    	int altoV = getHeight();
+    	int tamanoTit = Math.max(20, anchoV / 50); //Hacemos /50 para que el tamaño sea proporcional (se hace más ancha y el tit se agranda). Se asegura que tamaño de texto no sea < 20. IAG (herramienta: ChatGPT)
+    	int tamanoAutor = Math.max(14, anchoV / 70); //IAG (herramienta: ChatGPT)
+    	
+        lblTituloArt.setFont(new Font("SansSerif", Font.BOLD, tamanoTit));
+        lblAutorFecha.setFont(new Font("SansSerif", Font.ITALIC, tamanoAutor));
+        cambiarTexto(editorPane, Math.max(12, anchoV / 95));
+
+        for (Component c : panelDerecho.getComponents()) { //IAG (herramienta: ChatGPT)
+        	if (c instanceof JLabel) {
+        		JLabel label = (JLabel) c; //accedemos a los métodos específicos de JLabel tratando label como JLabel
+        		ImageIcon original = (ImageIcon) label.getIcon(); //icono actual
+        		Image escalada = original.getImage().getScaledInstance(anchoV / 5, altoV / 5, Image.SCALE_SMOOTH); //Escalar imagen actual. IAG (herramienta: ChatGPT)
+        		label.setIcon(new ImageIcon (escalada));
+        	}
+        }
+    
+        Image imagenLike = new ImageIcon("RevistaModa/img/megusta1.png").getImage().getScaledInstance(anchoV / 30, altoV / 30, Image.SCALE_SMOOTH); //IAG (herramienta: ChatGPT)
+        btnLike.setIcon(new ImageIcon(imagenLike));
+    }
+    
+    private void cambiarTexto(JEditorPane pane, int tam) {
+        String contenidoHTML = "<html><head><style>body { font-size: " + tam + "px; }</style></head><body>" + pane.getText() + "</body></html>"; //IAG (herramienta: ChatGPT)
+        pane.setText(contenidoHTML);
+    }
+    
+  
 }
