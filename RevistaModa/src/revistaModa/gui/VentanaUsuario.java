@@ -36,7 +36,7 @@ public class VentanaUsuario extends JFrame {
 	public  VentanaUsuario(List<Usuario> lUsuarios) {
 		this.lUsuarios = lUsuarios;
 		setBounds(100, 100, 1000, 600);
-		setTitle("User");
+		setTitle("UDVogue_LogIn");
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -74,22 +74,22 @@ public class VentanaUsuario extends JFrame {
 		password.setVerticalAlignment(SwingConstants.EAST);
 		password.setFont(new Font("Arial", Font.BOLD, 12));
 		password.setPreferredSize(new Dimension(100, 20));
-		
+
 
 		p2 = new JPanel();
 		p2.add(password);
 		p2.add(contra);
 		pEste.add(p2);
 
-		
+
 		JLabel caracteristicas= new JLabel("<html>- La contraseña debe tener:<br>Una mayúscula y un número</html>");
 		caracteristicas.setVerticalAlignment(SwingConstants.EAST);
 		caracteristicas.setFont(new Font("Arial", Font.ITALIC,11));
 		p22= new JPanel();
 		p22.add(caracteristicas);
 		pSur.add(p22);
-		
-		
+
+
 		JButton btnEntrar = new JButton("Entrar");
 		JButton btnRegistrarse = new JButton("Registráte!");
 		p3 = new JPanel();
@@ -137,7 +137,7 @@ public class VentanaUsuario extends JFrame {
 		JPanel p4 = new JPanel();
 		p4.add(btnAtras);
 		pNorte.add(p4, BorderLayout.WEST);
-		
+
 		try {
 			ImageIcon iconoVentana = new ImageIcon("RevistaModa\\img\\ImgIcon.png");
 			Image fotoIcon = iconoVentana.getImage();
@@ -145,15 +145,15 @@ public class VentanaUsuario extends JFrame {
 		}catch(Exception e){
 			System.out.println("No se ha podido cargar la imagen"+e.getMessage());
 		}
-		
-		
+
+
 		ImageIcon iconoTitle = new ImageIcon("RevistaModa\\img\\Logo_UD_Vogue.png");
 		Image fotoTitle = iconoTitle.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 
 		JLabel lblTitle = new JLabel(new ImageIcon(fotoTitle));
-		
-//		JLabel title = new JLabel("Title");
-//		title.setFont(new Font("Arial", Font.BOLD, 50));
+
+		//		JLabel title = new JLabel("Title");
+		//		title.setFont(new Font("Arial", Font.BOLD, 50));
 
 		JPanel p5 = new JPanel();
 		p5.add(lblTitle);
@@ -212,7 +212,6 @@ public class VentanaUsuario extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String password = new String(contra.getPassword());
 				String user = txtUserName.getText();
-				String correo = txtCorreo.getText();
 				boolean usuarioExiste = false;
 
 				for (Usuario usuario : lUsuarios) {
