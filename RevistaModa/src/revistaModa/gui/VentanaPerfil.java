@@ -149,30 +149,30 @@ public class VentanaPerfil extends JFrame{
 
 	}
 
-	private JPanel estadisticas (JPanel panel) {
-		panel.removeAll();
-		panel.setLayout(new GridLayout(1,1));
+	private JPanel estadisticas(JPanel panel) {
+	    panel.removeAll();
+	    panel.setLayout(new BorderLayout());
 
-		tablaEstadistica = new JTable();
-		tablaEstadistica.setRowHeight(70);
+	    tablaEstadistica = new JTable();
 
-		tablaEstadistica.setModel(new ModeloEstadisticas(articulos));
-		renderer = new RendererEstadistica();
+	    tablaEstadistica.setModel(new ModeloEstadisticas(articulos));
+	    renderer = new RendererEstadistica();
 
-		for (int i=0; i<tablaEstadistica.getColumnModel().getColumnCount(); i++) {
-			tablaEstadistica.getColumnModel().getColumn(i).setCellRenderer(renderer);
-		}
+	    for (int i = 0; i < tablaEstadistica.getColumnModel().getColumnCount(); i++) {
+	        tablaEstadistica.getColumnModel().getColumn(i).setCellRenderer(renderer);
+	        tablaEstadistica.getColumnModel().getColumn(i).setPreferredWidth(200);
+	    }
+	    tablaEstadistica.setRowHeight(80);
+	    tablaEstadistica.getTableHeader().setReorderingAllowed(false);
 
+	    panel.add(new JScrollPane(tablaEstadistica), BorderLayout.CENTER);
 
-		panel.add(new JScrollPane(tablaEstadistica), BorderLayout.CENTER);
+	    panel.validate();
+	    panel.repaint();
 
-		panel.validate();
-		panel.repaint();
-
-		return panel;
-
-
+	    return panel;
 	}
+
 	private JPanel MiInformacion (JPanel panel,Usuario u){
 
 		panel.removeAll();

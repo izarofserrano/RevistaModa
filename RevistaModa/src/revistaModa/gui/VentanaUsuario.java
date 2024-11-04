@@ -128,7 +128,7 @@ public class VentanaUsuario extends JFrame {
 		JButton btnAtras = new JButton("Atrás");
 		btnAtras.setSize(new Dimension(300, 300));
 
-		// ATRAS lamda
+		
 		btnAtras.addActionListener((e) -> {
 			new VentanaInicial(false,null);
 			dispose();
@@ -148,12 +148,10 @@ public class VentanaUsuario extends JFrame {
 
 
 		ImageIcon iconoTitle = new ImageIcon("RevistaModa\\img\\Logo_UD_Vogue.png");
-		Image fotoTitle = iconoTitle.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+		Image fotoTitle = iconoTitle.getImage().getScaledInstance(100, 75, Image.SCALE_SMOOTH);
 
 		JLabel lblTitle = new JLabel(new ImageIcon(fotoTitle));
 
-		//		JLabel title = new JLabel("Title");
-		//		title.setFont(new Font("Arial", Font.BOLD, 50));
 
 		JPanel p5 = new JPanel();
 		p5.add(lblTitle);
@@ -168,7 +166,7 @@ public class VentanaUsuario extends JFrame {
 		JLabel lblimagen = new JLabel();
 		try {
 			ImageIcon iconoPortada = new ImageIcon("RevistaModa\\img\\Logo_UD_Vogue.png");
-			Image imgPortada = iconoPortada.getImage().getScaledInstance(500, 500, Image.SCALE_SMOOTH);
+			Image imgPortada = iconoPortada.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
 			lblimagen = new JLabel(new ImageIcon(imgPortada));
 			pOeste.add(lblimagen,BorderLayout.CENTER);
 
@@ -259,8 +257,9 @@ public class VentanaUsuario extends JFrame {
 		pEste.repaint();
 	}
 
+	
 	/* Método para validar Contraseña */
-	public boolean validarContra(String password) {
+	public boolean validarContra(String password) {  // IAG (herramienta: ChatGPT)
 		boolean Mayus = false;
 		boolean Num = false;
 		for (Character c : password.toCharArray()) {
