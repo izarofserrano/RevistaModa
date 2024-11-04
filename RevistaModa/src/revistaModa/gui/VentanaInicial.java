@@ -144,7 +144,7 @@ public class VentanaInicial extends JFrame {
 
 
 		pSur.setLayout(new GridLayout(2,1));
-		JLabel lblContacto = new JLabel("Contacto: a.ezkurdia@opendeusto.es");
+		JLabel lblContacto = new JLabel("Contacto: udVogue@deusto.es");
 		JLabel lblUbi = new JLabel("Ubicación: Universidad de Deusto, Bilbao, Bizkaia, España");
 		pSur.add(lblContacto);
 		pSur.add(lblUbi);
@@ -351,24 +351,17 @@ public class VentanaInicial extends JFrame {
 			
 			
 	
-			btn.addMouseListener(new MouseAdapter() { // IAG (herramienta: ChatGPT)
+			btn.addMouseListener(new MouseAdapter() { 
 			    boolean like = false;
 
 			    @Override
 			    public void mouseEntered(MouseEvent e) {
-			        if (!like) {
-			            @SuppressWarnings("unused")
-			            ImageIcon iconoLikeHover = new ImageIcon("RevistaModa/img/megusta2.png");
-			            Image imagenLikeHover = iconoGris.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-			            btn.setIcon(new ImageIcon(imagenLikeHover));
-			        }
+			    	
 			    }
 
 			    @Override
 			    public void mouseExited(MouseEvent e) {
-			        if (!like) {
-			            btn.setIcon(new ImageIcon(imgGris));
-			        }
+			        
 			    }
 
 			    @Override
@@ -388,6 +381,8 @@ public class VentanaInicial extends JFrame {
 			            contador.setText(String.valueOf(totalLikes));
 			            btn.setIcon(new ImageIcon(imgGris));
 			        }
+			        
+			    
 			    }
 			}); 
 

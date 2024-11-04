@@ -1,7 +1,6 @@
 package revistaModa.main;
 
 import revistaModa.clases.RevistaModa;
-import revistaModa.gui.VentanaArticulo;
 import revistaModa.gui.VentanaInicial;
 
 
@@ -17,7 +16,7 @@ public class Main {
 		VentanaInicial vInicial = new VentanaInicial(false,null);
 
 
-		VentanaArticulo vArt = new VentanaArticulo(RevistaModa.getlArticulos().get(1));
+		//VentanaArticulo vArt = new VentanaArticulo(RevistaModa.getlArticulos().get(1));
 		//VentanaPerfil vPer = new VentanaPerfil(RevistaModa.getlUsuarios().get(0));
 		//VentanaUsuario vUser= new VentanaUsuario(RevistaModa.getlUsuarios());
 	}
