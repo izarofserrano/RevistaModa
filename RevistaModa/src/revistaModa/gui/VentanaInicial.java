@@ -353,7 +353,7 @@ public class VentanaInicial extends JFrame {
 			
 	
 			btn.addMouseListener(new MouseAdapter() { 
-			    boolean like = false;
+			  
 
 			    @Override
 			    public void mouseEntered(MouseEvent e) {

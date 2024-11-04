@@ -1,7 +1,6 @@
 package revistaModa.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -38,9 +37,11 @@ import revistaModa.clases.RevistaModa;
 import revistaModa.clases.Usuario;
 
 public class VentanaArticulo extends JFrame {
-    private VentanaArticulo vActual;
+    private static final long serialVersionUID = 1L;
+	@SuppressWarnings("unused")
+	private VentanaArticulo vActual;
     private JLabel lblTituloArt, lblAutorFecha;
-    private JPanel pCentro, pNorte, pSur, pEste, pOeste, pSubNorte, pSlider, pSubSlider, pTitulo, pSubTitulo, pAutorFecha;
+    private JPanel pCentro, pNorte, pSur, pSubNorte, pSlider, pSubSlider, pTitulo, pAutorFecha;
     private JEditorPane editorPane;
     private JSlider slValoracion;
     private JButton btnValorar, btnLike;
@@ -65,8 +66,7 @@ public class VentanaArticulo extends JFrame {
         pCentro = new JPanel();
         pNorte = new JPanel();
         pSur = new JPanel();
-        pEste = new JPanel();
-        pOeste = new JPanel();
+
 
         // Configuración del Layout
         pCentro.setLayout(new BorderLayout()); 
