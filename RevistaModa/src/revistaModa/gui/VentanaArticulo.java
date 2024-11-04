@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -74,7 +75,8 @@ public class VentanaArticulo extends JFrame {
         getContentPane().add(pNorte, BorderLayout.NORTH);
         getContentPane().add(pSur, BorderLayout.SOUTH);
         getContentPane().add(pCentro, BorderLayout.CENTER); 
-
+        
+        pCentro.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));        
         pNorte.setLayout(new GridLayout(1, 2));
         pNorte.setBorder(new EmptyBorder(20, 20, 20, 20)); 
 
