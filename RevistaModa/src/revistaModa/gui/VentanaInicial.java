@@ -39,9 +39,7 @@ public class VentanaInicial extends JFrame {
 	
 	private JButton btnInicio, btnModa, btnBelleza, btnLogIn;
 	private JLabel  lblImagenPortada,  lblNuevoComponente,lblHeaderIco;
-	//private JLabel lblTitulo,lblContacto, lblUbi, lblLupa;
 	private JPanel pCentro, pNorte, pSur, pEste, pOeste;
-	//private JPanel pBelleza,pModa;
 	private JTextField txtBuscador;
 	private List<Usuario> lUsu;
 	private Set<String> setUsuariosLike = new HashSet<>(); //almacena usuarios que han dado like 
