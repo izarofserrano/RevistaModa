@@ -69,32 +69,32 @@ public class VentanaArticulo extends JFrame {
         pOeste = new JPanel();
 
         // Configuración del Layout
-        pCentro.setLayout(new BorderLayout()); // Cambiar a GridLayout con 1 fila y 2 columnas
+        pCentro.setLayout(new BorderLayout()); 
 
         getContentPane().add(pNorte, BorderLayout.NORTH);
         getContentPane().add(pSur, BorderLayout.SOUTH);
-        getContentPane().add(pCentro, BorderLayout.CENTER); // Añadir pCentro con GridLayout al centro
+        getContentPane().add(pCentro, BorderLayout.CENTER); 
 
         pNorte.setLayout(new GridLayout(1, 2));
-        pNorte.setBorder(new EmptyBorder(20, 20, 20, 20));  // Margen de 20 píxeles en todos los lados
+        pNorte.setBorder(new EmptyBorder(20, 20, 20, 20)); 
 
         // Panel para título y like
         pSubNorte = new JPanel();
         pSubNorte.setLayout(new BoxLayout(pSubNorte, BoxLayout.Y_AXIS));
-        lblTituloArt = new JLabel("<html><h1>" + art.getTitulo() + "</h1></html>");
+        
+        lblTituloArt = new JLabel("<html><h1>" + art.getTitulo() + "</h1></html>"); //IAG (Herramienta: ChatGPT) Sin cambios
 
         ImageIcon iconoLike = new ImageIcon("RevistaModa/img/megusta1.png");
         Image imagenLike = iconoLike.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
         btnLike = new JButton(new ImageIcon(imagenLike));
 
-      //IAG: ChatGPT
+        //IAG: ChatGPT
         btnLike.setPreferredSize(new Dimension(30, 30));
         btnLike.setContentAreaFilled(false);
         btnLike.setBorderPainted(false);
         btnLike.setFocusPainted(false);
         btnLike.setAlignmentX(RIGHT_ALIGNMENT);
         btnLike.setAlignmentY(BOTTOM_ALIGNMENT);
-        // Evento de ratón para el botón de "Like"
         //SIN CAMBIOS
         
         // Evento de ratón para el botón de "Like"
@@ -138,7 +138,7 @@ public class VentanaArticulo extends JFrame {
         pTitulo.add(btnLike);
         pSubNorte.add(pTitulo);
 
-        // Panel para autor y fecha
+        // IAG: (Herramienta: ChatGPT)
         pAutorFecha = new JPanel(new FlowLayout(FlowLayout.LEFT));
         lblAutorFecha = new JLabel("<html><i>" + art.getAutor() + ", " + art.getFechaPublicacion() + "</i></html>");
         pAutorFecha.add(lblAutorFecha);
@@ -182,6 +182,7 @@ public class VentanaArticulo extends JFrame {
         editorPane = new JEditorPane();
         editorPane.setEditable(false);
 
+        //IAG: (Herramienta: ChatGPT)
         try {
         	File archivoHtml = new File(art.getRutaArchivoArt());
         	editorPane.setPage(archivoHtml.toURI().toURL());
@@ -190,6 +191,7 @@ public class VentanaArticulo extends JFrame {
         	editorPane.setContentType("text/html");
         	editorPane.setText("<html><body><h1>Error cargando el archivo HTML</h1></body></html>");
         }
+        //Sin cambios
 
         JPanel panelIzquierdo = new JPanel(new BorderLayout());
         JScrollPane scrollIzquierdo = new JScrollPane(editorPane);
@@ -200,8 +202,7 @@ public class VentanaArticulo extends JFrame {
         panelDerecho.setLayout(new BoxLayout(panelDerecho, BoxLayout.Y_AXIS)); // Usar BoxLayout para organizar verticalmente
         //panelDerecho.setPreferredSize(new Dimension(250,0));
 
-        //int tamanoFoto = 350;
-
+        
         for(FotoArt fArt : art.getlFotos()) {
             JPanel panelFoto = new JPanel();
             panelFoto.setLayout(new OverlayLayout(panelFoto)); // Cambiado a OverlayLayout para superponer componentes
@@ -232,6 +233,8 @@ public class VentanaArticulo extends JFrame {
             });
 
             // Crear el botón de "Me gusta" sobre la imagen
+            //IAG: (Herramienta: ChatGPT) 
+            //No funciona
             ImageIcon iconoGris = new ImageIcon("RevistaModa/img/megusta1.png");
             Image imgGris = iconoGris.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
             JButton btnLikeFt = new JButton(new ImageIcon(imgGris));
@@ -242,13 +245,15 @@ public class VentanaArticulo extends JFrame {
             btnLikeFt.setPreferredSize(new Dimension(25, 25));
             
             // Añadir el botón de "Me gusta" sobre la imagen en la parte inferior
+            
             JPanel panelCorazon = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
             panelCorazon.setOpaque(false);
             panelCorazon.setPreferredSize(new Dimension(250, 25));
             panelCorazon.add(btnLikeFt);
             panelFoto.add(Box.createVerticalGlue());
             panelFoto.add(panelCorazon);
-
+            
+            //Algunos cambios
             btnLikeFt.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
