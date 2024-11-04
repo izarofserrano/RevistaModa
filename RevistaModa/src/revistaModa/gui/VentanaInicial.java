@@ -293,9 +293,7 @@ public class VentanaInicial extends JFrame {
 
 		for (int i = 1; i <= 8; i++) {
 
-			@SuppressWarnings("unused")
-			final int index = i;
-
+		
 			JPanel panel = new JPanel();
 			panel.setLayout(new OverlayLayout(panel));
 			panel.setPreferredSize(new Dimension(250, 450));
@@ -364,7 +362,7 @@ public class VentanaInicial extends JFrame {
 			    }
 
 			    @Override
-			    public void mouseClicked(MouseEvent e) {
+			    public void mouseClicked(MouseEvent e) { //IAG:ChatGPT
 			        String username = lUsu.get(2).getUsername();
 
 			        if (!setUsuariosLike.contains(username)) {
