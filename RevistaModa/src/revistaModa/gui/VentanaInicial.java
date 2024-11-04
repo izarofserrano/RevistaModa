@@ -170,15 +170,16 @@ public class VentanaInicial extends JFrame {
 			lblNuevoComponente = new JLabel(u.getUsername());
 			lblNuevoComponente.setText("<html><u>" + u.getUsername() + "</u></html>");
 			lblNuevoComponente.setFont(new Font("Arial", Font.ITALIC, 12));
-			pNorte.add(lblNuevoComponente);
+			pNorteBottom.add(lblNuevoComponente);
 
 			pNorte.remove(btnLogIn);
 
 			lblNuevoComponente.addMouseListener(new MouseAdapter() {
 
 
+				
 				@Override
-				public void mouseEntered(MouseEvent e) {
+				public void mouseEntered(MouseEvent e) {//IAG:ChatGPT
 					//Cambia el cursor a una mano al pasar por encima
 					lblNuevoComponente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
