@@ -10,6 +10,8 @@ import java.awt.Image;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -395,10 +397,41 @@ public class VentanaInicial extends JFrame {
 					}
 				});
 			}
+			
+			KeyListener clickEnEsc = new KeyListener() { //va un poco lento
+
+				@Override
+				public void keyTyped(KeyEvent e) {
+				}
+
+				@Override
+				public void keyPressed(KeyEvent e) {
+					if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+						volverInicio(pCentro);
+						pCentro.revalidate();
+						pCentro.repaint();
+					}
+				}
+
+				@Override
+				public void keyReleased(KeyEvent e) {
+					
+				}
+				
+			};
+			
+			pCentro.setFocusable(true);
+			pCentro.addKeyListener(clickEnEsc);
+			pCentro.requestFocusInWindow(); 
 		}
 
 		return pCentro;
+		
 	}
+	
+	
+	
+	
 
 	private JPanel reloadModa(JPanel pCentro) {
 		return cargarArticulos(pCentro, "ropa");

@@ -2,6 +2,8 @@ package revistaModa.main;
 
 import revistaModa.clases.RevistaModa;
 import revistaModa.gui.VentanaInicial;
+import revistaModa.gui.VentanaPerfil;
+import revistaModa.gui.VentanaUsuario;
 
 
 public class Main {

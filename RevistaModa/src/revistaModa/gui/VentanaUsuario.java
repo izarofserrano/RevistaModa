@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -124,6 +126,24 @@ public class VentanaUsuario extends JFrame {
 			}
 
 		});
+		
+		KeyListener KLEnter = new KeyListener() {
+		    @Override
+		    public void keyTyped(KeyEvent e) { }
+
+		    @Override
+		    public void keyPressed(KeyEvent e) {
+		        if (e.getSource() == contra && e.getKeyCode() == KeyEvent.VK_ENTER) {
+		            btnEntrar.doClick(); 
+		        }
+		    }
+
+		    @Override
+		    public void keyReleased(KeyEvent e) { }
+		};
+
+		contra.addKeyListener(KLEnter);
+
 
 		JButton btnAtras = new JButton("Atrás");
 		btnAtras.setSize(new Dimension(300, 300));
