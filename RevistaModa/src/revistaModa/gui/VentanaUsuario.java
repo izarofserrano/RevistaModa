@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.List;
@@ -264,7 +265,18 @@ public class VentanaUsuario extends JFrame {
 		});
 
 		/* Metodo que vuelve a la pantalla de iniciar sesion */
-
+		btnIniSesion.addKeyListener(new KeyAdapter() {
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getKeyCode()==KeyEvent.VK_ENTER) {
+				mostrarPantallaIniSesion();
+				}
+			}
+		});
+		
+		
 		btnIniSesion.addActionListener(new ActionListener() {
 
 			@Override
@@ -276,6 +288,7 @@ public class VentanaUsuario extends JFrame {
 		pEste.revalidate();
 		pEste.repaint();
 	}
+	
 
 	
 	/* Método para validar Contraseña */
