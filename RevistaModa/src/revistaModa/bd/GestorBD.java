@@ -37,22 +37,56 @@ public class GestorBD {
 		}
 	}
 	
+	
+	//IAG (herramientas: ChatGPT)
 	public static void crearTablas() {
-		String sql = "CREATE TABLE IF NOT EXISTS Articulo (idArt int, titulo String, autor String, fechaPublicacion String, tipoArt String, rutaArchivoArt String)";
-		try {
-			Statement stmt = con.createStatement();
-			stmt.executeUpdate(sql);
-			stmt.close();
-			sql = "CREATE TABLE IF NOT EXISTS Usuario(idUsu int, username String, contrasenya String, email String)";
-			stmt.executeUpdate(sql);
-			stmt.close();
-			sql = "CREATE TABLE IF NOT EXISTS FotoArt(idFoto int, descripcion String, rutaFoto String)";
-			stmt.executeUpdate(sql);
-			stmt.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	    try {
+	        Statement stmt = con.createStatement();
+
+	        // Crear tabla Articulo
+	        String sqlArticulo = """
+	            CREATE TABLE IF NOT EXISTS Articulo (
+	                idArt INTEGER PRIMARY KEY,
+	                titulo TEXT NOT NULL,
+	                autor TEXT NOT NULL,
+	                fechaPublicacion TEXT NOT NULL,
+	                tipoArt TEXT NOT NULL,
+	                rutaArchivoArt TEXT NOT NULL
+	            );
+	        """;
+	        stmt.executeUpdate(sqlArticulo);
+
+	        // Crear tabla FotoArt con clave foránea
+	        String sqlFotoArt = """
+	            CREATE TABLE IF NOT EXISTS FotoArt (
+	                idFoto INTEGER PRIMARY KEY,
+	                descripcion TEXT NOT NULL,
+	                rutaFoto TEXT NOT NULL,
+	                idArt INTEGER NOT NULL,
+	                FOREIGN KEY (idArt) REFERENCES Articulo(idArt) ON DELETE CASCADE
+	            );
+	        """;
+	        stmt.executeUpdate(sqlFotoArt);
+
+	        // Crear tabla Usuario
+	        String sqlUsuario = """
+	            CREATE TABLE IF NOT EXISTS Usuario (
+	                idUsu INTEGER PRIMARY KEY,
+	                username TEXT NOT NULL,
+	                contrasenya TEXT NOT NULL,
+	                email TEXT NOT NULL
+	            );
+	        """;
+	        stmt.executeUpdate(sqlUsuario);
+
+	        stmt.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
+	
+	//SIN CAMBIOS
+	
 	
 	
 	public static void insertarArticulo(Articulo art) {
@@ -73,20 +107,29 @@ public class GestorBD {
 	}
 	
 	
-	public static void insertarFotoArt(FotoArt fArt) {
-		String sql = "INSERT INTO FotoArt VALUES (?,?,?)";
-		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, fArt.getIdFoto());
-			ps.setString(2, fArt.getDescripción());
-			ps.setString(3, fArt.getRutaFoto());
-			ps.execute();
-			ps.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
+	public static void insertarFotoArt(FotoArt fArt, int idArt) {
+	    String sql = "INSERT INTO FotoArt VALUES (?, ?, ?, ?)";
+	    try {
+	        PreparedStatement ps = con.prepareStatement(sql);
+	        ps.setInt(1, fArt.getIdFoto());
+	        ps.setString(2, fArt.getDescripción());
+	        ps.setString(3, fArt.getRutaFoto());
+	        ps.setInt(4, idArt); // Clave foránea
+	        ps.execute();
+	        ps.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
+	
+	public static void insertarArticuloConFotos(Articulo art) {
+	    insertarArticulo(art); // Insertar el artículo primero
+	    for (FotoArt foto : art.getlFotos()) {
+	        insertarFotoArt(foto, art.getIdArt()); // Insertar cada foto con el id del artículo
+	    }
+	}
+
+
 	
 	public static void insertarUsuario(Usuario usu) {
 		String sql = "INSERT INTO Usuario VALUES (?,?,?)";
@@ -140,11 +183,10 @@ public class GestorBD {
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
-	}
-
-	
+	}	
 	//SIN CAMBIOS 
-
+	
+	
 	
 	
 	
