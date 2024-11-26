@@ -449,7 +449,7 @@ public class VentanaInicial extends JFrame {
 		                SwingUtilities.invokeLater(() -> {
 		                    pCentro.removeAll();
 		                    ImageIcon iconoPortada = new ImageIcon("RevistaModa/img/Vogue" + currentIndex + ".jpeg");
-		                    Image imgPortada = iconoPortada.getImage().getScaledInstance(700, 450, Image.SCALE_SMOOTH);
+		                    Image imgPortada = iconoPortada.getImage().getScaledInstance(850, 380, Image.SCALE_SMOOTH);
 		                    lblImagenPortada = new JLabel(new ImageIcon(imgPortada));
 		                    pCentro.add(lblImagenPortada);
 		                    pCentro.revalidate();
@@ -458,7 +458,10 @@ public class VentanaInicial extends JFrame {
 
 		                Thread.sleep(2000); 
 
-		                i = (i + 1) % 10; 
+		                i = ((i + 1) % 10); 
+		                if(i==0) {
+		                	i=1;
+		                }
 		            }
 		        } catch (InterruptedException e) {
 		           
