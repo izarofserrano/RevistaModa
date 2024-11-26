@@ -29,7 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.OverlayLayout;
-
+import javax.swing.SwingUtilities;
 
 import revistaModa.clases.RevistaModa;
 import revistaModa.clases.Usuario;
@@ -432,61 +432,50 @@ public class VentanaInicial extends JFrame {
 		return cargarArticulos(pCentro, "belleza"); 
 	}
 	private class HiloPortada extends Thread{
+		//USO DE CHAT PARA MEJORAR CODIGO
+
 		
-		Boolean running = true;
-		@Override
-		public void run() {
-			
-			while(running == true && !Thread.currentThread().isInterrupted()) {
-			for(int i = 0; i<5 ; i++) {
-			
-			if(i==4) {
-			pCentro.removeAll();	
-			ImageIcon iconoPortada = new ImageIcon("RevistaModa/img/portada"+i+".jpeg");
-			Image imgPortada = iconoPortada.getImage().getScaledInstance(700, 450, Image.SCALE_SMOOTH);
-			lblImagenPortada = new JLabel(new ImageIcon(imgPortada));
-			pCentro.add(lblImagenPortada);
-			pCentro.validate();
-			pCentro.repaint();
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				System.out.println("Hilo interrumpido");
-				Thread.currentThread().interrupted();
-				
-				
-			}
-			i = 0;
-				
-			}
-			else{
-			pCentro.removeAll();	
-			ImageIcon iconoPortada = new ImageIcon("RevistaModa/img/portada"+i+".jpeg");
-					
-			Image imgPortada = iconoPortada.getImage().getScaledInstance(700, 450, Image.SCALE_SMOOTH);
-			lblImagenPortada = new JLabel(new ImageIcon(imgPortada));
-			pCentro.add(lblImagenPortada);
-			pCentro.validate();
-			pCentro.repaint();
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				System.out.println("Hilo interrumpido");
-				Thread.currentThread().interrupted();
-				
-			
-						}
-			
-					}
-				}
-			}
-		}
-		public void detener() {
-			running = false;
-			this.interrupt();
-			
-			
-		}
+		private volatile boolean running = true; 
+
+		    @Override
+		    public void run() {
+		        int i = 0; 
+
+		        try {
+		            while (running && !Thread.currentThread().isInterrupted()) {
+		                final int currentIndex = i; 
+
+		               
+		                SwingUtilities.invokeLater(() -> {
+		                    pCentro.removeAll();
+		                    ImageIcon iconoPortada = new ImageIcon("RevistaModa/img/portada" + currentIndex + ".jpeg");
+		                    Image imgPortada = iconoPortada.getImage().getScaledInstance(700, 450, Image.SCALE_SMOOTH);
+		                    lblImagenPortada = new JLabel(new ImageIcon(imgPortada));
+		                    pCentro.add(lblImagenPortada);
+		                    pCentro.revalidate();
+		                    pCentro.repaint();
+		                });
+
+		                Thread.sleep(2000); 
+
+		                i = (i + 1) % 5; 
+		            }
+		        } catch (InterruptedException e) {
+		           
+		        	System.out.println("Hilo interrumpido correctamente.");
+		       
+		        } finally {
+		           
+		            System.out.println("Hilo terminado.");
+		       
+		        }
+		    }
+
+		    public void detener() {
+		        running = false; 
+		        this.interrupt(); 
+		    }
+		
 		
 	}
 
