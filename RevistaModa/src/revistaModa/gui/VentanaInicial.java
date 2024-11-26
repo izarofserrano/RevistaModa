@@ -458,7 +458,7 @@ public class VentanaInicial extends JFrame {
 
 		                Thread.sleep(2000); 
 
-		                i = (i + 1) % 5; 
+		                i = (i + 1) % 9; 
 		            }
 		        } catch (InterruptedException e) {
 		           
