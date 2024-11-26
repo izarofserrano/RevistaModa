@@ -68,7 +68,7 @@ public class ModeloEstadisticas extends DefaultTableModel{
 		switch(column){
 		case 0:return art.getTitulo();
 		case 1:return art.getAutor();
-		case 2:return art.getlFotos().get(0).getRutaFoto();
+		case 2:return art.getlFotos().get(row).getRutaFoto();
 		case 3:return art.getLikesCount();
 		case 4:return (RevistaModa.valoracionMedia(art)) ;
 		default:return null;
@@ -77,15 +77,6 @@ public class ModeloEstadisticas extends DefaultTableModel{
 		
 	}
 
-
-	@Override
-	public void setValueAt(Object aValue, int row, int column) {
-		// TODO Auto-generated method stub
-		super.setValueAt(aValue, row, column);
-	}
-	
-
-	
 	
 
 }

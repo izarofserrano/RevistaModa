@@ -40,6 +40,7 @@ public class VentanaInicial extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private JButton btnInicio, btnModa, btnBelleza, btnLogIn;
+	
 	private JLabel  lblImagenPortada,  lblNuevoComponente,lblHeaderIco;
 	private JPanel pCentro, pNorte, pSur, pEste, pOeste;
 	private JTextField txtBuscador;
@@ -420,9 +421,6 @@ public class VentanaInicial extends JFrame {
 		
 	}
 	
-	
-	
-	
 
 	private JPanel reloadModa(JPanel pCentro) {
 		return cargarArticulos(pCentro, "ropa");
@@ -480,6 +478,9 @@ public class VentanaInicial extends JFrame {
 		    }
 		
 		
+	}
+	public JButton getBtnLogIn() {
+		return btnLogIn;
 	}
 
 	

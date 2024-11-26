@@ -1,10 +1,12 @@
 package revistaModa.gui;
 
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
@@ -31,15 +33,21 @@ public class RendererEstadistica extends DefaultTableCellRenderer{
 			
 			lbl.setFont(new Font("COURIER",Font.BOLD,10));
 			lbl.setText(value.toString());
+			lbl.setBackground( new Color(255, 0, 0, 60));
+			lbl.setToolTipText(value.toString());
 		
 		}
 		if(column ==1) {
 			lbl.setFont(new Font("COURIER",Font.BOLD,10));
 			lbl.setText(value.toString());
+			lbl.setBackground( new Color(0, 255, 0, 60));
+			lbl.setToolTipText(value.toString());
 			
 		}if (column == 3) {
 			lbl.setFont(new Font("COURIER",Font.BOLD,10));
 			lbl.setText(value.toString());
+			lbl.setBackground( new Color(0, 0, 255, 60));
+			lbl.setToolTipText(value.toString());
 		}
 		
 		
@@ -67,12 +75,15 @@ public class RendererEstadistica extends DefaultTableCellRenderer{
 		
 		}
 		if (isSelected) {
-			lbl.setBackground(table.getSelectionBackground());
-			lbl.setForeground(table.getSelectionForeground());
+			lbl.setBackground(Color.WHITE);
+			lbl.setForeground(Color.black);
 	
 		}
 		lbl.setOpaque(true);
-		
+		table.getTableHeader().setFont(new Font("Ariel",Font.BOLD,15));
+		table.getTableHeader().setBorder(BorderFactory.createEmptyBorder());
+		table.getTableHeader().setBackground(Color.white);
+		table.getTableHeader().setAlignmentX(CENTER_ALIGNMENT);
 	return lbl;
 }
 	
