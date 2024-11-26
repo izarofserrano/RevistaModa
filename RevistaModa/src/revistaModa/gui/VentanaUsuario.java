@@ -264,7 +264,7 @@ public class VentanaUsuario extends JFrame {
 			}
 		});
 
-		/* Metodo que vuelve a la pantalla de iniciar sesion */
+		
 		btnIniSesion.addKeyListener(new KeyAdapter() {
 			
 			@Override
@@ -276,7 +276,7 @@ public class VentanaUsuario extends JFrame {
 			}
 		});
 		
-		
+		/* Metodo que vuelve a la pantalla de iniciar sesion */
 		btnIniSesion.addActionListener(new ActionListener() {
 
 			@Override

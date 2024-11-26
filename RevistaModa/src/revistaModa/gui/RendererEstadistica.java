@@ -34,11 +34,11 @@ public class RendererEstadistica extends DefaultTableCellRenderer{
 		
 		}
 		if(column ==1) {
-			lbl.setFont(new Font("COURIER",Font.BOLD,20));
+			lbl.setFont(new Font("COURIER",Font.BOLD,10));
 			lbl.setText(value.toString());
 			
 		}if (column == 3) {
-			lbl.setFont(new Font("COURIER",Font.BOLD,30));
+			lbl.setFont(new Font("COURIER",Font.BOLD,10));
 			lbl.setText(value.toString());
 		}
 		
@@ -56,8 +56,10 @@ public class RendererEstadistica extends DefaultTableCellRenderer{
 		}
 		if(column == 4) {
 			JProgressBar progres = new JProgressBar(0,5);
+			int progresoActual = Math.round((float) value);
+			progres.setValue(progresoActual);
+			progres.setString(String.valueOf(progresoActual));
 			
-			progres.setValue(Math.round((float) value));
 			progres.setStringPainted(true);
 			progres.setVisible(true);
 		
