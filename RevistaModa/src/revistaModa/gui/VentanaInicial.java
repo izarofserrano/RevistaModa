@@ -439,7 +439,7 @@ public class VentanaInicial extends JFrame {
 
 		    @Override
 		    public void run() {
-		        int i = 0; 
+		        int i = 1; 
 
 		        try {
 		            while (running && !Thread.currentThread().isInterrupted()) {
@@ -458,7 +458,7 @@ public class VentanaInicial extends JFrame {
 
 		                Thread.sleep(2000); 
 
-		                i = (i + 1) % 9; 
+		                i = (i + 1) % 10; 
 		            }
 		        } catch (InterruptedException e) {
 		           
