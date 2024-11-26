@@ -446,7 +446,7 @@ public class VentanaInicial extends JFrame {
 		                SwingUtilities.invokeLater(() -> {
 		                    pCentro.removeAll();
 		                    ImageIcon iconoPortada = new ImageIcon("RevistaModa/img/Vogue" + currentIndex + ".jpeg");
-		                    Image imgPortada = iconoPortada.getImage().getScaledInstance(850, 380, Image.SCALE_SMOOTH);
+		                    Image imgPortada = iconoPortada.getImage().getScaledInstance(736/3, 920/3, Image.SCALE_SMOOTH);
 		                    lblImagenPortada = new JLabel(new ImageIcon(imgPortada));
 		                    pCentro.add(lblImagenPortada);
 		                    pCentro.revalidate();
