@@ -430,9 +430,6 @@ public class VentanaInicial extends JFrame {
 	}
 	
 	
-	
-	
-
 	private JPanel reloadModa(JPanel pCentro) {
 		return cargarArticulos(pCentro, "ropa");
 	}

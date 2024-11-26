@@ -186,14 +186,4 @@ public class GestorBD {
 	}	
 	//SIN CAMBIOS 
 	
-	
-	
-	
-	
-	
-	
-	
-
-
-
 }
