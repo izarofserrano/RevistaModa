@@ -374,6 +374,9 @@ public class VentanaInicial extends JFrame {
 			            ImageIcon iconoLikeFixed = new ImageIcon("RevistaModa/img/megusta2.png");
 			            Image imagenLikeFixed = iconoLikeFixed.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
 			            btn.setIcon(new ImageIcon(imagenLikeFixed));
+			        
+			            likeQueParpadea(btn);
+			            
 			        } else {
 			            setUsuariosLike.remove(username);
 			            totalLikes--;
@@ -430,7 +433,37 @@ public class VentanaInicial extends JFrame {
 	}
 	
 	
-	
+	private void likeQueParpadea(JButton btn) {
+		String[] colores = {
+				"RevistaModa/img/megustaRosa.png",
+		        "RevistaModa/img/megustaNaranja.png",
+		        "RevistaModa/img/megustaVerde.png",
+		        "RevistaModa/img/megustaAzul.png",
+		        "RevistaModa/img/megustaMorado.png"
+		    };
+		
+		
+		Thread hiloLike = new Thread(() -> {
+			try {
+				for (int i = 0; i<colores.length; i++) {
+					int colorIndex = i % colores.length;
+					ImageIcon iconoColor = new ImageIcon(colores[colorIndex]);
+					Image imgColor = iconoColor.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+					btn.setIcon(new ImageIcon(imgColor));
+					Thread.sleep(300);
+				}
+
+				ImageIcon iconoOrig = new ImageIcon("RevistaModa/img/megusta2.png");
+				Image imgOrig = iconoOrig.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+				btn.setIcon(new ImageIcon(imgOrig));
+				
+			} catch (InterruptedException ex) {
+				ex.printStackTrace();
+			}
+		});
+		
+		hiloLike.start();
+	}
 	
 
 	private JPanel reloadModa(JPanel pCentro) {
