@@ -29,7 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.OverlayLayout;
-
+import javax.swing.SwingUtilities;
 
 import revistaModa.clases.RevistaModa;
 import revistaModa.clases.Usuario;
@@ -40,6 +40,7 @@ public class VentanaInicial extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private JButton btnInicio, btnModa, btnBelleza, btnLogIn;
+	
 	private JLabel  lblImagenPortada,  lblNuevoComponente,lblHeaderIco;
 	private JPanel pCentro, pNorte, pSur, pEste, pOeste;
 	private JTextField txtBuscador;
@@ -47,6 +48,7 @@ public class VentanaInicial extends JFrame {
 	private Set<String> setUsuariosLike = new HashSet<>(); //almacena usuarios que han dado like 
 	private int totalLikes = 0; //contador de likes totales
 	private JFrame vActual;
+	private HiloPortada hiloPortada;
 
 
 	public VentanaInicial(boolean mostrarComponenteExtra, Usuario u) {
@@ -194,7 +196,10 @@ public class VentanaInicial extends JFrame {
 		pNorte.revalidate();
 		pNorte.repaint();
 
-		try {
+		hiloPortada = new HiloPortada();
+		hiloPortada.start();
+		
+		/* try {
 			ImageIcon iconoPortada = new ImageIcon("RevistaModa/img/portada.jpeg");
 			Image imgPortada = iconoPortada.getImage().getScaledInstance(getWidth(), getHeight(), Image.SCALE_SMOOTH);
 			lblImagenPortada = new JLabel(new ImageIcon(imgPortada));
@@ -202,7 +207,7 @@ public class VentanaInicial extends JFrame {
 
 		} catch (Exception e) {
 			System.out.println("No se ha podido cargar la imagen" + e.getMessage());
-		}
+		} */
 
 
 		btnLogIn.addActionListener(new ActionListener() {
@@ -222,6 +227,7 @@ public class VentanaInicial extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				hiloPortada.detener();
 				pCentro.removeAll();
 
 				ReloadBelleza(pCentro);
@@ -237,6 +243,7 @@ public class VentanaInicial extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				hiloPortada.detener();
 				pCentro.removeAll();
 
 				reloadModa(pCentro);
@@ -274,15 +281,10 @@ public class VentanaInicial extends JFrame {
 
 	private JPanel volverInicio ( JPanel pCentro) {
 		pCentro.removeAll();
-		try {
-			ImageIcon iconoPortada = new ImageIcon("RevistaModa/img/portada.jpeg");
-			Image imgPortada = iconoPortada.getImage().getScaledInstance(getWidth(), 600, Image.SCALE_SMOOTH);
-			lblImagenPortada = new JLabel(new ImageIcon(imgPortada));
-			pCentro.add(lblImagenPortada);
-
-		} catch (Exception e) {
-			System.out.println("No se ha podido cargar la imagen" + e.getMessage());
-		}
+		
+		hiloPortada= new HiloPortada();
+		hiloPortada.start();
+		
 		pCentro.validate();
 		pCentro.repaint();
 		return pCentro;
@@ -354,16 +356,6 @@ public class VentanaInicial extends JFrame {
 			  
 
 			    @Override
-			    public void mouseEntered(MouseEvent e) {
-			    	
-			    }
-
-			    @Override
-			    public void mouseExited(MouseEvent e) {
-			        
-			    }
-
-			    @Override
 			    public void mouseClicked(MouseEvent e) { //IAG:ChatGPT
 			        String username = lUsu.get(2).getUsername();
 
@@ -432,6 +424,7 @@ public class VentanaInicial extends JFrame {
 		
 	}
 	
+
 	
 	private void likeQueParpadea(JButton btn) {
 		String[] colores = {
@@ -464,7 +457,6 @@ public class VentanaInicial extends JFrame {
 		
 		hiloLike.start();
 	}
-	
 
 	private JPanel reloadModa(JPanel pCentro) {
 		return cargarArticulos(pCentro, "ropa");
@@ -473,4 +465,59 @@ public class VentanaInicial extends JFrame {
 	private JPanel ReloadBelleza(JPanel pCentro) {
 		return cargarArticulos(pCentro, "belleza"); 
 	}
+	private class HiloPortada extends Thread{
+		//USO DE CHAT PARA MEJORAR CODIGO
+
+		
+		private volatile boolean running = true; 
+
+		    @Override
+		    public void run() {
+		        int i = 1; 
+
+		        try {
+		            while (running && !Thread.currentThread().isInterrupted()) {
+		                final int currentIndex = i; 
+
+		               
+		                SwingUtilities.invokeLater(() -> {
+		                    pCentro.removeAll();
+		                    ImageIcon iconoPortada = new ImageIcon("RevistaModa/img/Vogue" + currentIndex + ".jpeg");
+		                    Image imgPortada = iconoPortada.getImage().getScaledInstance(850, 380, Image.SCALE_SMOOTH);
+		                    lblImagenPortada = new JLabel(new ImageIcon(imgPortada));
+		                    pCentro.add(lblImagenPortada);
+		                    pCentro.revalidate();
+		                    pCentro.repaint();
+		                });
+
+		                Thread.sleep(2000); 
+
+		                i = ((i + 1) % 10); 
+		                if(i==0) {
+		                	i=1;
+		                }
+		            }
+		        } catch (InterruptedException e) {
+		           
+		        	System.out.println("Hilo interrumpido correctamente.");
+		       
+		        } finally {
+		           
+		            System.out.println("Hilo terminado.");
+		       
+		        }
+		    }
+
+		    public void detener() {
+		        running = false; 
+		        this.interrupt(); 
+		    }
+		
+		
+	}
+	public JButton getBtnLogIn() {
+		return btnLogIn;
+	}
+
+	
 }

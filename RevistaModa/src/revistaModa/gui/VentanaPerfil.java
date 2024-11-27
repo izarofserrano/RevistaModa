@@ -65,6 +65,7 @@ public class VentanaPerfil extends JFrame{
 		btnInformacion = new JButton("Mi información");
 		btnFavoritos = new JButton("Mis Favoritos");
 		btnCambiarContra = new JButton("Cambiar Contraseña");
+	
 
 		lblFotoPerfil = new JLabel();
 		lblTitulo = new JLabel("MI PERFIL");
@@ -98,6 +99,7 @@ public class VentanaPerfil extends JFrame{
 		pOesteInf.add(btnFavoritos);
 		pOesteInf.add(btnEstadistica);
 		pOesteInf.add(btnCambiarContra);
+		
 
 
 
@@ -117,11 +119,10 @@ public class VentanaPerfil extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				MiInformacion(pCentro, u);
+				
 
 			}
 		});
-
-		setVisible(true);
 		btnCambiarContra.addActionListener(new ActionListener() {
 
 			@Override
@@ -142,10 +143,14 @@ public class VentanaPerfil extends JFrame{
 					u.setContrasenya(txtNuevaContra.getText());
 					JOptionPane.showConfirmDialog(null,"Contrasela cambiada con exito","Update Contraseña" ,JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
 					System.out.println(u.getContrasenya());
-				}
+					txtNuevaContra.setText("");				
+					}
 
 			}
 		});
+
+		setVisible(true);
+
 
 	}
 
@@ -177,6 +182,10 @@ public class VentanaPerfil extends JFrame{
 
 		panel.removeAll();
 		panel.setLayout(new GridLayout(4,2,40,40));
+		
+		
+		
+		
 
 		JLabel lbl1 = new JLabel("Nombre: ");
 		lbl1.setHorizontalAlignment(((int) CENTER_ALIGNMENT));
@@ -194,6 +203,7 @@ public class VentanaPerfil extends JFrame{
 		JLabel lbl4 = new JLabel("Nueva Contraseña: ");
 		lbl4.setHorizontalAlignment(((int) CENTER_ALIGNMENT));
 		txtNuevaContra = new JTextField();
+		
 
 
 		panel.add(lbl1);

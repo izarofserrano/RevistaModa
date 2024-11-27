@@ -110,7 +110,8 @@ public class VentanaUsuario extends JFrame {
 				if (txtUserName.getText().equals(user.getUsername())) {
 					usuarioEncontrado = true;
 					if (Password.equals(user.getContrasenya())) {
-						new VentanaInicial(true,user);
+						VentanaInicial i = new VentanaInicial(true,user);
+						i.getBtnLogIn().setVisible(false);
 						dispose();
 						return;
 					} else {
@@ -264,7 +265,7 @@ public class VentanaUsuario extends JFrame {
 			}
 		});
 
-		/* Metodo que vuelve a la pantalla de iniciar sesion */
+		
 		btnIniSesion.addKeyListener(new KeyAdapter() {
 			
 			@Override
@@ -276,7 +277,7 @@ public class VentanaUsuario extends JFrame {
 			}
 		});
 		
-		
+		/* Metodo que vuelve a la pantalla de iniciar sesion */
 		btnIniSesion.addActionListener(new ActionListener() {
 
 			@Override
