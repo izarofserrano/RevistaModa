@@ -473,50 +473,38 @@ public class VentanaInicial extends JFrame {
 	private JPanel ReloadBelleza(JPanel pCentro) {
 		return cargarArticulos(pCentro, "belleza"); 
 	}
+	
 	private class HiloPortada extends Thread{
 		//USO DE CHAT PARA MEJORAR CODIGO
 
-		
 		private volatile boolean running = true; 
-
+		private JLabel[] imagenesAlLado = new JLabel[3];
+		private int[] indices = {1, 2, 3};
+	
+		public HiloPortada() {
+			SwingUtilities.invokeLater(() -> {
+				pCentro.setLayout(new GridLayout(1, 3, 10, 10));
+				for (int i = 0; i < imagenesAlLado.length; i++) {
+					imagenesAlLado[i] = new JLabel();
+					imagenesAlLado[i].setHorizontalAlignment(JLabel.CENTER);
+					pCentro.add(imagenesAlLado[i]);
+				}
+			});
+		}
 		    @Override
 		    public void run() {
 		        int i = 1; 
 
 		        try {
-		            while (running && !Thread.currentThread().isInterrupted()) {
-		                final int currentIndex = i; 
+		            while (running) {
 
-		               
-		                SwingUtilities.invokeLater(() -> {
-		                    pCentro.removeAll();
-		                    ImageIcon iconoPortada = new ImageIcon("RevistaModa/img/Vogue" + currentIndex + ".jpeg");
-		                   
-		                    int anchoDelPanel;
-		                    if (pCentro.getWidth()>0) {
-		                    	anchoDelPanel = pCentro.getWidth();
-		                    } else {
-		                    	anchoDelPanel = 850; // por si acaso 
-		                    }
-		                    
-		                    int anchoOrig = iconoPortada.getIconWidth();
-		                    int altoOrig = iconoPortada.getIconHeight();
-		                    int alturaProp = (int)((double) altoOrig / anchoOrig * anchoDelPanel);
-		                    
-		                    Image imgPortada = iconoPortada.getImage().getScaledInstance(anchoDelPanel/2, alturaProp/2, Image.SCALE_SMOOTH);
-		                    lblImagenPortada = new JLabel(new ImageIcon(imgPortada));
-		                    pCentro.add(lblImagenPortada);
-		                    pCentro.revalidate();
-		                    pCentro.repaint();
-		                });
-
+		                SwingUtilities.invokeLater(() -> actualizamosPortada());
+		              
 		                Thread.sleep(2000); 
 
-		                i = ((i + 1) % 10); 
-		                if(i==0) {
-		                	i=1;
-		                }
+		                
 		            }
+		            
 		        } catch (InterruptedException e) {
 		           
 		        	System.out.println("Hilo interrumpido correctamente.");
@@ -527,58 +515,48 @@ public class VentanaInicial extends JFrame {
 		       
 		        }
 		    }
+		    
+		    private void actualizamosPortada() {
+		    	 for (int i = 0; i < imagenesAlLado.length; i++) {
+		             actualizamosImagen(imagenesAlLado[i], indices[i]);
+		             indices[i] = (indices[i] % 10) + 1; // Ciclar índices entre 1 y 10
+		         }
+		         pCentro.revalidate();
+		         pCentro.repaint();
+		     }
+		    
 
-		    public void detener() {
-		        running = false; 
-		        this.interrupt(); 
+		    private void actualizamosImagen(JLabel label, int indice) {
+		    	try {
+		    		String ruta = "RevistaModa/img/Portada" + indice + ".jpeg";
+		    		ImageIcon icono = new ImageIcon(ruta);
+		    		
+		    		int anchoDelPanel;
+                    if (pCentro.getWidth()>0) {
+                    	anchoDelPanel = pCentro.getWidth() / 3;
+                    } else {
+                    	anchoDelPanel = 850 / 3; // por si acaso 
+                    }
+                    
+                    int anchoOrig = icono.getIconWidth();
+                    int alturaOrig = icono.getIconHeight();
+                    int alturaProp = (int) ((double) alturaOrig / anchoOrig * anchoDelPanel);
+                    
+                    Image img = icono.getImage().getScaledInstance(anchoDelPanel, alturaProp, Image.SCALE_SMOOTH);
+                    label.setIcon(new ImageIcon(img));
+		    	}
+		    	 catch (Exception e) {
+		    		 System.out.println("Error al actualizar imagen en portada:" + e.getMessage());
+		    	 }
 		    }
-		
+		    
+		    public void detener() {
+		    	running = false;
+		    	this.interrupt();
+		    }
 		
 	}
 	
-	/*private class HiloBotones extends Thread {
-		private volatile boolean running = true;
-		private JPanel panelBotones;
-		
-		public HiloBotones(JPanel panelBotones) {
-			this.panelBotones = panelBotones;
-		
-		}
-
-		@Override
-		public void run() {
-			try {
-				while (running) {
-					SwingUtilities.invokeLater(()-> {
-						for (Component comp : panelBotones.getComponents()) {
-							comp.setVisible(false);
-						}
-					});
-					
-					Thread.sleep(1000);
-					
-					SwingUtilities.invokeLater(() -> {
-						for (Component comp : panelBotones.getComponents()) {
-							comp.setVisible(true);
-						}
-					});
-					
-					Thread.sleep(2000);
-				}
-				
-			} catch (InterruptedException e) {
-				System.out.println("Hilo de botones interrumpido.");
-			}
-		}
-		
-		public void detener() {
-			running = false;
-			this.interrupt();
-		}
-		
-		
-		
-	}*/
 	public JButton getBtnLogIn() {
 		return btnLogIn;
 	}
