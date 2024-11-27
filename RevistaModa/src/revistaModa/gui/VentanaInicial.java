@@ -2,6 +2,7 @@ package revistaModa.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -49,6 +50,7 @@ public class VentanaInicial extends JFrame {
 	private int totalLikes = 0; //contador de likes totales
 	private JFrame vActual;
 	private HiloPortada hiloPortada;
+	//private HiloBotones hiloBotones;
 
 
 	public VentanaInicial(boolean mostrarComponenteExtra, Usuario u) {
@@ -197,7 +199,9 @@ public class VentanaInicial extends JFrame {
 		pNorte.repaint();
 
 		hiloPortada = new HiloPortada();
+	//	hiloBotones = new HiloBotones(pNorteBottom);
 		hiloPortada.start();
+	//	hiloBotones.start();
 		
 		/* try {
 			ImageIcon iconoPortada = new ImageIcon("RevistaModa/img/portada.jpeg");
@@ -393,6 +397,7 @@ public class VentanaInicial extends JFrame {
 				});
 			}
 			
+			
 			KeyListener clickEnEsc = new KeyListener() { //va un poco lento
 
 				@Override
@@ -426,6 +431,7 @@ public class VentanaInicial extends JFrame {
 	
 
 	
+	
 	private void likeQueParpadea(JButton btn) {
 		String[] colores = {
 				"RevistaModa/img/megustaRosa.png",
@@ -457,6 +463,8 @@ public class VentanaInicial extends JFrame {
 		
 		hiloLike.start();
 	}
+	
+	
 
 	private JPanel reloadModa(JPanel pCentro) {
 		return cargarArticulos(pCentro, "ropa");
@@ -483,7 +491,19 @@ public class VentanaInicial extends JFrame {
 		                SwingUtilities.invokeLater(() -> {
 		                    pCentro.removeAll();
 		                    ImageIcon iconoPortada = new ImageIcon("RevistaModa/img/Vogue" + currentIndex + ".jpeg");
-		                    Image imgPortada = iconoPortada.getImage().getScaledInstance(850, 380, Image.SCALE_SMOOTH);
+		                   
+		                    int anchoDelPanel;
+		                    if (pCentro.getWidth()>0) {
+		                    	anchoDelPanel = pCentro.getWidth();
+		                    } else {
+		                    	anchoDelPanel = 850; // por si acaso 
+		                    }
+		                    
+		                    int anchoOrig = iconoPortada.getIconWidth();
+		                    int altoOrig = iconoPortada.getIconHeight();
+		                    int alturaProp = (int)((double) altoOrig / anchoOrig * anchoDelPanel);
+		                    
+		                    Image imgPortada = iconoPortada.getImage().getScaledInstance(anchoDelPanel/2, alturaProp/2, Image.SCALE_SMOOTH);
 		                    lblImagenPortada = new JLabel(new ImageIcon(imgPortada));
 		                    pCentro.add(lblImagenPortada);
 		                    pCentro.revalidate();
@@ -515,6 +535,50 @@ public class VentanaInicial extends JFrame {
 		
 		
 	}
+	
+	/*private class HiloBotones extends Thread {
+		private volatile boolean running = true;
+		private JPanel panelBotones;
+		
+		public HiloBotones(JPanel panelBotones) {
+			this.panelBotones = panelBotones;
+		
+		}
+
+		@Override
+		public void run() {
+			try {
+				while (running) {
+					SwingUtilities.invokeLater(()-> {
+						for (Component comp : panelBotones.getComponents()) {
+							comp.setVisible(false);
+						}
+					});
+					
+					Thread.sleep(1000);
+					
+					SwingUtilities.invokeLater(() -> {
+						for (Component comp : panelBotones.getComponents()) {
+							comp.setVisible(true);
+						}
+					});
+					
+					Thread.sleep(2000);
+				}
+				
+			} catch (InterruptedException e) {
+				System.out.println("Hilo de botones interrumpido.");
+			}
+		}
+		
+		public void detener() {
+			running = false;
+			this.interrupt();
+		}
+		
+		
+		
+	}*/
 	public JButton getBtnLogIn() {
 		return btnLogIn;
 	}
