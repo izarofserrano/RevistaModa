@@ -41,7 +41,7 @@ public class VentanaInicial extends JFrame {
 	
 	private JButton btnInicio, btnModa, btnBelleza, btnLogIn;
 	
-	private JLabel  lblImagenPortada,  lblNuevoComponente,lblHeaderIco;
+	private JLabel   lblNuevoComponente,lblHeaderIco;
 	private JPanel pCentro, pNorte, pSur, pEste, pOeste;
 	private JTextField txtBuscador;
 	private List<Usuario> lUsu;
@@ -160,26 +160,24 @@ public class VentanaInicial extends JFrame {
 		etiquetaHora.setFont(new Font("Arial", Font.BOLD, 14));
 		pSur.add(etiquetaHora, BorderLayout.EAST);
 
-
-	        // Iniciar hilo para actualizar la hora
 	        Thread hiloReloj = new Thread(() -> {
 	            SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
 	            while (true) {
-	                // Obtener hora actual
+
 	            	long tiempoActual = System.currentTimeMillis();
 	            	Date fechaActual = new Date(tiempoActual);
 	                String horaActual = formatoHora.format(fechaActual);
-	                etiquetaHora.setText(horaActual); // Actualizar la etiqueta
+	                etiquetaHora.setText(horaActual); 
 
 	                try {
-	                    Thread.sleep(1000); // Esperar un segundo
+	                    Thread.sleep(1000); 
 	                } catch (InterruptedException e) {
 	                    e.printStackTrace();
 	                }
 	            }
 	        });
 
-	        hiloReloj.start(); // Iniciar el hilo
+	        hiloReloj.start();
 
 
 		JPanel pBuscador = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -520,8 +518,7 @@ public class VentanaInicial extends JFrame {
 			});
 		}
 		    @Override
-		    public void run() {
-		        int i = 1; 
+		    public void run() { 
 
 		        try {
 		            while (running) {
