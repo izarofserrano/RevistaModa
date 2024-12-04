@@ -76,8 +76,7 @@ public class GestorBD {
 	        // Crear tabla Usuario
 	        String sqlUsuario = """
 	            CREATE TABLE IF NOT EXISTS Usuario (
-	                idUsu INTEGER PRIMARY KEY,
-	                username TEXT NOT NULL,
+	                username TEXT PRIMARY KEY,
 	                contrasenya TEXT NOT NULL,
 	                email TEXT NOT NULL
 	            );
@@ -137,15 +136,14 @@ public class GestorBD {
 
 	
 	public static void insertarUsuario(Usuario usu) {
-		String sql = "INSERT INTO Usuario VALUES (?,?,?)";
-		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, usu.getIdUsu());
+		String sql = "INSERT INTO Usuario VALUES (?,?,?)"; 
+		try(PreparedStatement ps = con.prepareStatement(sql);) {
+
 			ps.setString(2, usu.getUsername());
 			ps.setString(3, usu.getContrasenya());
-			ps.setString(3, usu.getEmail());
+			ps.setString(4, usu.getEmail());
 			ps.execute();
-			ps.close();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -200,13 +198,12 @@ public class GestorBD {
 	    try (PreparedStatement ps = con.prepareStatement(sql); 
 	         ResultSet rs = ps.executeQuery()) { 
 	        while (rs.next()) { 
-	            int id = rs.getInt(1); 
-	            String username = rs.getString(2);
-	            String email = rs.getString(3);
-	            String contrasenya = rs.getString(4);
+	            String username = rs.getString(1);
+	            String email = rs.getString(2);
+	            String contrasenya = rs.getString(3);
 	            
 	            
-	            Usuario u = new Usuario(id, username, email, contrasenya);
+	            Usuario u = new Usuario(username, email, contrasenya);
 	            usuarios.add(u);
 	        }
 	    } catch (Exception e) {
@@ -251,11 +248,10 @@ public class GestorBD {
 		        try { 
 		        	ResultSet rs = ps.executeQuery();
 		            if (rs.next()) { 
-		                int id = rs.getInt(0); 
 		                String username = rs.getString(1);
 		                String email = rs.getString(2);
 		                String contrasenya = rs.getString(3);
-		                u = new Usuario(id, username, contrasenya, email);
+
 		            }
 		      }  
 		   catch (Exception e) {

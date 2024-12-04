@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import revistaModa.bd.GestorBD;
 import revistaModa.clases.Usuario;
 
 public class VentanaUsuario extends JFrame {
@@ -33,6 +34,7 @@ public class VentanaUsuario extends JFrame {
 	private JTextField txtUserName, txtCorreo;
 	private JPasswordField contra;
 	private JPanel pEste, pSur;
+	private GestorBD bd;
 
 	private List<Usuario> lUsuarios;
 
@@ -232,35 +234,36 @@ public class VentanaUsuario extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String password = new String(contra.getPassword());
 				String user = txtUserName.getText();
+				String correo = txtCorreo.getText();
 				boolean usuarioExiste = false;
-
-				for (Usuario usuario : lUsuarios) {
-					if (user.equals(usuario.getUsername())) {
+				
+				
+				try {
+					if (GestorBD.BuscarUsuario(user, password) != null) {
 						JOptionPane.showConfirmDialog(null, "Este user ya existe", "ERROR", JOptionPane.CANCEL_OPTION,
-								JOptionPane.ERROR_MESSAGE);
-						usuarioExiste = true;
-						break;
+                                JOptionPane.ERROR_MESSAGE);
+                        usuarioExiste = true;
+                        
+					}else {
+						if (!validarContra(password)) {
+							JOptionPane.showConfirmDialog(null,
+									"La contraseña no cumple con las carcteristicas: \n Una mayuscula y un numero", "ERROR",
+									JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+							return;
+						}else {
+							Usuario u1= new Usuario(user, password, correo);
+							GestorBD.insertarUsuario(u1);
+							JOptionPane.showConfirmDialog(null, "has sido registrado con éxito", "RESGISTRO",
+									JOptionPane.CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+							txtUserName.setText("");
+							contra.setText("");
+							txtCorreo.setText("");
+						}
 					}
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
-				if (usuarioExiste) {
-					return;
-				}
-				if (!validarContra(password)) {
-					JOptionPane.showConfirmDialog(null,
-							"La contraseña no cumple con las carcteristicas: \n Una mayuscula y un numero", "ERROR",
-							JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				Usuario u = new Usuario(lUsuarios.size() + 1, user, password, user);
-
-				lUsuarios.add(u);
-				System.out.println(lUsuarios);
-
-				JOptionPane.showConfirmDialog(null, "has sido registrado con éxito", "RESGISTRO",
-						JOptionPane.CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-				txtUserName.setText("");
-				contra.setText("");
-				txtCorreo.setText("");
 
 			}
 		});

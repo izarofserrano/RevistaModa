@@ -43,14 +43,7 @@ public class RevistaModa {
     }
 
     // Cargar los usuarios
-    public static void cargarUsuarios() {
-        lUsuarios.add(new Usuario(1, "johndoe", "johndoe", "john.doe@example.com"));
-        lUsuarios.add(new Usuario(2, "janedoe", "janedoe", "jane.doe@example.com"));
-        lUsuarios.add(new Usuario(3, "alicewonder", "alicewonder", "alice.w@example.com"));
-        lUsuarios.add(new Usuario(4, "bobsmith", "bobsmith", "bob.smith@example.com"));
-        lUsuarios.add(new Usuario(5, "charliebrown", "charliebrown", "charlie.b@example.com"));
-        lUsuarios.add(new Usuario(6, "admin", "admin", "admin@admin.com"));
-    }
+
     
     public static void cargarUsuariosBD() {
     	lUsuarios = GestorBD.cargarUsuarios();
