@@ -239,18 +239,26 @@ public class VentanaUsuario extends JFrame {
 				
 				
 				try {
-					if (GestorBD.BuscarUsuario(user, password) != null) {
-						JOptionPane.showConfirmDialog(null, "Este user ya existe", "ERROR", JOptionPane.CANCEL_OPTION,
-                                JOptionPane.ERROR_MESSAGE);
-                        usuarioExiste = true;
-                        
-					}else {
+					  if (GestorBD.BuscarUsuario(user) != null) { // Si el usuario ya existe
+					        JOptionPane.showMessageDialog(null, "Este usuario ya existe", "ERROR", JOptionPane.ERROR_MESSAGE);
+					        return; // Salir del método
+					    }
+					  
+					else {
 						if (!validarContra(password)) {
 							JOptionPane.showConfirmDialog(null,
 									"La contraseña no cumple con las carcteristicas: \n Una mayuscula y un numero", "ERROR",
 									JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
 							return;
-						}else {
+							
+						}
+							
+						else if (GestorBD.BuscarUsuario(user) != null) {
+							JOptionPane.showConfirmDialog(null, "Este usuario ya existe", "ERROR", JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+							return;
+
+						}
+						else {
 							Usuario u1= new Usuario(user, password, correo);
 							GestorBD.insertarUsuario(u1);
 							JOptionPane.showConfirmDialog(null, "has sido registrado con éxito", "RESGISTRO",

@@ -71,6 +71,7 @@ public class GestorBD {
 	                FOREIGN KEY (idArt) REFERENCES Articulo(idArt) ON DELETE CASCADE
 	            );
 	        """;
+	        
 	        stmt.executeUpdate(sqlFotoArt);
 
 	        // Crear tabla Usuario
@@ -83,6 +84,7 @@ public class GestorBD {
 	        """;
 	        stmt.executeUpdate(sqlUsuario);
 
+	        
 	        stmt.close();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
@@ -90,8 +92,6 @@ public class GestorBD {
 	}
 	
 	//SIN CAMBIOS
-	
-	
 	
 	public static void insertarArticulo(Articulo art) {
 		String sql = "INSERT INTO Articulo VALUES (?,?,?,?,?,?)";
@@ -133,15 +133,14 @@ public class GestorBD {
 	    }
 	}
 
-
 	
 	public static void insertarUsuario(Usuario usu) {
 		String sql = "INSERT INTO Usuario VALUES (?,?,?)"; 
 		try(PreparedStatement ps = con.prepareStatement(sql);) {
 
-			ps.setString(2, usu.getUsername());
-			ps.setString(3, usu.getContrasenya());
-			ps.setString(4, usu.getEmail());
+			ps.setString(1, usu.getUsername());
+			ps.setString(2, usu.getContrasenya());
+			ps.setString(3, usu.getEmail());
 			ps.execute();
 
 		} catch (SQLException e) {
@@ -166,11 +165,9 @@ public class GestorBD {
 
 	public static void borrarFotoArt(int idFoto) {
 	    String sql = "DELETE FROM FotoArt WHERE idFoto = ?";
-	    try {
-	        PreparedStatement ps = con.prepareStatement(sql);
+	    try (PreparedStatement ps = con.prepareStatement(sql);){
 	        ps.setInt(1, idFoto);
 	        ps.executeUpdate();
-	        ps.close();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
@@ -237,21 +234,20 @@ public class GestorBD {
 	}
 	
 	//IAG (Herramienta: Chat GPT)
-	public static Usuario BuscarUsuario(String nickname, String password) throws Exception {
-		   String sql = "SELECT * FROM Usuario WHERE username = ? AND contrasenya = ?";
+	public static Usuario BuscarUsuario(String nickname) throws Exception {
+		   String sql = "SELECT * FROM Usuario WHERE username = ?";
 		   Usuario u = null; 
 		    
 		    try (PreparedStatement ps = con.prepareStatement(sql)) {  
 		        ps.setString(1, nickname); 
-		        ps.setString(2, password); 
-		        
+
 		        try { 
 		        	ResultSet rs = ps.executeQuery();
 		            if (rs.next()) { 
 		                String username = rs.getString(1);
 		                String email = rs.getString(2);
 		                String contrasenya = rs.getString(3);
-
+		                u = new Usuario(username, email, contrasenya);
 		            }
 		      }  
 		   catch (Exception e) {
@@ -263,11 +259,17 @@ public class GestorBD {
 		
 	}	    
 	
+	public static void vaciarTablaUsuarios() {
+	    String sql = "DELETE FROM Usuario";
+	    try (PreparedStatement ps = con.prepareStatement(sql)) {
+	        ps.executeUpdate();
+	        System.out.println("Todos los datos de la tabla Usuario han sido eliminados.");
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        System.out.println("Error al vaciar la tabla Usuario.");
+	    }
+	}
 	
 	
 	
-	
-	
-	
-
 }

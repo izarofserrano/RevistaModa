@@ -24,6 +24,7 @@ public class Main {
 		RevistaModa.cargarFotos();
 		RevistaModa.cargarArticulos();
 		RevistaModa.cargarUsuariosBD();
+
 		
 		@SuppressWarnings("unused")
 		VentanaInicial vInicial = new VentanaInicial(false,null);
