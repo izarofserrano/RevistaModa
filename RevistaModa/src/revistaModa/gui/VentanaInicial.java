@@ -2,24 +2,22 @@ package revistaModa.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -30,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.OverlayLayout;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import revistaModa.clases.RevistaModa;
@@ -147,11 +146,40 @@ public class VentanaInicial extends JFrame {
 
 
 
-		pSur.setLayout(new GridLayout(2,1));
+		pSur.setLayout(new BorderLayout());
+		
+		JPanel panelInfo = new JPanel();
+		panelInfo.setLayout(new GridLayout(2, 1));
 		JLabel lblContacto = new JLabel("Contacto: udVogue@deusto.es");
 		JLabel lblUbi = new JLabel("Ubicación: Universidad de Deusto, Bilbao, Bizkaia, España");
-		pSur.add(lblContacto);
-		pSur.add(lblUbi);
+		panelInfo.add(lblContacto);
+		panelInfo.add(lblUbi);
+		pSur.add(panelInfo, BorderLayout.WEST);
+		
+		JLabel etiquetaHora = new JLabel("", SwingConstants.RIGHT);
+		etiquetaHora.setFont(new Font("Arial", Font.BOLD, 14));
+		pSur.add(etiquetaHora, BorderLayout.EAST);
+
+
+	        // Iniciar hilo para actualizar la hora
+	        Thread hiloReloj = new Thread(() -> {
+	            SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm:ss");
+	            while (true) {
+	                // Obtener hora actual
+	            	long tiempoActual = System.currentTimeMillis();
+	            	Date fechaActual = new Date(tiempoActual);
+	                String horaActual = formatoHora.format(fechaActual);
+	                etiquetaHora.setText(horaActual); // Actualizar la etiqueta
+
+	                try {
+	                    Thread.sleep(1000); // Esperar un segundo
+	                } catch (InterruptedException e) {
+	                    e.printStackTrace();
+	                }
+	            }
+	        });
+
+	        hiloReloj.start(); // Iniciar el hilo
 
 
 		JPanel pBuscador = new JPanel(new FlowLayout(FlowLayout.RIGHT));
