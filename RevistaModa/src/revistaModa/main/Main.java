@@ -18,16 +18,19 @@ public class Main {
 
 	public static void main(String[] args) {
 	
+		GestorBD.initBD("RevistaModa\\db\\revistaModa.db");
+		GestorBD.crearTablas();
+		
 		RevistaModa.cargarFotos();
 		RevistaModa.cargarArticulos();
-		RevistaModa.cargarUsuarios();
+		RevistaModa.cargarUsuariosBD();
 		
 		@SuppressWarnings("unused")
 		VentanaInicial vInicial = new VentanaInicial(false,null);
 		
 		
-		GestorBD.initBD("RevistaModa/db/revistaModa.db");
-		GestorBD.crearTablas();
+		
+		
 		ArrayList<FotoArt> lArt = new ArrayList<FotoArt>();
 		HashSet<String> sArt = new HashSet<String>();
 		TreeMap<String,Integer> tArt = new TreeMap<String, Integer>();

@@ -13,6 +13,8 @@ public class Usuario {
 		this.contrasenya = contrasenya;
 		this.email = email;
 	}
+	
+
 
 	public int getIdUsu() {
 		return idUsu;

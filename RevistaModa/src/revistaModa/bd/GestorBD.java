@@ -3,8 +3,11 @@ package revistaModa.bd;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import revistaModa.clases.Articulo;
 import revistaModa.clases.FotoArt;
@@ -19,11 +22,13 @@ public class GestorBD {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			con = DriverManager.getConnection("jdbc:sqlite:" + nombreBD);
-
+			System.out.println("Conexion establecida");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
+			System.out.println("Clase no encontrada en bd");
 		} catch (SQLException e) {
 			e.printStackTrace();
+			System.out.println("Error sql");
 		}
 	}
 
@@ -186,4 +191,87 @@ public class GestorBD {
 	}	
 	//SIN CAMBIOS 
 	
+	
+	
+	public static List<Usuario> cargarUsuarios() {
+	    String sql = "SELECT * FROM Usuario";
+	    List<Usuario> usuarios = new ArrayList<>();
+	    
+	    try (PreparedStatement ps = con.prepareStatement(sql); 
+	         ResultSet rs = ps.executeQuery()) { 
+	        while (rs.next()) { 
+	            int id = rs.getInt(1); 
+	            String username = rs.getString(2);
+	            String email = rs.getString(3);
+	            String contrasenya = rs.getString(4);
+	            
+	            
+	            Usuario u = new Usuario(id, username, email, contrasenya);
+	            usuarios.add(u);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace(); 
+	        System.out.println("ERROR CARGANDO LA LISTA DE USUARIOS");
+	    }
+	    
+	    return usuarios; 
+	}
+
+	public static List<FotoArt> cargarFotos() {
+	    String sql = "SELECT * FROM FotoArt";
+	    List<FotoArt> fotos = new ArrayList<>();
+	    
+	    try (PreparedStatement ps = con.prepareStatement(sql); 
+	         ResultSet rs = ps.executeQuery()) { 
+	        while (rs.next()) { 
+	            int id = rs.getInt(1);
+	            String descripcion = rs.getString(2);
+	            String rutaFoto = rs.getString(3);
+	            FotoArt f = new FotoArt(id, descripcion, rutaFoto);
+	            fotos.add(f);
+	                 
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace(); 
+	        System.out.println("ERROR CARGANDO LA LISTA DE FOTOS");
+	    }
+	    
+	    return fotos; 
+	}
+	
+	//IAG (Herramienta: Chat GPT)
+	public static Usuario BuscarUsuario(String nickname, String password) throws Exception {
+		   String sql = "SELECT * FROM Usuario WHERE username = ? AND contrasenya = ?";
+		   Usuario u = null; 
+		    
+		    try (PreparedStatement ps = con.prepareStatement(sql)) {  
+		        ps.setString(1, nickname); 
+		        ps.setString(2, password); 
+		        
+		        try { 
+		        	ResultSet rs = ps.executeQuery();
+		            if (rs.next()) { 
+		                int id = rs.getInt(0); 
+		                String username = rs.getString(1);
+		                String email = rs.getString(2);
+		                String contrasenya = rs.getString(3);
+		                u = new Usuario(id, username, contrasenya, email);
+		            }
+		      }  
+		   catch (Exception e) {
+		        e.printStackTrace(); 
+		        System.out.println("ERROR CARGANDO LOS DATOS");
+		    }  }
+		    
+		    return u; 
+		
+	}	    
+	
+	
+	
+	
+	
+	
+	
+
 }

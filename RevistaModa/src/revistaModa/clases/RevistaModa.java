@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.TreeMap;
 
+import revistaModa.bd.GestorBD;
+
 public class RevistaModa {
     private static ArrayList<Articulo> lArticulos = new ArrayList<>();
     private static List<Usuario> lUsuarios = new ArrayList<>();
@@ -49,6 +51,11 @@ public class RevistaModa {
         lUsuarios.add(new Usuario(5, "charliebrown", "charliebrown", "charlie.b@example.com"));
         lUsuarios.add(new Usuario(6, "admin", "admin", "admin@admin.com"));
     }
+    
+    public static void cargarUsuariosBD() {
+    	lUsuarios = GestorBD.cargarUsuarios();
+    }
+    
 
     // Cargar las fotos
     public static void cargarFotos() {
@@ -61,6 +68,11 @@ public class RevistaModa {
         lFotos.add(foto2);
         lFotos.add(foto3);
         lFotos.add(foto4);
+    }
+
+    public static void cargarFotosArtBD() {
+    	lFotos = (ArrayList<FotoArt>) GestorBD.cargarFotos();
+    	
     }
 
     // Método para obtener las fotos asociadas a un artículo en particular
