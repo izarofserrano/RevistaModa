@@ -363,15 +363,7 @@ public class GestorBD {
 	public static ArrayList<Articulo> cargarArticulos() {
 		ArrayList<Articulo> lArts = new ArrayList<Articulo>();
 		String sql = "SELECT * FROM Articulo";
-		/*CREATE TABLE IF NOT EXISTS Articulo (
-					        idArt INTEGER PRIMARY KEY,
-					        titulo TEXT NOT NULL,
-					        autor TEXT NOT NULL,
-					        fechaPublicacion TEXT NOT NULL,
-					        tipoArt TEXT NOT NULL,
-					        rutaArchivoArt TEXT NOT NULL
-					    );
-					    */
+		
 		
 		try {
 			Statement stmt = con.createStatement();
@@ -384,11 +376,25 @@ public class GestorBD {
 				String tipoArt = rs.getString("tipoArt");
 				String ruta = rs.getString("rutaArchivoArt");
 				
+				Articulo a= new Articulo(idArt,titulo,autor,fecha,tipoArt,ruta);
+				String sql2 = String.format("Select*From fotoArt where idArt=%d",idArt);
 				
-				
-				
-				lArts.add(new Articulo(idArt,titulo,autor,fecha,tipoArt,ruta));
+				Statement stmt2 = con.createStatement();
+				ResultSet rs2 = stmt2.executeQuery(sql2);
+				while (rs2.next()) {
+					int idFoto = rs2.getInt("idFoto");
+					String descripcion = rs2.getString("descripcion");
+					String rutaFoto = rs2.getString("rutaFoto");
+					FotoArt f = new FotoArt(idFoto, descripcion, rutaFoto);
+					a.getlFotos().add(f);
+				}
+                rs2.close();
+                stmt2.close();
+   
+				lArts.add(a);
 			}
+			rs.close();
+			stmt.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

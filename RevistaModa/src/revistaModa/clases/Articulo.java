@@ -3,6 +3,7 @@ package revistaModa.clases;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class Articulo {
 	
@@ -61,6 +62,9 @@ public class Articulo {
 		this.fechaPublicacion = fechaPublicacion;
 		this.tipoArt = tipoArt;
 		this.rutaArchivoArt = rutaArchivoArt;
+		this.lFotos = new ArrayList<>();
+		this.setUsuariosLike = new TreeSet<>();
+		this.mapaUsuariosVal = new TreeMap<>();
 		
 	}
 

@@ -35,8 +35,8 @@ public class Main {
 		ArrayList<FotoArt> lArt = new ArrayList<FotoArt>();
 		HashSet<String> sArt = new HashSet<String>();
 		TreeMap<String,Integer> tArt = new TreeMap<String, Integer>();
-		Articulo art = new Articulo(1, "a", "a", "12/12/2012", "a", "a", lArt, sArt, tArt);
-		GestorBD.insertarArticulo(art);
+		//Articulo art = new Articulo(1, "a", "a", "12/12/2012", "a", "a", lArt, sArt, tArt);
+		//GestorBD.insertarArticulo(art);
 		
 		
 

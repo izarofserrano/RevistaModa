@@ -9,7 +9,7 @@ import revistaModa.bd.GestorBD;
 
 public class RevistaModa {
     private static ArrayList<Articulo> lArticulos = GestorBD.cargarArticulos();
-    private static List<Usuario> lUsuarios = new ArrayList<>();
+    private static List<Usuario> lUsuarios =GestorBD.cargarUsuarios();
     private static ArrayList<FotoArt> lFotos = (ArrayList<FotoArt>) GestorBD.cargarFotos();
 
     // Cargar los artículos con datos, incluyendo fotos, likes y valoraciones
