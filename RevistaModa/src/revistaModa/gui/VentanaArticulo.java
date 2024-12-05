@@ -11,6 +11,8 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -32,6 +34,7 @@ import javax.swing.OverlayLayout;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
+import revistaModa.bd.GestorBD;
 import revistaModa.clases.Articulo;
 import revistaModa.clases.FotoArt;
 import revistaModa.clases.RevistaModa;
@@ -59,8 +62,8 @@ public class VentanaArticulo extends JFrame {
         setTitle("UDVogue");
         setLocationRelativeTo(null);
        
-        setUsuariosLike = art.getSetUsuariosLike();
-        mapaUsuariosVal = art.getMapaUsuariosVal();
+        setUsuariosLike = GestorBD.cargarLikes(art.getIdArt());
+        mapaUsuariosVal = GestorBD.cargarValoraciones(art.getIdArt());
         lUsu = RevistaModa.getlUsuarios();
     
         // Configuración de los paneles
@@ -320,6 +323,16 @@ public class VentanaArticulo extends JFrame {
         
 
         setVisible(true);
+        
+        //IAG: (Herramienta: CHATGPT)
+        addWindowListener(new WindowAdapter() { 
+            @Override
+            public void windowClosing(WindowEvent e) {
+            	//SIN CAMBIAR
+                GestorBD.actualizarValoraciones(mapaUsuariosVal, setUsuariosLike, art.getIdArt());
+                dispose();  
+            }
+        });
     }
     
     private void ajustarBien() {

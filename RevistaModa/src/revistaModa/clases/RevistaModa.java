@@ -8,9 +8,9 @@ import java.util.TreeMap;
 import revistaModa.bd.GestorBD;
 
 public class RevistaModa {
-    private static ArrayList<Articulo> lArticulos = new ArrayList<>();
+    private static ArrayList<Articulo> lArticulos = GestorBD.cargarArticulos();
     private static List<Usuario> lUsuarios = new ArrayList<>();
-    private static ArrayList<FotoArt> lFotos = new ArrayList<>();
+    private static ArrayList<FotoArt> lFotos = (ArrayList<FotoArt>) GestorBD.cargarFotos();
 
     // Cargar los artículos con datos, incluyendo fotos, likes y valoraciones
     public static void cargarArticulos() {
@@ -51,7 +51,7 @@ public class RevistaModa {
     
 
     // Cargar las fotos
-    public static void cargarFotos() {
+  /*  public static void cargarFotos() {
         FotoArt foto1 = new FotoArt(1, "Foto de portada otoño 2024", "RevistaModa/img/ropa1.jpeg");
         FotoArt foto2 = new FotoArt(2, "Accesorios de moda", "RevistaModa/img/ropa2.jpeg");
         FotoArt foto3 = new FotoArt(3, "Estilos streetwear 2024", "RevistaModa/img/ropa3.jpeg");
@@ -61,7 +61,7 @@ public class RevistaModa {
         lFotos.add(foto2);
         lFotos.add(foto3);
         lFotos.add(foto4);
-    }
+    }*/
 
     public static void cargarFotosArtBD() {
     	lFotos = (ArrayList<FotoArt>) GestorBD.cargarFotos();

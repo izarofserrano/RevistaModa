@@ -21,9 +21,9 @@ public class Main {
 		GestorBD.initBD("RevistaModa\\db\\revistaModa.db");
 		GestorBD.crearTablas();
 		
-		RevistaModa.cargarFotos();
+		/*RevistaModa.cargarFotos();
 		RevistaModa.cargarArticulos();
-		RevistaModa.cargarUsuariosBD();
+		RevistaModa.cargarUsuariosBD();*/
 
 		
 		@SuppressWarnings("unused")

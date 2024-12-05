@@ -50,7 +50,19 @@ public class Articulo {
 		this.setUsuariosLike = setUsuariosLike;
 		this.mapaUsuariosVal = mapaUsuariosVal;
 	}
-	
+
+
+	public Articulo(int idArt, String titulo, String autor, String fechaPublicacion, String tipoArt,
+			String rutaArchivoArt) {
+		super();
+		this.idArt = idArt;
+		this.titulo = titulo;
+		this.autor = autor;
+		this.fechaPublicacion = fechaPublicacion;
+		this.tipoArt = tipoArt;
+		this.rutaArchivoArt = rutaArchivoArt;
+		
+	}
 
 	/**
 	 * Método que devuelve el id del artículo.
