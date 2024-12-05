@@ -100,7 +100,6 @@ public class GestorBD {
 					    );
 					""";
 			stmt.executeUpdate(sqlFavArticulo);
-
 			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -448,6 +447,7 @@ public class GestorBD {
 		}
 	}
 
+	
 
 
 

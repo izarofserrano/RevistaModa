@@ -18,8 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-
-
+import revistaModa.bd.GestorBD;
 import revistaModa.clases.Articulo;
 import revistaModa.clases.RevistaModa;
 import revistaModa.clases.Usuario;
@@ -37,7 +36,7 @@ public class VentanaPerfil extends JFrame{
 
 	@SuppressWarnings("unused")
 	private JFrame vActual;
-	private List<Articulo> articulos = RevistaModa.getlArticulos();
+	private List<Articulo> articulos = GestorBD.cargarArticulos();
 
 	public VentanaPerfil(Usuario u) {//Hace falta meter un usuario como 
 		//parametro para poder ejercutar la foto de perfil y su nombre etc...

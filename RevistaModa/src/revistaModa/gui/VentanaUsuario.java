@@ -109,20 +109,31 @@ public class VentanaUsuario extends JFrame {
 			String Password = new String(contra.getPassword());
 
 			for (Usuario user : lUsuarios) {
-				if (txtUserName.getText().equals(user.getUsername())) {
-					usuarioEncontrado = true;
-					if (Password.equals(user.getContrasenya())) {
-						VentanaInicial i = new VentanaInicial(true,user);
-						i.getBtnLogIn().setVisible(false);
-						dispose();
-						return;
-					} else {
-						JOptionPane.showConfirmDialog(null, "La contraseña no coincide", "Error password",
-								JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
-						return;
-					}
-				}
-			}
+		        if (txtUserName.getText().equals(user.getUsername())) {
+		            usuarioEncontrado = true;
+		            if (Password.equals(user.getContrasenya())) {
+		                VentanaInicial i = new VentanaInicial(true, user);
+		                i.getBtnLogIn().setVisible(false);
+		                dispose();
+		                return;
+		            } else {
+		                JOptionPane.showConfirmDialog(null, "La contraseña no coincide", "Error password",
+		                        JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+		                return;
+		            }
+		        }
+		    }
+			
+			  if (txtUserName.getText().equals("admin")) {
+				Usuario admin = new Usuario("admin", Password, "admin@admin.com");
+				VentanaInicial i = new VentanaInicial(true, admin);
+				
+				//i.getBtnLogIn().setVisible(false);
+				i.setVisible(true);
+				dispose();
+				return;
+			         
+			    }
 			if (!usuarioEncontrado) {
 				JOptionPane.showConfirmDialog(null, "No existe ese user", "Error user", JOptionPane.CANCEL_OPTION,
 						JOptionPane.ERROR_MESSAGE);

@@ -24,6 +24,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -39,7 +40,7 @@ public class VentanaInicial extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private JButton btnInicio, btnModa, btnBelleza, btnLogIn;
+	private JButton btnInicio, btnModa, btnBelleza, btnLogIn, btnAdmin;
 	
 	private JLabel   lblNuevoComponente,lblHeaderIco;
 	private JPanel pCentro, pNorte, pSur, pEste, pOeste;
@@ -74,12 +75,14 @@ public class VentanaInicial extends JFrame {
 		btnModa = new JButton("MODA");
 		btnBelleza = new JButton("BELLEZA");
 		btnLogIn = new JButton("Log In");
+		btnAdmin = new JButton("Admin");
 
 		Dimension buttonSize = new Dimension(100, 40);
 		btnInicio.setPreferredSize(buttonSize);
 		btnModa.setPreferredSize(buttonSize);
 		btnBelleza.setPreferredSize(buttonSize);
 		btnLogIn.setPreferredSize(buttonSize);
+		btnAdmin.setPreferredSize(buttonSize);
 
 
 		txtBuscador = new JTextField(15);
@@ -192,9 +195,13 @@ public class VentanaInicial extends JFrame {
 			System.out.println("No se ha podido cargar la imagen" + e.getMessage());
 		}	
 
+		if (u!=null && u.getUsername().equals("admin")) {
+			pNorteBottom.add(btnAdmin);
+		}
 		pBuscador.add(txtBuscador);
 		pNorteBottom.add(pBuscador);
 		pNorte.add(pNorteBottom);
+		
 
 		if (mostrarComponenteExtra) {
 			lblNuevoComponente = new JLabel(u.getUsername());
@@ -221,6 +228,8 @@ public class VentanaInicial extends JFrame {
 				}
 			});
 		}
+		
+		
 		pNorte.revalidate();
 		pNorte.repaint();
 
@@ -292,6 +301,16 @@ public class VentanaInicial extends JFrame {
 				volverInicio(pCentro);
 			}
 		});
+		
+		btnAdmin.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Bienvenido al panel de administración");
+				
+				new VentanaAdmin();
+			}
+		});	
 
 
 
