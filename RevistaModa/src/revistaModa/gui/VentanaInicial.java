@@ -51,12 +51,14 @@ public class VentanaInicial extends JFrame {
 	private JFrame vActual;
 	private HiloPortada hiloPortada;
 	//private HiloBotones hiloBotones;
+	private Usuario usuarioActual;
 
 
 	public VentanaInicial(boolean mostrarComponenteExtra, Usuario u) {
 		vActual = this;
 		lUsu = RevistaModa.getlUsuarios();
-
+		this.usuarioActual = u;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 600);
 		setLocationRelativeTo(null);
@@ -406,27 +408,57 @@ public class VentanaInicial extends JFrame {
 
 			    @Override
 			    public void mouseClicked(MouseEvent e) { //IAG:ChatGPT
-			        String username = lUsu.get(2).getUsername();
-
-			        if (!setUsuariosLike.contains(username)) {
-			            setUsuariosLike.add(username);
-			            totalLikes++;
-			            contador.setText(String.valueOf(totalLikes));
-			            ImageIcon iconoLikeFixed = new ImageIcon("RevistaModa/img/megusta2.png");
-			            Image imagenLikeFixed = iconoLikeFixed.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-			            btn.setIcon(new ImageIcon(imagenLikeFixed));
+			        String username;
 			        
-			            likeQueParpadea(btn);
-			            
+			        if (usuarioActual != null) {
+			        	username = usuarioActual.getUsername();
 			        } else {
-			            setUsuariosLike.remove(username);
-			            totalLikes--;
-			            contador.setText(String.valueOf(totalLikes));
-			            btn.setIcon(new ImageIcon(imgGris));
+			        	username = null;
 			        }
 			        
-			    
-			    }
+			        if (username != null) {
+			        	if (!setUsuariosLike.contains(username)) {
+				            setUsuariosLike.add(username);
+				            totalLikes++;
+				            contador.setText(String.valueOf(totalLikes));
+				            ImageIcon iconoLikeFixed = new ImageIcon("RevistaModa/img/megusta2.png");
+				            Image imagenLikeFixed = iconoLikeFixed.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+				            btn.setIcon(new ImageIcon(imagenLikeFixed));
+				        
+				            likeQueParpadea(btn);
+				            
+				        } else {
+				            setUsuariosLike.remove(username);
+				            totalLikes--;
+				            contador.setText(String.valueOf(totalLikes));
+				            btn.setIcon(new ImageIcon(imgGris));
+				        }
+				        
+				    
+				    
+			        } else {
+			        	int option = JOptionPane.showOptionDialog(null, "Error: no está registrado", "Error de usuario", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] {"Aceptar", "Registro / Inicio de Sesión"}, "Aceptar");
+				        	
+				        if (option == JOptionPane.YES_OPTION) {
+				        	System.out.println("Aceptar");
+				        } else if (option == JOptionPane.NO_OPTION) {
+				        	abrirVentanaUsuario();
+				        		
+				        }
+			        }
+			        	
+			        
+			       }
+
+				private void abrirVentanaUsuario() {
+					List<Usuario> lUsuarios = RevistaModa.getlUsuarios();
+					new VentanaUsuario(lUsuarios);
+					dispose();
+					
+				}
+			    	
+
+			        
 			}); 
 
 
@@ -598,8 +630,12 @@ public class VentanaInicial extends JFrame {
 		    	running = false;
 		    	this.interrupt();
 		    }
+		    
+		    
 		
 	}
+	
+	
 	
 	public JButton getBtnLogIn() {
 		return btnLogIn;
