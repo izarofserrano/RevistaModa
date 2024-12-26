@@ -15,6 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +33,7 @@ import javax.swing.OverlayLayout;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import revistaModa.clases.Articulo;
 import revistaModa.clases.RevistaModa;
 import revistaModa.clases.Usuario;
 
@@ -40,7 +42,7 @@ public class VentanaInicial extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private JButton btnInicio, btnModa, btnBelleza, btnLogIn, btnAdmin;
+	private JButton btnInicio, btnModa, btnBelleza, btnLogIn, btnAdmin, btnRecomendaciones;
 	
 	private JLabel   lblNuevoComponente,lblHeaderIco;
 	private JPanel pCentro, pNorte, pSur, pEste, pOeste;
@@ -78,6 +80,7 @@ public class VentanaInicial extends JFrame {
 		btnBelleza = new JButton("BELLEZA");
 		btnLogIn = new JButton("Log In");
 		btnAdmin = new JButton("Admin");
+		btnRecomendaciones = new JButton ("Recomendaciones");
 
 		Dimension buttonSize = new Dimension(100, 40);
 		btnInicio.setPreferredSize(buttonSize);
@@ -313,6 +316,18 @@ public class VentanaInicial extends JFrame {
 				new VentanaAdmin();
 			}
 		});	
+		
+		btnRecomendaciones.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mostrarRecomendaciones();
+				
+			}
+			
+		});
+		
+		pNorteBottom.add(btnRecomendaciones);
 
 
 
@@ -399,6 +414,8 @@ public class VentanaInicial extends JFrame {
 
 			panelCorazon.add(btn);
 			panelCorazon.add(panelContador);
+			
+			
 
 			
 			
@@ -437,7 +454,7 @@ public class VentanaInicial extends JFrame {
 				    
 				    
 			        } else {
-			        	int option = JOptionPane.showOptionDialog(null, "Error: no está registrado", "Error de usuario", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] {"Aceptar", "Registro / Inicio de Sesión"}, "Aceptar");
+			        	int option = JOptionPane.showOptionDialog(null, "Error: no está registrado", "Error de usuario", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] {"Aceptar", "Registro"}, "Aceptar");
 				        	
 				        if (option == JOptionPane.YES_OPTION) {
 				        	System.out.println("Aceptar");
@@ -505,6 +522,9 @@ public class VentanaInicial extends JFrame {
 		return pCentro;
 		
 	}
+
+	
+	
 	
 
 	
@@ -631,9 +651,67 @@ public class VentanaInicial extends JFrame {
 		    	this.interrupt();
 		    }
 		    
-		    
 		
 	}
+	
+	private Set<Articulo> articulosSinLike = new HashSet<>();
+	private void generarCombisRecursivas(List<Articulo> articulosSinLike, List<List<Articulo>> combinaciones, List<Articulo> combiActual, int inicio) {
+		if(combiActual.size() == 3) {
+			combinaciones.add(new ArrayList<>(combiActual));
+			return;
+		}
+		
+		for (int i = inicio; i<articulosSinLike.size(); i++) {
+			combiActual.add(articulosSinLike.get(i));
+			generarCombisRecursivas(articulosSinLike, combinaciones, combiActual, i+1);
+			combiActual.remove(combiActual.size()-1);
+		}
+	}
+	
+	private void mostrarRecomendaciones() {
+		List<Articulo> articulosSinLike = new ArrayList<>();
+		
+		for (Articulo articulo : RevistaModa.getlArticulos()) {
+			if (!setUsuariosLike.contains(articulo.getIdArt())) {
+				articulosSinLike.add(articulo);
+			}
+		}
+		
+		if (articulosSinLike.isEmpty()) {
+			JOptionPane.showMessageDialog(this, "No se han encontrado artículos para recomendar.");
+			return;
+		}
+		
+		List<List<Articulo>> combis = new ArrayList<>();
+		generarCombisRecursivas(articulosSinLike, combis, new ArrayList<>(),0);
+		
+		if (combis.isEmpty()) {
+			  JOptionPane.showMessageDialog(this, "No hay combinaciones posibles de artículos.");
+		      return;
+		}
+		
+		JFrame ventanaRecs = new JFrame("Recomendaciones");
+		ventanaRecs.setBounds(200,200,800,600);
+		ventanaRecs.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		JPanel pCentroRecs = new JPanel();
+		
+		pCentroRecs.setLayout(new GridLayout(combis.size(), 1));
+		
+		for (List<Articulo> combinacion : combis) {
+			JPanel panelCombi = new JPanel();
+			panelCombi.setLayout(new FlowLayout());
+			
+			for(Articulo articulo : combinacion) {
+				JLabel lblArticulo = new JLabel(articulo.getTitulo());
+				panelCombi.add(lblArticulo);
+			}
+			pCentroRecs.add(panelCombi);
+		}
+		
+		ventanaRecs.add(new JScrollPane(pCentroRecs));
+		ventanaRecs.setVisible(true);
+	}
+	
 	
 	
 	
