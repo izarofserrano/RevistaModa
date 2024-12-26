@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -447,6 +448,39 @@ public class GestorBD {
 		}
 	}
 
+	/*
+	//Para calcular nota media de un artículo
+	public static double calcularNotaMedia(Connection con, int idArt) throws Exception {
+		String sql = "SELECT ABG(valoracion) AS nota_media FROM favArt WHERE idArt = ?";
+		
+		try (PreparedStatement ps = con.prepareStatement(sql)) {
+			ps.setInt(1, idArt);
+			
+			try (ResultSet rs = ps.executeQuery()){
+				if (rs.next()) {
+					return rs.getDouble("nota_media");
+				}
+			}
+		}
+		return 0.0; //si no hay valoracioens
+	} */
+	
+	
+	//Consulta a fuentes, ejemplos externos
+	//Para aclcular nota media de TODOS los artículos con una consulta
+	public static Map<Integer, Double> CalcularNotasMedias(Connection con) throws Exception {
+		String sql = "SELECT idArt, AVG(valoracion) AS nota_media FROM favArt GROUP BY idArt";
+		Map<Integer, Double> notasMedias = new HashMap<>();
+	
+		try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+				while (rs.next()) {
+					int idArt = rs.getInt("idArt");
+					double notaMedia = rs.getDouble("nota_media");
+					notasMedias.put(idArt, notaMedia);
+				}
+			}
+		return notasMedias;
+	}
 	
 
 
