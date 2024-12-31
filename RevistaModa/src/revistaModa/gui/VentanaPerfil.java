@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -31,8 +32,9 @@ public class VentanaPerfil extends JFrame{
 	private JLabel lblFotoPerfil, lblTitulo, lblNombreUsuario,lblImagenBienvenido;
 	private JTextField txtNuevaContra;
 	private RendererEstadistica renderer;
+	private Usuario usuario;
 
-	private JTable tablaEstadistica ;
+	private JTable tablaEstadistica , tablaFavoritos;
 
 	@SuppressWarnings("unused")
 	private JFrame vActual;
@@ -41,6 +43,7 @@ public class VentanaPerfil extends JFrame{
 	public VentanaPerfil(Usuario u) {//Hace falta meter un usuario como 
 		//parametro para poder ejercutar la foto de perfil y su nombre etc...
 		vActual=this;
+		usuario = u;
 
 		setBounds(100, 100, 1000, 600);
 		setLayout(new BorderLayout(10, 10));
@@ -101,6 +104,15 @@ public class VentanaPerfil extends JFrame{
 		
 
 
+
+		btnFavoritos.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				favoritos(pCentro);
+
+			}
+		});
 
 
 		btnEstadistica.addActionListener(new ActionListener() {
@@ -163,13 +175,36 @@ public class VentanaPerfil extends JFrame{
 	    renderer = new RendererEstadistica();
 
 	    for (int i = 0; i < tablaEstadistica.getColumnModel().getColumnCount(); i++) {
-	        tablaEstadistica.getColumnModel().getColumn(i).setCellRenderer(renderer);
+	      //  tablaEstadistica.getColumnModel().getColumn(i).setCellRenderer(renderer);
 	        tablaEstadistica.getColumnModel().getColumn(i).setPreferredWidth(200);
 	    }
 	    tablaEstadistica.setRowHeight(80);
 	    tablaEstadistica.getTableHeader().setReorderingAllowed(false);
 
 	    panel.add(new JScrollPane(tablaEstadistica), BorderLayout.CENTER);
+
+	    panel.validate();
+	    panel.repaint();
+
+	    return panel;
+	}
+	private JPanel favoritos(JPanel panel) {
+	    panel.removeAll();
+	    panel.setLayout(new BorderLayout());
+
+	    tablaFavoritos = new JTable();
+
+	    tablaFavoritos.setModel(new ModeloEstadisticas(articulosfavortios(usuario, articulos)));
+	   
+
+	    for (int i = 0; i < tablaFavoritos.getColumnModel().getColumnCount(); i++) {
+	    	tablaFavoritos.getColumnModel().getColumn(i).setCellRenderer(renderer);
+	        tablaFavoritos.getColumnModel().getColumn(i).setPreferredWidth(200);
+	    }
+	    tablaFavoritos.setRowHeight(80);
+	    tablaFavoritos.getTableHeader().setReorderingAllowed(false);
+
+	    panel.add(new JScrollPane(tablaFavoritos), BorderLayout.CENTER);
 
 	    panel.validate();
 	    panel.repaint();
@@ -233,6 +268,19 @@ public class VentanaPerfil extends JFrame{
 			// Op AND
 		}
 		return Mayus && Num;
+	}
+	public List<Articulo> articulosfavortios (Usuario u,List<Articulo> arts){
+		List<Articulo> Uarts = new ArrayList();
+		for(Articulo a : arts) {
+			for(String usuario : a.getSetUsuariosLike()) {
+				if(u.getUsername().equals(usuario)) {
+					Uarts.add(a);
+				}else {
+					continue;
+				}
+			}
+		}
+	return Uarts;
 	}
 
 }

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import revistaModa.clases.Articulo;
 import revistaModa.clases.FotoArt;
@@ -391,8 +392,21 @@ public class GestorBD {
                 rs2.close();
                 stmt2.close();
    
-				lArts.add(a);
+				
+				String sql3 = String.format("SELECT * FROM FavArticulo where idArt=%d", idArt);
+				Statement stmt3 = con.createStatement();
+				ResultSet rs3 = stmt3.executeQuery(sql3);
+				Set<String> u = new HashSet();
+				while(rs3.next()) {
+					String s = rs3.getString("username");
+					u.add(s);
+				}
+				rs3.close();
+				stmt3.close();
+				a.setSetUsuariosLike(u);
+				lArts.add(a);	
 			}
+			
 			rs.close();
 			stmt.close();
 		} catch (SQLException e) {
