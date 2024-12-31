@@ -32,6 +32,7 @@ public class VentanaPerfil extends JFrame{
 	private JLabel lblFotoPerfil, lblTitulo, lblNombreUsuario,lblImagenBienvenido;
 	private JTextField txtNuevaContra;
 	private RendererEstadistica renderer;
+	private RendererFavoritos renderer2;
 	private Usuario usuario;
 
 	private JTable tablaEstadistica , tablaFavoritos;
@@ -175,7 +176,7 @@ public class VentanaPerfil extends JFrame{
 	    renderer = new RendererEstadistica();
 
 	    for (int i = 0; i < tablaEstadistica.getColumnModel().getColumnCount(); i++) {
-	      //  tablaEstadistica.getColumnModel().getColumn(i).setCellRenderer(renderer);
+	       tablaEstadistica.getColumnModel().getColumn(i).setCellRenderer(renderer);
 	        tablaEstadistica.getColumnModel().getColumn(i).setPreferredWidth(200);
 	    }
 	    tablaEstadistica.setRowHeight(80);
@@ -198,7 +199,7 @@ public class VentanaPerfil extends JFrame{
 	   
 
 	    for (int i = 0; i < tablaFavoritos.getColumnModel().getColumnCount(); i++) {
-	    	tablaFavoritos.getColumnModel().getColumn(i).setCellRenderer(renderer);
+	    	tablaFavoritos.getColumnModel().getColumn(i).setCellRenderer(renderer2);
 	        tablaFavoritos.getColumnModel().getColumn(i).setPreferredWidth(200);
 	    }
 	    tablaFavoritos.setRowHeight(80);
