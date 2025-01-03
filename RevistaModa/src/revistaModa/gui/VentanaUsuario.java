@@ -174,7 +174,7 @@ public class VentanaUsuario extends JFrame {
 		pNorte.add(p4, BorderLayout.WEST);
 
 		try {
-			ImageIcon iconoVentana = new ImageIcon("RevistaModa\\img\\ImgIcon.png");
+			ImageIcon iconoVentana = new ImageIcon("/Users/ainhoa/git/RevistaModa/RevistaModa/img/ImgIcon.png");
 			Image fotoIcon = iconoVentana.getImage();
 			setIconImage(fotoIcon);
 		}catch(Exception e){
@@ -182,7 +182,7 @@ public class VentanaUsuario extends JFrame {
 		}
 
 
-		ImageIcon iconoTitle = new ImageIcon("RevistaModa\\img\\Logo_UD_Vogue.png");
+		ImageIcon iconoTitle = new ImageIcon("/RevistaModa/RevistaModa/img/Logo_UD_Vogue.png");
 		Image fotoTitle = iconoTitle.getImage().getScaledInstance(100, 75, Image.SCALE_SMOOTH);
 
 		JLabel lblTitle = new JLabel(new ImageIcon(fotoTitle));
@@ -200,7 +200,7 @@ public class VentanaUsuario extends JFrame {
 
 		JLabel lblimagen = new JLabel();
 		try {
-			ImageIcon iconoPortada = new ImageIcon("RevistaModa\\img\\Logo_UD_Vogue.png");
+			ImageIcon iconoPortada = new ImageIcon("/RevistaModa/RevistaModa/img/Logo_UD_Vogue.png");
 			Image imgPortada = iconoPortada.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
 			lblimagen = new JLabel(new ImageIcon(imgPortada));
 			pOeste.add(lblimagen,BorderLayout.CENTER);

@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.AbstractTableModel;
 
 import revistaModa.bd.GestorBD;
 import revistaModa.clases.Articulo;
@@ -53,7 +54,7 @@ public class VentanaPerfil extends JFrame{
 		setLocationRelativeTo(null);
 		setTitle("UDVogue_Perfil");
 
-		ImageIcon imagen = new ImageIcon("RevistaModa/img/Logo_UD_Vogue_iconito.png");
+		ImageIcon imagen = new ImageIcon("/RevistaModa/RevistaModa/img/Logo_UD_Vogue_iconito.png");
 		setIconImage(imagen.getImage());
 
 		pCentro = new JPanel();
@@ -75,7 +76,7 @@ public class VentanaPerfil extends JFrame{
 		lblNombreUsuario = new JLabel("Usuario prueba");
 
 
-		ImageIcon iconoBienvenida = new ImageIcon("RevistaModa/img/imagenBienvenidaPerfil.jpeg");
+		ImageIcon iconoBienvenida = new ImageIcon("/RevistaModa/RevistaModa/img/ImagenBienvenidaPerfil.jpeg");
 		Image imgBienvenida = iconoBienvenida.getImage().getScaledInstance(700, 600, Image.SCALE_SMOOTH);
 		lblImagenBienvenido = new JLabel(new ImageIcon(imgBienvenida));
 		pCentro.add(lblImagenBienvenido);
@@ -103,18 +104,15 @@ public class VentanaPerfil extends JFrame{
 		pOesteInf.add(btnEstadistica);
 		pOesteInf.add(btnCambiarContra);
 		
-
-
-
 		btnFavoritos.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				favoritos(pCentro);
-
-			}
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        favoritos(pCentro);
+		        pCentro.revalidate(); 
+		        pCentro.repaint();
+		    }
 		});
-
+ 
 
 		btnEstadistica.addActionListener(new ActionListener() {
 
@@ -189,30 +187,35 @@ public class VentanaPerfil extends JFrame{
 
 	    return panel;
 	}
+	
 	private JPanel favoritos(JPanel panel) {
 	    panel.removeAll();
 	    panel.setLayout(new BorderLayout());
 
-	    tablaFavoritos = new JTable();
+	    List<Articulo> articulosFavoritos = usuario.getFavoritos();
 
-	    tablaFavoritos.setModel(new ModeloEstadisticas(articulosfavortios(usuario, articulos)));
-	   
+	    if (articulosFavoritos == null || articulosFavoritos.isEmpty()) {
+	        JOptionPane.showMessageDialog(this, "No tienes artículos favoritos", "Favoritos vacíos", JOptionPane.INFORMATION_MESSAGE);
+	        return panel;
+	    }
+
+	    tablaFavoritos = new JTable(new ModeloEstadisticas(articulosFavoritos));
+	    renderer2 = new RendererFavoritos();
 
 	    for (int i = 0; i < tablaFavoritos.getColumnModel().getColumnCount(); i++) {
-	    	tablaFavoritos.getColumnModel().getColumn(i).setCellRenderer(renderer2);
+	        tablaFavoritos.getColumnModel().getColumn(i).setCellRenderer(renderer2);
 	        tablaFavoritos.getColumnModel().getColumn(i).setPreferredWidth(200);
 	    }
+
 	    tablaFavoritos.setRowHeight(80);
 	    tablaFavoritos.getTableHeader().setReorderingAllowed(false);
 
 	    panel.add(new JScrollPane(tablaFavoritos), BorderLayout.CENTER);
-
 	    panel.validate();
 	    panel.repaint();
 
 	    return panel;
 	}
-
 	private JPanel MiInformacion (JPanel panel,Usuario u){
 
 		panel.removeAll();
@@ -282,6 +285,47 @@ public class VentanaPerfil extends JFrame{
 			}
 		}
 	return Uarts;
+	}
+	
+	private class ModeloEstadisticas extends AbstractTableModel {
+	    private static final long serialVersionUID = 1L;
+	    private List<Articulo> articulos;
+	    private String[] columnNames = {"ID", "Título", "Autor", "Imagen", "Progreso"};
+
+	    public ModeloEstadisticas(List<Articulo> articulos) {
+	        this.articulos = articulos;
+	    }
+
+	    @Override
+	    public int getRowCount() {
+	        return articulos.size();
+	    }
+
+	    @Override
+	    public int getColumnCount() {
+	        return columnNames.length;
+	    }
+
+	    @Override
+	    public Object getValueAt(int rowIndex, int columnIndex) {
+	        Articulo articulo = articulos.get(rowIndex);
+	        switch (columnIndex) {
+	            case 0:
+	                return articulo.getIdArt();
+	            case 1:
+	                return articulo.getTitulo();
+	            case 2:
+	                return articulo.getAutor();
+	            
+	            default:
+	                return null;
+	        }
+	    }
+
+	    @Override
+	    public String getColumnName(int column) {
+	        return columnNames[column];
+	    }
 	}
 
 }

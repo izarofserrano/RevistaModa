@@ -54,6 +54,7 @@ public class VentanaInicial extends JFrame {
 	private HiloPortada hiloPortada;
 	//private HiloBotones hiloBotones;
 	private Usuario usuarioActual;
+	private List<Articulo> articulos = new ArrayList<>();
 
 
 	public VentanaInicial(boolean mostrarComponenteExtra, Usuario u) {
@@ -362,8 +363,8 @@ public class VentanaInicial extends JFrame {
 		pCentro.setLayout(new GridLayout(2, 4, 10, 10));
 
 		for (int i = 1; i <= 8; i++) {
-
-		
+			Articulo articuloActual = articulos.get(i);
+			
 			JPanel panel = new JPanel();
 			panel.setLayout(new OverlayLayout(panel));
 			panel.setPreferredSize(new Dimension(250, 450));
@@ -415,10 +416,6 @@ public class VentanaInicial extends JFrame {
 			panelCorazon.add(btn);
 			panelCorazon.add(panelContador);
 			
-			
-
-			
-			
 	
 			btn.addMouseListener(new MouseAdapter() { 
 			  
@@ -443,6 +440,10 @@ public class VentanaInicial extends JFrame {
 				            btn.setIcon(new ImageIcon(imagenLikeFixed));
 				        
 				            likeQueParpadea(btn);
+				            
+				            if (!usuarioActual.getFavoritos().contains(articuloActual)) {
+				            	usuarioActual.getFavoritos().add(articuloActual);
+				            }
 				            
 				        } else {
 				            setUsuariosLike.remove(username);
@@ -483,12 +484,21 @@ public class VentanaInicial extends JFrame {
 			panel.add(lbl);
 
 			if (lbl != null) {
-				lbl.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						new VentanaArticulo(RevistaModa.getlArticulos().get(2));
-					}
-				});
+			    lbl.addMouseListener(new MouseAdapter() {
+			        @Override
+			        public void mouseClicked(MouseEvent e) {
+			            List<Articulo> listaArticulos = RevistaModa.getlArticulos();
+			            if (listaArticulos != null && listaArticulos.size() > 2) {
+			                new VentanaArticulo(listaArticulos.get(2));
+			            } else {
+			                System.err.println("La lista de artículos está vacía o no tiene suficientes elementos.");
+			                JOptionPane.showMessageDialog(null, 
+			                    "No hay suficientes artículos para mostrar.", 
+			                    "Error", 
+			                    JOptionPane.WARNING_MESSAGE);
+			            }
+			        }
+			    });
 			}
 			
 			
@@ -711,9 +721,6 @@ public class VentanaInicial extends JFrame {
 		ventanaRecs.add(new JScrollPane(pCentroRecs));
 		ventanaRecs.setVisible(true);
 	}
-	
-	
-	
 	
 	public JButton getBtnLogIn() {
 		return btnLogIn;

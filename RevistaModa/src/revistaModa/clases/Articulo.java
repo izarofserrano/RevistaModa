@@ -1,6 +1,7 @@
 package revistaModa.clases;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -225,6 +226,7 @@ public class Articulo {
      * Método que devuelve una representación en forma de cadena del artículo.
      * @return Representación del objeto Articulo en forma de String.
      */
+	
 	@Override
 	public String toString() {
 		return "Articulo [idArt=" + idArt + ", titulo=" + titulo + ", autor=" + autor + ", fechaPublicacion="
@@ -232,4 +234,17 @@ public class Articulo {
 				+ lFotos + ", setUsuariosLike=" + setUsuariosLike + ", mapaUsuariosVal=" + mapaUsuariosVal + "]";
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+	    if (this == obj) return true;
+	    if (obj == null || getClass() != obj.getClass()) return false;
+	    Articulo articulo = (Articulo) obj;
+	    return Objects.equals(idArt, articulo.idArt); 
+	}
+
+	@Override
+	public int hashCode() {
+	    return Objects.hash(idArt);
+	}
+
 }
