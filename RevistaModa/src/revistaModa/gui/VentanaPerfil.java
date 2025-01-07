@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -192,14 +193,14 @@ public class VentanaPerfil extends JFrame{
 	    panel.removeAll();
 	    panel.setLayout(new BorderLayout());
 
-	    List<Articulo> articulosFavoritos = usuario.getFavoritos();
+	    List<Articulo> articulosFavoritos = GestorBD.cargarFavoritos(usuario.getUsername());
 
 	    if (articulosFavoritos == null || articulosFavoritos.isEmpty()) {
 	        JOptionPane.showMessageDialog(this, "No tienes artículos favoritos", "Favoritos vacíos", JOptionPane.INFORMATION_MESSAGE);
 	        return panel;
 	    }
 
-	    tablaFavoritos = new JTable(new ModeloEstadisticas(articulosFavoritos));
+	    tablaFavoritos = new JTable(new ModeloFavoritos(articulosFavoritos));
 	    renderer2 = new RendererFavoritos();
 
 	    for (int i = 0; i < tablaFavoritos.getColumnModel().getColumnCount(); i++) {

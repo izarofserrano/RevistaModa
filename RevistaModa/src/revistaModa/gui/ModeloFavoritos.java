@@ -19,7 +19,7 @@ public class ModeloFavoritos extends DefaultTableModel{
 			"Valorancion Media"
 			);
 	
-	public void ModeloEstadisticas(List<Articulo> articulos) {
+	public ModeloFavoritos(List<Articulo> articulos) {
 		
 		this.articulos = articulos;
 	}

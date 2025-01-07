@@ -340,6 +340,41 @@ public class GestorBD {
 
 	}
 
+	public static List<Articulo> cargarFavoritos(String u){
+		String sql = "SELECT * FROM FavArticulo WHERE username = '"+u+"'";
+		List<Articulo> sFav = new ArrayList<Articulo>();		
+		try {
+			Statement ps = con.createStatement();
+			
+			System.out.println(sql);
+			ResultSet rs = ps.executeQuery(sql);
+			while(rs.next()) {
+				int idArt = rs.getInt(1);
+				String sql2 = "SELECT * FROM Articulo WHERE idArt = " + idArt;
+				Statement stmt = con.createStatement();
+				ResultSet rs2 = stmt.executeQuery(sql2);
+				//idArt INTEGER PRIMARY KEY,
+		        String titulo = rs2.getString("titulo");
+		        String autor = rs2.getString("autor");
+		        String fechaPublicacion = rs2.getString("fechaPublicacion");
+		        String tipoArt = rs2.getString("tipoArt");
+		        String rutaArchivoArt = rs2.getString("rutaArchicoArt");
+		        Articulo articulo = new Articulo(idArt, titulo, autor, fechaPublicacion, tipoArt, rutaArchivoArt);
+				sFav.add(articulo);
+				rs2.close();
+				stmt.close();
+				
+			}
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return sFav;
+
+	}
 	public static Set<String> cargarLikes(int idArt){
 		Set<String> sLikes = new HashSet<String>();		
 		String sql = "SELECT username FROM FavArticulo WHERE idArt=?";
