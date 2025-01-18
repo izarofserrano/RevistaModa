@@ -182,6 +182,8 @@ public class VentanaPerfil extends JFrame{
 	    panel.removeAll();
 	    panel.setLayout(new BorderLayout());
 
+	    
+	    
 	    List<Articulo> articulosFavoritos = GestorBD.cargarFavoritos(usuario.getUsername());
 
 	    if (articulosFavoritos == null || articulosFavoritos.isEmpty()) {

@@ -26,6 +26,7 @@ public class GestorBD {
 	    con = null;
 	    try {
 	        Class.forName("org.sqlite.JDBC");
+	        
 	        con = DriverManager.getConnection("jdbc:sqlite:" + nombreBD);
 	        // Habilitar WAL
 	        try (Statement stmt = con.createStatement()) {
