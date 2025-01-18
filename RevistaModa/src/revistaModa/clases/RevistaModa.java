@@ -13,7 +13,7 @@ public class RevistaModa {
     private static ArrayList<FotoArt> lFotos = (ArrayList<FotoArt>) GestorBD.cargarFotos();
 
     // Cargar los artículos con datos, incluyendo fotos, likes y valoraciones
-    public static void cargarArticulos() {
+    /*public static void cargarArticulos() {
         // Artículo 1
         Articulo a1 = new Articulo(1, "Tendencias de moda otoño 2024", "Ana González", "2024-09-15", "Tendencias",
                 "RevistaModa/html/moda.html", getlFotos(), new HashSet<>(), new TreeMap<>());
@@ -40,7 +40,7 @@ public class RevistaModa {
         lArticulos.add(a1);
         lArticulos.add(a2);
         lArticulos.add(a3);
-    }
+    }*/
 
     // Cargar los usuarios
 

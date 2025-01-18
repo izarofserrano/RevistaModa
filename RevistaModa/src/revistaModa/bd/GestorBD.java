@@ -22,21 +22,29 @@ import revistaModa.clases.Usuario;
 public class GestorBD {
 	private static Connection con;
 
-	public static void initBD(String nombreBD)  {
-		con = null;
-
-		try {
-			Class.forName("org.sqlite.JDBC");
-			con = DriverManager.getConnection("jdbc:sqlite:" + nombreBD);
-			System.out.println("Conexion establecida");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			System.out.println("Clase no encontrada en bd");
-		} catch (SQLException e) {
-			e.printStackTrace();
-			System.out.println("Error sql");
-		}
+	public static void initBD(String nombreBD) {
+	    con = null;
+	    try {
+	        Class.forName("org.sqlite.JDBC");
+	        con = DriverManager.getConnection("jdbc:sqlite:" + nombreBD);
+	        // Habilitar WAL
+	        try (Statement stmt = con.createStatement()) {
+	            stmt.execute("PRAGMA journal_mode = WAL;");
+	        }
+	        // Configurar el tiempo de espera para los bloqueos
+	        try (Statement stmt = con.createStatement()) {
+	            stmt.execute("PRAGMA busy_timeout = 3000;");  // 3 segundos de espera
+	        }
+	        System.out.println("Conexion establecida");
+	    } catch (ClassNotFoundException e) {
+	        e.printStackTrace();
+	        System.out.println("Clase no encontrada en bd");
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        System.out.println("Error sql");
+	    }
 	}
+
 
 	public static void closeBD() {
 		if (con != null) {
@@ -169,16 +177,15 @@ public class GestorBD {
 
 	//IAG (herramienta: ChatGPT)
 	public static void borrarArticulo(int idArt) {
-		String sql = "DELETE FROM Articulo WHERE idArt = ?";
-		try {
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, idArt);
-			ps.executeUpdate();
-			ps.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	    String sql = "DELETE FROM Articulo WHERE idArt = ?";
+	    try (PreparedStatement ps = con.prepareStatement(sql)) {
+	        ps.setInt(1, idArt);
+	        ps.executeUpdate();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
+
 
 	public static void borrarFotoArt(int idFoto) {
 		String sql = "DELETE FROM FotoArt WHERE idFoto = ?";
@@ -252,67 +259,37 @@ public class GestorBD {
 	}
 
 
-	public static void actualizarValoraciones(TreeMap<String, Integer> mapaUsuariosVal, Set<String> setUsuariosLike, int idArticulo) {
-		//IAG (herramienta: CHATGPT) //PREGUNTA: El chat me ha recomendado hacer con Batch y AutoCommit esta bien?
-		String sqlActualizarLike = "INSERT INTO FavArticulo (username, idArt, like, valoracion) VALUES (?, ?, ?, ?) " +
-				"ON CONFLICT (username, idArt) DO UPDATE SET like = ?, valoracion = ?"; 
+	public static void actualizarValoraciones(Map<String, Integer> valoraciones, Set<String> likes, int idArticulo) {
+	    try {
+	        // Usar la conexión ya abierta
+	        Connection conn = con;
+	        conn.setAutoCommit(false);
 
-		String sqlActualizarValoracion = "INSERT INTO FavArticulo (username, idArt, like, valoracion) VALUES (?, ?, ?, ?) " +
-				"ON CONFLICT (username, idArt) DO UPDATE SET valoracion = ?"; 
-
-		// Usamos una transacción para garantizar que ambas operaciones se realicen correctamente
-		try (PreparedStatement psLike = con.prepareStatement(sqlActualizarLike);
-				PreparedStatement psValoracion = con.prepareStatement(sqlActualizarValoracion)) {
-
-			con.setAutoCommit(false);  // Desactivamos autocommit para manejar la transacción
-
-			// Primero, actualizar los "likes" (usuarios que le dieron like al artículo)
-			for (String username : setUsuariosLike) {
-				psLike.setString(1, username);  // Username
-				psLike.setInt(2, idArticulo);   // ID del artículo
-				psLike.setInt(3, 1);            // El "like" es 1, porque el usuario le dio like
-				psLike.setInt(4, 0);            // Valoración predeterminada (si no se especifica) es 0
-
-				psLike.setInt(5, 0);            // En caso de conflicto, actualizamos el "like" a 0S
-				psLike.setInt(6, 0);            // Y la valoración a 0
-				psLike.addBatch();              // Añadimos a batch
-			}
-
-			// Luego, actualizar las valoraciones (con el TreeMap)
-			for (Map.Entry<String, Integer> entry : mapaUsuariosVal.entrySet()) {
-				String username = entry.getKey();
-				Integer valoracion = entry.getValue();
-
-				psValoracion.setString(1, username);    // Username
-				psValoracion.setInt(2, idArticulo);     // ID del artículo
-				psValoracion.setInt(3, 0);              // El like predeterminado es 0 si no se especifica
-				psValoracion.setInt(4, valoracion);     // La valoración especificada
-
-				psValoracion.setInt(5, valoracion);     // Si hay conflicto, actualizamos la valoración
-				psValoracion.addBatch();                // Añadimos a batch
-			}
-
-			// Ejecutar las actualizaciones
-			psLike.executeBatch();                    // Ejecutar los likes
-			psValoracion.executeBatch();              // Ejecutar las valoraciones
-
-			con.commit();  // Confirmamos la transacción
-
-		} catch (SQLException e) {
-			try {
-				con.rollback();  // Revertimos en caso de error
-			} catch (SQLException rollbackEx) {
-				rollbackEx.printStackTrace();
-			}
-			e.printStackTrace();
-		} finally {
-			try {
-				con.setAutoCommit(true);  // Restauramos el autocommit
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+	        String sqlUpdateFavArticulo = """ 
+	            INSERT OR REPLACE INTO FavArticulo (username, idArt, like, valoracion) VALUES (?, ?, ?, ?); 
+	        """;
+	        try (PreparedStatement psFavArticulo = conn.prepareStatement(sqlUpdateFavArticulo)) {
+	            for (Map.Entry<String, Integer> entry : valoraciones.entrySet()) {
+	                String usuario = entry.getKey();
+	                int valoracion = entry.getValue();
+	                int like = (likes.contains(usuario)) ? 1 : 0;
+	                psFavArticulo.setString(1, usuario);
+	                psFavArticulo.setInt(2, idArticulo);
+	                psFavArticulo.setInt(3, like);
+	                psFavArticulo.setInt(4, valoracion);
+	                psFavArticulo.addBatch();
+	            }
+	            psFavArticulo.executeBatch();
+	        }
+	        conn.commit();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
+
+
+
+
 
 	public static TreeMap<String, Integer> cargarValoraciones(int idArt){
 		TreeMap<String, Integer> mVal = new TreeMap<String, Integer>();
@@ -340,41 +317,46 @@ public class GestorBD {
 
 	}
 
-	public static List<Articulo> cargarFavoritos(String u){
-		String sql = "SELECT * FROM FavArticulo WHERE username = '"+u+"'";
-		List<Articulo> sFav = new ArrayList<Articulo>();		
-		try {
-			Statement ps = con.createStatement();
-			
-			System.out.println(sql);
-			ResultSet rs = ps.executeQuery(sql);
-			while(rs.next()) {
-				int idArt = rs.getInt(1);
-				String sql2 = "SELECT * FROM Articulo WHERE idArt = " + idArt;
-				Statement stmt = con.createStatement();
-				ResultSet rs2 = stmt.executeQuery(sql2);
-				//idArt INTEGER PRIMARY KEY,
-		        String titulo = rs2.getString("titulo");
-		        String autor = rs2.getString("autor");
-		        String fechaPublicacion = rs2.getString("fechaPublicacion");
-		        String tipoArt = rs2.getString("tipoArt");
-		        String rutaArchivoArt = rs2.getString("rutaArchicoArt");
-		        Articulo articulo = new Articulo(idArt, titulo, autor, fechaPublicacion, tipoArt, rutaArchivoArt);
-				sFav.add(articulo);
-				rs2.close();
-				stmt.close();
-				
-			}
-			rs.close();
-			ps.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public static List<Articulo> cargarFavoritos(String u) {
+	    List<Articulo> sFav = new ArrayList<Articulo>();
+	    System.out.println(u);
 
-		return sFav;
+	    //IAG: ChatGPT (Solo la sentencia sql)
+	    String sql = """
+	        SELECT a.idArt, a.titulo, a.autor, a.fechaPublicacion, a.tipoArt, a.rutaArchivoArt
+	        FROM FavArticulo f
+	        JOIN Articulo a ON f.idArt = a.idArt
+	        WHERE f.username = ?
+	    """;
 
+	    try {
+	        PreparedStatement ps = con.prepareStatement(sql);
+	        ps.setString(1, u);
+
+	        ResultSet rs = ps.executeQuery();
+	        
+	        while (rs.next()) {
+	            int idArt = rs.getInt("idArt");
+	            String titulo = rs.getString("titulo");
+	            String autor = rs.getString("autor");
+	            String fechaPublicacion = rs.getString("fechaPublicacion");
+	            String tipoArt = rs.getString("tipoArt");
+	            String rutaArchivoArt = rs.getString("rutaArchivoArt");
+
+	            Articulo articulo = new Articulo(idArt, titulo, autor, fechaPublicacion, tipoArt, rutaArchivoArt);
+	            System.out.println(articulo);
+	            sFav.add(articulo);
+	        }
+
+	        rs.close();
+	        ps.close();
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return sFav;
 	}
+
 	public static Set<String> cargarLikes(int idArt){
 		Set<String> sLikes = new HashSet<String>();		
 		String sql = "SELECT username FROM FavArticulo WHERE idArt=?";

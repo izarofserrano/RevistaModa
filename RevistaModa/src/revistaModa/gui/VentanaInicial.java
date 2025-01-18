@@ -14,6 +14,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -358,8 +359,185 @@ System.out.println("No se ha podido cargar la imagen" + e.getMessage());
 		return pCentro;
 
 	}
+	
+	private JPanel cargarArticulos2(JPanel pCentro, String tipo) {
+	    System.out.println("TAMAÑO:"+RevistaModa.getlArticulos().size());
+	    int filaConResto = RevistaModa.getlArticulos().size() % 4;
+	    int filas = 0;
+	    if (filaConResto != 0) {
+	        filas = RevistaModa.getlArticulos().size() / 4 + 1;
+	    } else {
+	        filas = RevistaModa.getlArticulos().size() / 4;
+	    }
+
+	    int columnas = 4;
+	    pCentro.setLayout(new GridLayout(filas, columnas, 10, 10));
+
+	    for (int i = 0; i < RevistaModa.getlArticulos().size(); i++) {
+	        JPanel panel = new JPanel();
+	        panel.setLayout(new OverlayLayout(panel));
+	        panel.setPreferredSize(new Dimension(250, 450));
+	        JLabel lbl = null;
+
+	        try {
+	            lbl = new JLabel();
+	            lbl.setSize(panel.getWidth(), panel.getHeight());
+	            // ImageIcon icono = new ImageIcon("RevistaModa/img/" + tipo + i + ".jpeg");
+	            ImageIcon icono = new ImageIcon(RevistaModa.getlArticulos().get(i).getlFotos().get(0).getRutaFoto());
+	            icono.setDescription(RevistaModa.getlArticulos().get(i).getlFotos().get(0).getRutaFoto());
+	            Image imagen = icono.getImage().getScaledInstance(250, 350, Image.SCALE_SMOOTH);
+	            lbl = new JLabel(new ImageIcon(imagen));
+	            lbl.setAlignmentX(LEFT_ALIGNMENT);
+	            lbl.setAlignmentY(TOP_ALIGNMENT);
+	            ImageIcon imagenConDimensiones = new ImageIcon(icono.getImage().getScaledInstance(lbl.getWidth(), lbl.getHeight(), Image.SCALE_DEFAULT));
+	            lbl.setIcon(imagenConDimensiones);
+	        } catch (Exception u) {
+	            System.out.println("No se ha podido cargar la imagen" + u.getMessage());
+	        }
+
+	        // Asociar la imagen con el artículo correspondiente
+	        final int index = i; // Crear una variable final para acceder dentro del MouseListener
+
+	       
+	        
+	        lbl.addMouseListener(new MouseAdapter() {
+	            @Override
+	            public void mouseClicked(MouseEvent e) {
+	                try {
+	                    // Verificar si usuarioActual es null
+	                    if (usuarioActual == null) {
+	                        throw new Exception("Usuario no encontrado.");
+	                    }
+	                    
+	                    // Obtener el artículo correspondiente
+	                    Articulo articulo = RevistaModa.getlArticulos().get(index);
+	                    
+	                    // Abrir la ventana correspondiente para ese artículo
+	                    new VentanaArticulo(articulo, usuarioActual);
+	                } catch (Exception ex) {
+	                    // Mostrar un JOptionPane si ocurre un error
+	                	int option = JOptionPane.showOptionDialog(null, "Error: no está registrado", "Error de usuario", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] {"Aceptar", "Registro"}, "Aceptar");
+
+	                    if (option == JOptionPane.YES_OPTION) {
+	                        System.out.println("Aceptar");
+	                    } else if (option == JOptionPane.NO_OPTION) {
+	                        abrirVentanaUsuario();
+	                    	
+	                    }
+	                }
+	            }
+	        });
 
 
+	        panel.add(lbl, BorderLayout.CENTER);
+	        pCentro.add(panel);
+
+	        JPanel panelCorazon = new JPanel();
+	        panelCorazon.setLayout(null);
+	        panelCorazon.setOpaque(false);
+	        panelCorazon.setPreferredSize(new Dimension(250, 350));
+
+	        ImageIcon iconoGris = new ImageIcon("RevistaModa/img/megusta1.png");
+	        Image imgGris = iconoGris.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+	        JButton btn = new JButton(new ImageIcon(imgGris));
+
+	        btn.setMinimumSize(new Dimension(30, 30));
+	        btn.setContentAreaFilled(false);
+	        btn.setBorderPainted(false);
+	        btn.setFocusPainted(false);
+	        btn.setBounds(215, 320, 30, 30);
+
+	        JPanel panelContador = new JPanel();
+	        panelContador.setBackground(new Color(255, 255, 255, 180));
+	        panelContador.setBounds(10, 320, 60, 30);
+	        panelContador.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+	        JLabel contador = new JLabel("0");
+	        contador.setForeground(Color.BLACK);
+	        panelContador.add(contador);
+
+	        panelCorazon.add(btn);
+	        panelCorazon.add(panelContador);
+
+	        btn.addMouseListener(new MouseAdapter() {
+	            @Override
+	            public void mouseClicked(MouseEvent e) {
+	                String username;
+
+	                if (usuarioActual != null) {
+	                    username = usuarioActual.getUsername();
+	                } else {
+	                    username = null;
+	                }
+
+	                if (username != null) {
+	                    if (!setUsuariosLike.contains(username)) {
+	                        setUsuariosLike.add(username);
+	                        totalLikes++;
+	                        contador.setText(String.valueOf(totalLikes));
+	                        ImageIcon iconoLikeFixed = new ImageIcon("RevistaModa/img/megusta2.png");
+	                        Image imagenLikeFixed = iconoLikeFixed.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
+	                        btn.setIcon(new ImageIcon(imagenLikeFixed));
+	                        likeQueParpadea(btn);
+
+	                    } else {
+	                        setUsuariosLike.remove(username);
+	                        totalLikes--;
+	                        contador.setText(String.valueOf(totalLikes));
+	                        btn.setIcon(new ImageIcon(imgGris));
+	                    }
+
+	                } else {
+	                    int option = JOptionPane.showOptionDialog(null, "Error: no está registrado", "Error de usuario", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] {"Aceptar", "Registro"}, "Aceptar");
+
+	                    if (option == JOptionPane.YES_OPTION) {
+	                        System.out.println("Aceptar");
+	                    } else if (option == JOptionPane.NO_OPTION) {
+	                        abrirVentanaUsuario();
+	                    }
+	                }
+	            }
+
+	            
+	        });
+
+	        panel.add(panelCorazon);
+	        panel.add(lbl);
+
+	        KeyListener clickEnEsc = new KeyListener() {
+	            @Override
+	            public void keyTyped(KeyEvent e) {}
+
+	            @Override
+	            public void keyPressed(KeyEvent e) {
+	                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+	                    volverInicio(pCentro);
+	                    pCentro.revalidate();
+	                    pCentro.repaint();
+	                }
+	            }
+
+	            @Override
+	            public void keyReleased(KeyEvent e) {}
+	        };
+
+	        pCentro.setFocusable(true);
+	        pCentro.addKeyListener(clickEnEsc);
+	        pCentro.requestFocusInWindow();
+	    }
+
+	    return pCentro;
+	}
+	
+	private void abrirVentanaUsuario() {
+        List<Usuario> lUsuarios = RevistaModa.getlUsuarios();
+        new VentanaUsuario(lUsuarios);
+        dispose();
+    }
+
+
+
+/*
 	private JPanel cargarArticulos(JPanel pCentro, String tipo) {
 		pCentro.setLayout(new GridLayout(2, 4, 10, 10));
 
@@ -524,7 +702,7 @@ System.out.println("No se ha podido cargar la imagen" + e.getMessage());
 		return pCentro;
 
 	}
-
+*/
 
 
 
@@ -566,95 +744,90 @@ System.out.println("No se ha podido cargar la imagen" + e.getMessage());
 
 
 	private JPanel reloadModa(JPanel pCentro) {
-		return cargarArticulos(pCentro, "ropa");
+		return cargarArticulos2(pCentro, "ropa");
 	}
 
 	private JPanel ReloadBelleza(JPanel pCentro) {
-		return cargarArticulos(pCentro, "belleza");
+		return cargarArticulos2(pCentro, "belleza");
 	}
 
-	private class HiloPortada extends Thread{
-		//USO DE CHAT PARA MEJORAR CODIGO
+	private class HiloPortada extends Thread {
+	    private volatile boolean running = true; // Control del hilo
+	    private JLabel[] imagenesAlLado = new JLabel[3]; // Tres imágenes visibles a la vez
+	    private List<String> rutasImagenes; // Lista de todas las imágenes disponibles
+	    private int indiceActual = 0; // Índice del inicio de las imágenes visibles
 
-		private volatile boolean running = true;
-		private JLabel[] imagenesAlLado = new JLabel[3];
-		private int[] indices = {1, 2, 3};
+	    public HiloPortada() {
+	        rutasImagenes = cargarRutasImagenes(); // Obtener todas las rutas de imágenes
 
-		public HiloPortada() {
-			SwingUtilities.invokeLater(() -> {
-				pCentro.setLayout(new GridLayout(1, 3, 10, 10));
-				for (int i = 0; i < imagenesAlLado.length; i++) {
-					imagenesAlLado[i] = new JLabel();
-					imagenesAlLado[i].setHorizontalAlignment(JLabel.CENTER);
-					pCentro.add(imagenesAlLado[i]);
-				}
-			});
-		}
-		@Override
-		public void run() {
+	        SwingUtilities.invokeLater(() -> {
+	            pCentro.setLayout(new GridLayout(1, 3, 10, 10)); // Configura un GridLayout
+	            for (int i = 0; i < imagenesAlLado.length; i++) {
+	                imagenesAlLado[i] = new JLabel();
+	                imagenesAlLado[i].setHorizontalAlignment(JLabel.CENTER);
+	                pCentro.add(imagenesAlLado[i]);
+	            }
+	            cargarImagenesIniciales();
+	        });
+	    }
 
-			try {
-				while (running) {
+	    private List<String> cargarRutasImagenes() {
+	        List<String> rutas = new ArrayList<>();
+	        int i = 1;
+	        while (true) {
+	            String ruta = "RevistaModa/img/portada" + i + ".jpeg";
+	            if (new File(ruta).exists()) {
+	                rutas.add(ruta);
+	                i++;
+	            } else {
+	                break; // Detener al no encontrar más imágenes
+	            }
+	        }
+	        return rutas;
+	    }
 
-					SwingUtilities.invokeLater(() -> actualizamosPortada());
+	    private void cargarImagenesIniciales() {
+	        for (int i = 0; i < imagenesAlLado.length; i++) {
+	            int indice = (indiceActual + i) % rutasImagenes.size();
+	            actualizarImagen(imagenesAlLado[i], rutasImagenes.get(indice));
+	        }
+	    }
 
-					Thread.sleep(2000);
+	    private void actualizarImagen(JLabel label, String rutaImagen) {
+	        try {
+	            ImageIcon icono = new ImageIcon(rutaImagen);
+	            Image img = icono.getImage().getScaledInstance(300, 400, Image.SCALE_SMOOTH);
+	            label.setIcon(new ImageIcon(img));
+	        } catch (Exception e) {
+	            label.setText("Error al cargar imagen");
+	        }
+	    }
 
+	    @Override
+	    public void run() {
+	        while (running) {
+	            try {
+	                indiceActual = (indiceActual + 1) % rutasImagenes.size(); // Avanza el índice
 
-				}
+	                SwingUtilities.invokeLater(() -> {
+	                    for (int i = 0; i < imagenesAlLado.length; i++) {
+	                        int indice = (indiceActual + i) % rutasImagenes.size();
+	                        actualizarImagen(imagenesAlLado[i], rutasImagenes.get(indice));
+	                    }
+	                });
 
-			} catch (InterruptedException e) {
+	                Thread.sleep(3000); // Intervalo entre cambios
+	            } catch (InterruptedException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
 
-				System.out.println("Hilo interrumpido correctamente.");
-
-			} finally {
-
-				System.out.println("Hilo terminado.");
-
-			}
-		}
-
-		private void actualizamosPortada() {
-			for (int i = 0; i < imagenesAlLado.length; i++) {
-				actualizamosImagen(imagenesAlLado[i], indices[i]);
-				indices[i] = (indices[i] % 10) + 1; // Ciclar índices entre 1 y 10
-			}
-			pCentro.revalidate();
-			pCentro.repaint();
-		}
-
-
-		private void actualizamosImagen(JLabel label, int indice) {
-			try {
-				String ruta = "RevistaModa/img/Portada" + indice + ".jpeg";
-				ImageIcon icono = new ImageIcon(ruta);
-
-				int anchoDelPanel;
-				if (pCentro.getWidth()>0) {
-					anchoDelPanel = pCentro.getWidth() / 3;
-				} else {
-					anchoDelPanel = 850 / 3; // por si acaso
-				}
-
-				int anchoOrig = icono.getIconWidth();
-				int alturaOrig = icono.getIconHeight();
-				int alturaProp = (int) ((double) alturaOrig / anchoOrig * anchoDelPanel);
-
-				Image img = icono.getImage().getScaledInstance(anchoDelPanel, alturaProp, Image.SCALE_SMOOTH);
-				label.setIcon(new ImageIcon(img));
-			}
-			catch (Exception e) {
-				System.out.println("Error al actualizar imagen en portada:" + e.getMessage());
-			}
-		}
-
-		public void detener() {
-			running = false;
-			this.interrupt();
-		}
-
-
+	    public void detener() {
+	        running = false; // Detiene el bucle del hilo
+	    }
 	}
+
 
 	private Set<Articulo> articulosSinLike = new HashSet<>();
 	private void generarCombisRecursivas(List<Articulo> articulosSinLike, List<List<Articulo>> combinaciones, List<Articulo> combiActual, int inicio) {
@@ -671,48 +844,93 @@ System.out.println("No se ha podido cargar la imagen" + e.getMessage());
 	}
 
 	private void mostrarRecomendaciones() {
-		List<Articulo> articulosSinLike = new ArrayList<>();
+	    List<Articulo> articulosSinLike = new ArrayList<>();
 
-		for (Articulo articulo : RevistaModa.getlArticulos()) {
-			if (!setUsuariosLike.contains(articulo.getIdArt())) {
-				articulosSinLike.add(articulo);
-			}
-		}
+	    // Filtramos los artículos que no tienen "like" del usuario
+	    for (Articulo articulo : RevistaModa.getlArticulos()) {
+	        if (!setUsuariosLike.contains(articulo.getIdArt())) {
+	            articulosSinLike.add(articulo);
+	        }
+	    }
 
-		if (articulosSinLike.isEmpty()) {
-			JOptionPane.showMessageDialog(this, "No se han encontrado artículos para recomendar.");
-			return;
-		}
+	    if (articulosSinLike.isEmpty()) {
+	        JOptionPane.showMessageDialog(this, "No se han encontrado artículos para recomendar.");
+	        return;
+	    }
 
-		List<List<Articulo>> combis = new ArrayList<>();
-		generarCombisRecursivas(articulosSinLike, combis, new ArrayList<>(),0);
+	    List<List<Articulo>> combis = new ArrayList<>();
+	    generarCombisRecursivas(articulosSinLike, combis, new ArrayList<>(), 0);
 
-		if (combis.isEmpty()) {
-			JOptionPane.showMessageDialog(this, "No hay combinaciones posibles de artículos.");
-			return;
-		}
+	    if (combis.isEmpty()) {
+	        JOptionPane.showMessageDialog(this, "No hay combinaciones posibles de artículos.");
+	        return;
+	    }
 
-		JFrame ventanaRecs = new JFrame("Recomendaciones");
-		ventanaRecs.setBounds(200,200,800,600);
-		ventanaRecs.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		JPanel pCentroRecs = new JPanel();
+	    // Seleccionamos la primera combinación posible
+	    List<Articulo> combinacionSeleccionada = combis.get(0);
 
-		pCentroRecs.setLayout(new GridLayout(combis.size(), 1));
+	    // Crear la ventana para las recomendaciones
+	    JFrame ventanaRecs = new JFrame("Recomendaciones");
+	    ventanaRecs.setBounds(200, 200, 800, 600);
+	    ventanaRecs.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		for (List<Articulo> combinacion : combis) {
-			JPanel panelCombi = new JPanel();
-			panelCombi.setLayout(new FlowLayout());
+	    JPanel pCentroRecs = new JPanel();
+	    pCentroRecs.setLayout(new GridLayout(1, 3, 10, 10)); // 1 fila, 3 columnas con un espacio de 10px entre ellos
 
-			for(Articulo articulo : combinacion) {
-				JLabel lblArticulo = new JLabel(articulo.getTitulo());
-				panelCombi.add(lblArticulo);
-			}
-			pCentroRecs.add(panelCombi);
-		}
+	    // Recorremos los 3 artículos de la combinación seleccionada
+	    for (Articulo articulo : combinacionSeleccionada) {
+	        // Crear un panel para cada artículo
+	        JPanel panelArticulo = new JPanel();
+	        panelArticulo.setLayout(new BorderLayout());
 
-		ventanaRecs.add(new JScrollPane(pCentroRecs));
-		ventanaRecs.setVisible(true);
+	        // Cargar la imagen de la portada
+	        JLabel lblPortada = new JLabel();
+	        try {
+	            ImageIcon iconoPortada = new ImageIcon(articulo.getlFotos().get(0).getRutaFoto());
+	            Image portadaEscalada = iconoPortada.getImage().getScaledInstance(250, 350, Image.SCALE_SMOOTH);
+	            lblPortada.setIcon(new ImageIcon(portadaEscalada));
+	        } catch (Exception e) {
+	            lblPortada.setText("No imagen disponible");
+	        }
+
+	        // Etiqueta para el título
+	        JLabel lblTitulo = new JLabel(articulo.getTitulo(), SwingConstants.CENTER);
+	        lblTitulo.setForeground(Color.BLACK);
+
+	        // Agregar el listener para abrir el artículo cuando se haga clic en la portada
+	        lblPortada.addMouseListener(new MouseAdapter() {
+	            @Override
+	            public void mouseClicked(MouseEvent e) {
+	                if (usuarioActual != null) {
+	                    new VentanaArticulo(articulo, usuarioActual);
+	                } else {
+	                	int option = JOptionPane.showOptionDialog(null, "Error: no está registrado", "Error de usuario", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, new Object[] {"Aceptar", "Registro"}, "Aceptar");
+
+	                    if (option == JOptionPane.YES_OPTION) {
+	                        System.out.println("Aceptar");
+	                    } else if (option == JOptionPane.NO_OPTION) {
+	                        abrirVentanaUsuario();
+	                    	
+	                    }
+	                    
+	                }
+	            }
+	        });
+
+	        // Añadir la portada y el título al panel
+	        panelArticulo.add(lblPortada, BorderLayout.CENTER);
+	        panelArticulo.add(lblTitulo, BorderLayout.SOUTH);
+
+	        // Añadir el panel de cada artículo al panel principal
+	        pCentroRecs.add(panelArticulo);
+	    }
+
+	    ventanaRecs.add(pCentroRecs);
+	    ventanaRecs.setVisible(true);
 	}
+
+
+
 
 
 

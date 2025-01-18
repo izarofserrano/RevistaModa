@@ -22,7 +22,7 @@ public class Main {
 		GestorBD.crearTablas();
 		
 		RevistaModa.cargarFotosArtBD();
-		RevistaModa.cargarArticulos();
+		//RevistaModa.cargarArticulos();
 		RevistaModa.cargarUsuariosBD();
 
 		

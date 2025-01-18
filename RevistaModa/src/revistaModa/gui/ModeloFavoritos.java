@@ -63,7 +63,12 @@ public class ModeloFavoritos extends DefaultTableModel{
 		switch(column){
 		case 0:return art.getTitulo();
 		case 1:return art.getAutor();
-		case 2: return art.getlFotos().getFirst().getRutaFoto();
+		case 2: 
+			if (art.getlFotos() != null && !art.getlFotos().isEmpty()) {
+                return art.getlFotos().get(0).getRutaFoto();
+            } else {
+                return null;  // O podrías retornar un valor por defecto o una imagen predeterminada
+            }
 			
 		case 3:return art.getLikesCount();
 		case 4:return (RevistaModa.valoracionMedia(art)) ;

@@ -53,10 +53,10 @@ public class VentanaArticulo extends JFrame {
     TreeMap<String,Integer> mapaUsuariosVal;
     
     private List<Usuario> lUsu;
-    private boolean likeFijo = false,likeFijoFt = false;  
+    private boolean likeFijo,likeFijoFt = false;  
     private JPanel panelDerecho;
 
-    public VentanaArticulo(Articulo art) {
+    public VentanaArticulo(Articulo art, Usuario usuarioActual) {
         vActual = this;
         setBounds(100, 100, 1000, 600);
         setTitle("UDVogue");
@@ -65,6 +65,7 @@ public class VentanaArticulo extends JFrame {
         setUsuariosLike = GestorBD.cargarLikes(art.getIdArt());
         mapaUsuariosVal = GestorBD.cargarValoraciones(art.getIdArt());
         lUsu = RevistaModa.getlUsuarios();
+        
     
         // Configuración de los paneles
         pCentro = new JPanel();
@@ -86,6 +87,8 @@ public class VentanaArticulo extends JFrame {
         // Panel para título y like
         pSubNorte = new JPanel();
         pSubNorte.setLayout(new BoxLayout(pSubNorte, BoxLayout.Y_AXIS));
+        
+        
         
         lblTituloArt = new JLabel("<html><h1>" + art.getTitulo() + "</h1></html>"); //IAG (Herramienta: ChatGPT) Sin cambios
 
@@ -122,7 +125,7 @@ public class VentanaArticulo extends JFrame {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                String username = lUsu.get(2).getUsername();  
+                String username = usuarioActual.getUsername();  
 
                 if (!setUsuariosLike.contains(username)) {
                     setUsuariosLike.add(username);
@@ -159,18 +162,20 @@ public class VentanaArticulo extends JFrame {
         slValoracion.setMajorTickSpacing(1);
         slValoracion.setPaintTicks(true);
         slValoracion.setPaintLabels(true);
+        setValoracionesUsuInicial(usuarioActual);
 
         btnValorar = new JButton("Valorar");
         btnValorar.setPreferredSize(new Dimension(80, 25));
+        
 
         btnValorar.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
-        		if (!mapaUsuariosVal.containsKey(lUsu.get(1).getUsername())) {
-        			mapaUsuariosVal.put(lUsu.get(1).getUsername(), slValoracion.getValue());
+        		if (!mapaUsuariosVal.containsKey(usuarioActual.getUsername())) {
+        			mapaUsuariosVal.put(usuarioActual.getUsername(), slValoracion.getValue());
         		} else {
-        			mapaUsuariosVal.put(lUsu.get(1).getUsername(), slValoracion.getValue());
-        			JOptionPane.showMessageDialog(null, "Tu valoración se ha actualizado");
+        			mapaUsuariosVal.put(usuarioActual.getUsername(), slValoracion.getValue());
+        			JOptionPane.showMessageDialog(null, "Tu valoración se ha actualizado: " + usuarioActual.getUsername() + " ("+slValoracion.getValue()+")\n");
         		}
         		System.out.println(mapaUsuariosVal);
         	}
@@ -277,7 +282,7 @@ public class VentanaArticulo extends JFrame {
 
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    String username = lUsu.get(2).getUsername();
+                    String username = usuarioActual.getUsername();
                     if (!setUsuariosLike.contains(username)) {
                         setUsuariosLike.add(username);
                         ImageIcon iconoLikeFixed2 = new ImageIcon("RevistaModa/img/megusta2.png");
@@ -325,14 +330,40 @@ public class VentanaArticulo extends JFrame {
         setVisible(true);
         
         //IAG: (Herramienta: CHATGPT)
-        addWindowListener(new WindowAdapter() { 
+        addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-            	//SIN CAMBIAR
-                GestorBD.actualizarValoraciones(mapaUsuariosVal, setUsuariosLike, art.getIdArt());
-                dispose();  
+                try {
+                    // Verifica que la lista de usuarios de 'likes' y 'valoraciones' estén actualizadas
+                    if (mapaUsuariosVal != null && setUsuariosLike != null && art != null) {
+                        // Actualizar la base de datos con los likes y valoraciones más recientes
+                        GestorBD.actualizarValoraciones(mapaUsuariosVal, setUsuariosLike, art.getIdArt());
+                        System.out.println("Datos actualizados correctamente en la base de datos.");
+                    } else {
+                        System.err.println("Error: Datos insuficientes para actualizar valoraciones.");
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                dispose();
             }
         });
+
+    }
+    
+    private void setValoracionesUsuInicial(Usuario usu) {
+        if(setUsuariosLike.contains(usu.getUsername())) {
+        	ImageIcon iconoLikeFixed = new ImageIcon("RevistaModa/img/megusta2.png");
+            Image imageLikeFixed = iconoLikeFixed.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+            btnLike.setIcon(new ImageIcon(imageLikeFixed));
+            likeFijo = true;  
+        }
+        if(mapaUsuariosVal.containsKey(usu.getUsername())) {
+        	slValoracion.setValue(mapaUsuariosVal.get(usu.getUsername()));
+        }else {
+        	slValoracion.setValue(0);
+        }
+        
     }
     
     private void ajustarBien() {

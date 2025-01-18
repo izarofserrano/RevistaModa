@@ -135,31 +135,20 @@ public class VentanaPerfil extends JFrame{
 			}
 		});
 		btnCambiarContra.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				String password = txtNuevaContra.getText();
-
-				if(password.equals("")|password.equals(" ")) {
-					JOptionPane.showConfirmDialog(null,"Debes de introducir una nueva contraseña","Error al cambiar Contraseña" ,JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
-				}
-
-				else if (!validarContra(password)) {
-					JOptionPane.showConfirmDialog(null,"Debes de introducir al menos una Mayuscula y un numero","Error al cambiar Contraseña" ,JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
-
-				}
-
-				else {
-					u.setContrasenya(txtNuevaContra.getText());
-					JOptionPane.showConfirmDialog(null,"Contrasela cambiada con exito","Update Contraseña" ,JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
-					System.out.println(u.getContrasenya());
-					txtNuevaContra.setText("");				
-					}
-
-			}
-		});
-
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String password = txtNuevaContra.getText();
+                if(password.equals("") || password.equals(" ")) {
+                    JOptionPane.showMessageDialog(null, "Debes de introducir una nueva contraseña", "Error al cambiar Contraseña", JOptionPane.ERROR_MESSAGE);
+                } else if (!validarContra(password)) {
+                    JOptionPane.showMessageDialog(null, "Debes de introducir al menos una Mayuscula y un numero", "Error al cambiar Contraseña", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    u.setContrasenya(password);
+                    JOptionPane.showMessageDialog(null, "Contraseña cambiada con éxito", "Update Contraseña", JOptionPane.INFORMATION_MESSAGE);
+                    txtNuevaContra.setText("");                
+                }
+            }
+        });
 		setVisible(true);
 
 
