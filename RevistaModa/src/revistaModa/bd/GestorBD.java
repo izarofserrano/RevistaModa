@@ -23,27 +23,26 @@ public class GestorBD {
 	private static Connection con;
 
 	public static void initBD(String nombreBD) {
-	    con = null;
-	    try {
-	        Class.forName("org.sqlite.JDBC");
-	        
-	        con = DriverManager.getConnection("jdbc:sqlite:" + nombreBD);
-	        // Habilitar WAL
-	        try (Statement stmt = con.createStatement()) {
-	            stmt.execute("PRAGMA journal_mode = WAL;");
-	        }
-	        // Configurar el tiempo de espera para los bloqueos
-	        try (Statement stmt = con.createStatement()) {
-	            stmt.execute("PRAGMA busy_timeout = 3000;");  // 3 segundos de espera
-	        }
-	        System.out.println("Conexion establecida");
-	    } catch (ClassNotFoundException e) {
-	        e.printStackTrace();
-	        System.out.println("Clase no encontrada en bd");
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        System.out.println("Error sql");
-	    }
+		con = null;
+		try {
+			Class.forName("org.sqlite.JDBC");
+			con = DriverManager.getConnection("jdbc:sqlite:" + nombreBD);
+			// Habilitar WAL
+			try (Statement stmt = con.createStatement()) {
+				stmt.execute("PRAGMA journal_mode = WAL;");
+			}
+			// Configurar el tiempo de espera para los bloqueos
+			try (Statement stmt = con.createStatement()) {
+				stmt.execute("PRAGMA busy_timeout = 3000;");  // 3 segundos de espera
+			}
+			System.out.println("Conexion establecida");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			System.out.println("Clase no encontrada en bd");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Error sql");
+		}
 	}
 
 
@@ -175,16 +174,34 @@ public class GestorBD {
 
 	}
 
+	public static boolean updateContrasenya(Usuario usu) {
+
+
+		String sql = "UPDATE Usuario SET contrasenya = ? WHERE username = ?";
+
+		try (PreparedStatement stmt = con.prepareStatement(sql)) {
+
+			stmt.setString(1, usu.getContrasenya());  // Nueva contraseña
+			stmt.setString(2, usu.getUsername()); 
+
+			int filasAfectadas = stmt.executeUpdate();
+			return filasAfectadas > 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 
 	//IAG (herramienta: ChatGPT)
 	public static void borrarArticulo(int idArt) {
-	    String sql = "DELETE FROM Articulo WHERE idArt = ?";
-	    try (PreparedStatement ps = con.prepareStatement(sql)) {
-	        ps.setInt(1, idArt);
-	        ps.executeUpdate();
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
+		String sql = "DELETE FROM Articulo WHERE idArt = ?";
+		try (PreparedStatement ps = con.prepareStatement(sql)) {
+			ps.setInt(1, idArt);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 
@@ -261,34 +278,141 @@ public class GestorBD {
 
 
 	public static void actualizarValoraciones(Map<String, Integer> valoraciones, Set<String> likes, int idArticulo) {
-	    try {
-	        // Usar la conexión ya abierta
-	        Connection conn = con;
-	        conn.setAutoCommit(false);
+		try {
+			// Usar la conexión ya abierta
+			Connection conn = con;
+			conn.setAutoCommit(false);
 
-	        String sqlUpdateFavArticulo = """ 
-	            INSERT OR REPLACE INTO FavArticulo (username, idArt, like, valoracion) VALUES (?, ?, ?, ?); 
-	        """;
-	        try (PreparedStatement psFavArticulo = conn.prepareStatement(sqlUpdateFavArticulo)) {
-	            for (Map.Entry<String, Integer> entry : valoraciones.entrySet()) {
-	                String usuario = entry.getKey();
-	                int valoracion = entry.getValue();
-	                int like = (likes.contains(usuario)) ? 1 : 0;
-	                psFavArticulo.setString(1, usuario);
-	                psFavArticulo.setInt(2, idArticulo);
-	                psFavArticulo.setInt(3, like);
-	                psFavArticulo.setInt(4, valoracion);
-	                psFavArticulo.addBatch();
-	            }
-	            psFavArticulo.executeBatch();
-	        }
-	        conn.commit();
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
+			String sqlUpdateFavArticulo = """ 
+					    INSERT OR REPLACE INTO FavArticulo (username, idArt, like, valoracion) VALUES (?, ?, ?, ?); 
+					""";
+			try (PreparedStatement psFavArticulo = conn.prepareStatement(sqlUpdateFavArticulo)) {
+				for (Map.Entry<String, Integer> entry : valoraciones.entrySet()) {
+					String usuario = entry.getKey();
+					int valoracion = entry.getValue();
+					int like = (likes.contains(usuario)) ? 1 : 0;
+					psFavArticulo.setString(1, usuario);
+					psFavArticulo.setInt(2, idArticulo);
+					psFavArticulo.setInt(3, like);
+					psFavArticulo.setInt(4, valoracion);
+					psFavArticulo.addBatch();
+				}
+				psFavArticulo.executeBatch();
+			}
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 
+
+	public static HashMap<Articulo, ArrayList<Integer>> obtenerValLikeporUsu(Usuario usu) {
+		HashMap<Articulo, ArrayList<Integer>> favUsu = new HashMap<>();
+
+		String sql = """
+				    SELECT a.idArt, a.titulo, a.autor, a.fechaPublicacion, a.tipoArt, a.rutaArchivoArt, f.like, f.valoracion
+				    FROM FavArticulo f
+				    JOIN Articulo a ON f.idArt = a.idArt
+				    WHERE f.username = ? AND (f.like = 1 OR (f.valoracion >= 1 AND f.valoracion <= 5))
+				""";
+
+		try (PreparedStatement ps = con.prepareStatement(sql)) {
+			ps.setString(1, usu.getUsername());
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Articulo articulo = new Articulo(
+						rs.getInt("idArt"),
+						rs.getString("titulo"),
+						rs.getString("autor"),
+						rs.getString("fechaPublicacion"),
+						rs.getString("tipoArt"),
+						rs.getString("rutaArchivoArt")
+						);
+
+				// Obtener fotos asociadas al artículo
+				String sqlFotos = """
+						    SELECT idFoto, descripcion, rutaFoto
+						    FROM FotoArt
+						    WHERE idArt = ?
+						""";
+				try (PreparedStatement psFotos = con.prepareStatement(sqlFotos)) {
+					psFotos.setInt(1, articulo.getIdArt());
+					ResultSet rsFotos = psFotos.executeQuery();
+
+					while (rsFotos.next()) {
+						FotoArt foto = new FotoArt(
+								rsFotos.getInt("idFoto"),
+								rsFotos.getString("descripcion"),
+								rsFotos.getString("rutaFoto")
+								);
+						articulo.getlFotos().add(foto);
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+				ArrayList<Integer> valLike = new ArrayList<>(2);
+				valLike.add(rs.getInt("like")); 
+				valLike.add(rs.getInt("valoracion")); 
+
+				favUsu.put(articulo, valLike);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return favUsu;
+	}
+
+
+
+	public static String buscarFotoPorArt(int idArt) {
+
+		String rutaFoto = null;
+
+		//IAG: ChatGPT (Solo la sentencia sql)
+		String sql = """
+				    SELECT rutaFoto
+				    FROM FotoArt
+				    WHERE idArt = ?
+				    LIMIT 1
+				""";
+
+		try (PreparedStatement ps = con.prepareStatement(sql)) {
+			ps.setInt(1, idArt);
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				rutaFoto = rs.getString("rutaFoto");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return rutaFoto;
+	}
+
+
+
+	public static Integer countLikes(int idArt) {
+		int count = 0;
+		String sql = "SELECT COUNT(*) FROM FavArticulo WHERE idArt=? AND like=1";
+
+		try (PreparedStatement ps = con.prepareStatement(sql)) {
+			ps.setInt(1, idArt);
+			try (ResultSet rs = ps.executeQuery()) {
+				if (rs.next()) {
+					count = rs.getInt(1);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return count;
+	}
 
 
 
@@ -319,43 +443,41 @@ public class GestorBD {
 	}
 
 	public static List<Articulo> cargarFavoritos(String u) {
-	    List<Articulo> sFav = new ArrayList<Articulo>();
-	    System.out.println(u);
+		List<Articulo> sFav = new ArrayList<Articulo>();
 
-	    //IAG: ChatGPT (Solo la sentencia sql)
-	    String sql = """
-	        SELECT a.idArt, a.titulo, a.autor, a.fechaPublicacion, a.tipoArt, a.rutaArchivoArt
-	        FROM FavArticulo f
-	        JOIN Articulo a ON f.idArt = a.idArt
-	        WHERE f.username = ?
-	    """;
+		//IAG: ChatGPT (Solo la sentencia sql)
+		String sql = """
+				    SELECT a.idArt, a.titulo, a.autor, a.fechaPublicacion, a.tipoArt, a.rutaArchivoArt
+				    FROM FavArticulo f
+				    JOIN Articulo a ON f.idArt = a.idArt
+				    WHERE f.username = ?
+				""";
 
-	    try {
-	        PreparedStatement ps = con.prepareStatement(sql);
-	        ps.setString(1, u);
+		try {
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, u);
 
-	        ResultSet rs = ps.executeQuery();
-	        
-	        while (rs.next()) {
-	            int idArt = rs.getInt("idArt");
-	            String titulo = rs.getString("titulo");
-	            String autor = rs.getString("autor");
-	            String fechaPublicacion = rs.getString("fechaPublicacion");
-	            String tipoArt = rs.getString("tipoArt");
-	            String rutaArchivoArt = rs.getString("rutaArchivoArt");
+			ResultSet rs = ps.executeQuery();
 
-	            Articulo articulo = new Articulo(idArt, titulo, autor, fechaPublicacion, tipoArt, rutaArchivoArt);
-	            System.out.println(articulo);
-	            sFav.add(articulo);
-	        }
+			while (rs.next()) {
+				int idArt = rs.getInt("idArt");
+				String titulo = rs.getString("titulo");
+				String autor = rs.getString("autor");
+				String fechaPublicacion = rs.getString("fechaPublicacion");
+				String tipoArt = rs.getString("tipoArt");
+				String rutaArchivoArt = rs.getString("rutaArchivoArt");
 
-	        rs.close();
-	        ps.close();
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
+				Articulo articulo = new Articulo(idArt, titulo, autor, fechaPublicacion, tipoArt, rutaArchivoArt);
+				sFav.add(articulo);
+			}
 
-	    return sFav;
+			rs.close();
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return sFav;
 	}
 
 	public static Set<String> cargarLikes(int idArt){
@@ -378,12 +500,12 @@ public class GestorBD {
 		return sLikes;
 
 	}
-	
+
 	public static ArrayList<Articulo> cargarArticulos() {
 		ArrayList<Articulo> lArts = new ArrayList<Articulo>();
 		String sql = "SELECT * FROM Articulo";
-		
-		
+
+
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
@@ -394,10 +516,10 @@ public class GestorBD {
 				String fecha = rs.getString("titulo");
 				String tipoArt = rs.getString("tipoArt");
 				String ruta = rs.getString("rutaArchivoArt");
-				
+
 				Articulo a= new Articulo(idArt,titulo,autor,fecha,tipoArt,ruta);
 				String sql2 = String.format("Select*From fotoArt where idArt=%d",idArt);
-				
+
 				Statement stmt2 = con.createStatement();
 				ResultSet rs2 = stmt2.executeQuery(sql2);
 				while (rs2.next()) {
@@ -407,10 +529,10 @@ public class GestorBD {
 					FotoArt f = new FotoArt(idFoto, descripcion, rutaFoto);
 					a.getlFotos().add(f);
 				}
-                rs2.close();
-                stmt2.close();
-   
-				
+				rs2.close();
+				stmt2.close();
+
+
 				String sql3 = String.format("SELECT * FROM FavArticulo where idArt=%d", idArt);
 				Statement stmt3 = con.createStatement();
 				ResultSet rs3 = stmt3.executeQuery(sql3);
@@ -424,20 +546,20 @@ public class GestorBD {
 				a.setSetUsuariosLike(u);
 				lArts.add(a);	
 			}
-			
+
 			rs.close();
 			stmt.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
+
+
+
 		return lArts;
-		
+
 	}
-	
+
 
 
 
@@ -480,40 +602,45 @@ public class GestorBD {
 		}
 	}
 
-	/*
-	//Para calcular nota media de un artículo
-	public static double calcularNotaMedia(Connection con, int idArt) throws Exception {
-		String sql = "SELECT ABG(valoracion) AS nota_media FROM favArt WHERE idArt = ?";
-		
-		try (PreparedStatement ps = con.prepareStatement(sql)) {
-			ps.setInt(1, idArt);
-			
-			try (ResultSet rs = ps.executeQuery()){
-				if (rs.next()) {
-					return rs.getDouble("nota_media");
-				}
-			}
-		}
-		return 0.0; //si no hay valoracioens
-	} */
-	
-	
+
+	public static Float calcularNotaMedia(int idArt){
+		String sql = "SELECT AVG(valoracion) AS nota_media FROM FavArticulo WHERE idArt = ?";
+	    Float notaMedia = 0.f;
+
+	    try (PreparedStatement ps = con.prepareStatement(sql)) {
+	        ps.setInt(1, idArt); 
+	        try (ResultSet rs = ps.executeQuery()) {
+	            if (rs.next()) {
+	                notaMedia = rs.getFloat("nota_media");
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        System.out.println("Error al calcular la nota media");
+	    }
+	    return notaMedia;
+	}
+
+
 	//Consulta a fuentes, ejemplos externos
 	//Para aclcular nota media de TODOS los artículos con una consulta
-	public static Map<Integer, Double> CalcularNotasMedias(Connection con) throws Exception {
+	public static Map<Integer, Double> CalcularNotasMedias(){
 		String sql = "SELECT idArt, AVG(valoracion) AS nota_media FROM favArt GROUP BY idArt";
 		Map<Integer, Double> notasMedias = new HashMap<>();
-	
+
 		try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-				while (rs.next()) {
-					int idArt = rs.getInt("idArt");
-					double notaMedia = rs.getDouble("nota_media");
-					notasMedias.put(idArt, notaMedia);
-				}
+			while (rs.next()) {
+				int idArt = rs.getInt("idArt");
+				double notaMedia = rs.getDouble("nota_media");
+				notasMedias.put(idArt, notaMedia);
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Error al calcular la nota media");
+		}
 		return notasMedias;
 	}
-	
+
 
 
 

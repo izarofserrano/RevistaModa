@@ -22,8 +22,9 @@ public class Main {
 		GestorBD.crearTablas();
 		
 		RevistaModa.cargarFotosArtBD();
-		//RevistaModa.cargarArticulos();
 		RevistaModa.cargarUsuariosBD();
+		RevistaModa.separarArticulos();
+		
 
 		
 		@SuppressWarnings("unused")
@@ -37,12 +38,6 @@ public class Main {
 		TreeMap<String,Integer> tArt = new TreeMap<String, Integer>();
 		
 		
-		
-
-
-		//VentanaArticulo vArt = new VentanaArticulo(RevistaModa.getlArticulos().get(1));
-		//VentanaPerfil vPer = new VentanaPerfil(RevistaModa.getlUsuarios().get(0));
-		//VentanaUsuario vUser= new VentanaUsuario(RevistaModa.getlUsuarios());
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
+import revistaModa.bd.GestorBD;
 import revistaModa.clases.Articulo;
 import revistaModa.clases.RevistaModa;
 
@@ -69,8 +70,8 @@ public class ModeloEstadisticas extends DefaultTableModel{
 		case 0:return art.getTitulo();
 		case 1:return art.getAutor();
 		case 2:return art.getlFotos().get(0).getRutaFoto();
-		case 3:return art.getLikesCount();
-		case 4:return (RevistaModa.valoracionMedia(art)) ;
+		case 3:return GestorBD.countLikes(art.getIdArt());
+		case 4:return GestorBD.calcularNotaMedia(art.getIdArt()) ;
 		default:return null;
 		}
 		

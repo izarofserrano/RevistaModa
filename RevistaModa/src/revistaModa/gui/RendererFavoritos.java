@@ -48,48 +48,59 @@ public class RendererFavoritos extends DefaultTableCellRenderer {
 		}
 
 
-		if(column==2) {
+		if (column == 2) {
 			ImageIcon imagenSinEscalar = null;
 
 			if (value != null) {
-				// Verifica si la ruta de la imagen es válida
 				imagenSinEscalar = new ImageIcon(String.format("%s", value.toString()));
 
-				// Comprueba si la imagen se ha cargado correctamente
 				if (imagenSinEscalar.getImageLoadStatus() != MediaTracker.COMPLETE) {
 					imagenSinEscalar = new ImageIcon(); // Imagen por defecto si la carga falla
 				}
 			} else {
-				imagenSinEscalar = new ImageIcon(); // Imagen por defecto si no hay valor
+				imagenSinEscalar = new ImageIcon(); 
 			}
 
-			// Asegúrate de que la imagen no sea nula
 			if (imagenSinEscalar != null && imagenSinEscalar.getImage() != null) {
-				int AncLabel = lbl.getWidth();
-				int AltLabel = lbl.getHeight();
+				int imgWidth = imagenSinEscalar.getIconWidth();
+				int imgHeight = imagenSinEscalar.getIconHeight();
 
-				// Escalar la imagen
-				Image imagen = imagenSinEscalar.getImage().getScaledInstance(AncLabel, AltLabel, Image.SCALE_SMOOTH);
-				ImageIcon imagenEscalada = new ImageIcon(imagen);
-				lbl.setIcon(imagenEscalada);
+				int labelWidth = lbl.getWidth();
+				int labelHeight = lbl.getHeight();
+				
+				//IAG: ChatGPT 
+				double scaleFactor = Math.min((double) labelWidth / imgWidth, (double) labelHeight / imgHeight);
+
+				int newWidth = (int) (imgWidth * scaleFactor);
+				int newHeight = (int) (imgHeight * scaleFactor);
+				//Hasta aquí
+
+				Image imagenEscalada = imagenSinEscalar.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+				ImageIcon imagenEscaladaIcon = new ImageIcon(imagenEscalada);
+
+				lbl.setIcon(imagenEscaladaIcon);
 			} else {
-				// Si la imagen no se cargó correctamente, establecer un icono vacío o una imagen predeterminada
-				lbl.setIcon(new ImageIcon());  // Establece una imagen por defecto si no se cargó
+				lbl.setIcon(new ImageIcon());  
 			}
 		}
 
 
-		if(column == 4) {
-			JProgressBar progres = new JProgressBar(0,5);
-			int progresoActual = Math.round((float) value);
+		if (column == 4) {
+			JProgressBar progres = new JProgressBar(0, 5);
+
+			int progresoActual;
+			if (value instanceof Integer) {
+				progresoActual = (Integer) value;
+			} else {
+				progresoActual = 0; 
+			}
+
 			progres.setValue(progresoActual);
 			progres.setString(String.valueOf(progresoActual));
-
 			progres.setStringPainted(true);
 			progres.setVisible(true);
 
 			return progres;
-
 		}
 
 		if (isSelected) {

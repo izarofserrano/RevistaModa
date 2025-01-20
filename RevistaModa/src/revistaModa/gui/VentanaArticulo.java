@@ -263,7 +263,6 @@ public class VentanaArticulo extends JFrame {
             panelFoto.add(Box.createVerticalGlue());
             panelFoto.add(panelCorazon);
             
-            //Algunos cambios
             btnLikeFt.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseEntered(MouseEvent e) {
@@ -385,8 +384,7 @@ public class VentanaArticulo extends JFrame {
         	}
         }
     
-        /*Image imagenLike = new ImageIcon("RevistaModa/img/megusta1.png").getImage().getScaledInstance(anchoV / 30, altoV / 30, Image.SCALE_SMOOTH); //IAG (herramienta: ChatGPT)
-        btnLike.setIcon(new ImageIcon(imagenLike));*/
+      
     }
     
     private void cambiarTexto(JEditorPane pane, int tam) {

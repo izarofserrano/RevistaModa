@@ -2,6 +2,7 @@ package revistaModa.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -128,7 +129,6 @@ public class VentanaUsuario extends JFrame {
 				Usuario admin = new Usuario("admin", Password, "admin@admin.com");
 				VentanaInicial i = new VentanaInicial(true, admin);
 				
-				//i.getBtnLogIn().setVisible(false);
 				i.setVisible(true);
 				dispose();
 				return;
@@ -174,7 +174,7 @@ public class VentanaUsuario extends JFrame {
 		pNorte.add(p4, BorderLayout.WEST);
 
 		try {
-			ImageIcon iconoVentana = new ImageIcon("/Users/ainhoa/git/RevistaModa/RevistaModa/img/ImgIcon.png");
+			ImageIcon iconoVentana = new ImageIcon("RevistaModa/img/ImgIcon.png");
 			Image fotoIcon = iconoVentana.getImage();
 			setIconImage(fotoIcon);
 		}catch(Exception e){
@@ -182,17 +182,17 @@ public class VentanaUsuario extends JFrame {
 		}
 
 
-		ImageIcon iconoTitle = new ImageIcon("/RevistaModa/RevistaModa/img/Logo_UD_Vogue.png");
-		Image fotoTitle = iconoTitle.getImage().getScaledInstance(100, 75, Image.SCALE_SMOOTH);
+		
+		JLabel lblTitle = new JLabel("INICIAR SESIÓN");
 
-		JLabel lblTitle = new JLabel(new ImageIcon(fotoTitle));
-
+		lblTitle.setFont(new Font("Times New Roman", Font.BOLD, 24)); 
 
 		JPanel p5 = new JPanel();
-		p5.add(lblTitle);
+		p5.setLayout(new FlowLayout(FlowLayout.CENTER)); 
+		p5.add(lblTitle); 
+
 		pNorte.add(p5);
 
-		// btn Registrarse
 		btnRegistrarse.addActionListener((e) -> {
 			mostrarPantallaRegistro();
 
@@ -200,7 +200,7 @@ public class VentanaUsuario extends JFrame {
 
 		JLabel lblimagen = new JLabel();
 		try {
-			ImageIcon iconoPortada = new ImageIcon("/RevistaModa/RevistaModa/img/Logo_UD_Vogue.png");
+			ImageIcon iconoPortada = new ImageIcon("RevistaModa/img/Logo_UD_Vogue.png");
 			Image imgPortada = iconoPortada.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
 			lblimagen = new JLabel(new ImageIcon(imgPortada));
 			pOeste.add(lblimagen,BorderLayout.CENTER);
@@ -326,7 +326,6 @@ public class VentanaUsuario extends JFrame {
 				Num = true;
 			}
 
-			// Op AND
 		}
 		return Mayus && Num;
 	}

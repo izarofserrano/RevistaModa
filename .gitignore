@@ -5,3 +5,26 @@
 
 # Código compilado
 bin/
+
+# Dependencias de Node.js (si decides usar npm o yarn)
+node_modules/
+
+# Archivos de compilación o build
+dist/
+build/
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Configuración de IDEs
+.idea/
+.vscode/
+*.iml
+
+# Archivos temporales
+*.log
+*.tmp
+
+# Configuración de entorno local
+.env

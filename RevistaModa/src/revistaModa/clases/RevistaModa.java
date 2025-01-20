@@ -11,63 +11,58 @@ public class RevistaModa {
     private static ArrayList<Articulo> lArticulos = GestorBD.cargarArticulos();
     private static List<Usuario> lUsuarios =GestorBD.cargarUsuarios();
     private static ArrayList<FotoArt> lFotos = (ArrayList<FotoArt>) GestorBD.cargarFotos();
+    private static ArrayList<Articulo> lArtBelleza;
+    private static ArrayList<Articulo> lArtModa;
 
-    // Cargar los artículos con datos, incluyendo fotos, likes y valoraciones
-    /*public static void cargarArticulos() {
-        // Artículo 1
-        Articulo a1 = new Articulo(1, "Tendencias de moda otoño 2024", "Ana González", "2024-09-15", "Tendencias",
-                "RevistaModa/html/moda.html", getlFotos(), new HashSet<>(), new TreeMap<>());
-        a1.getSetUsuariosLike().add("johndoe");
-        a1.getSetUsuariosLike().add("janedoe");
-        a1.getMapaUsuariosVal().put("johndoe", 5);
-        a1.getMapaUsuariosVal().put("charliebrown", 4);
+    
 
-        // Artículo 2
-        Articulo a2 = new Articulo(2, "La evolución del streetwear", "Carlos López", "2024-08-10", "Historia",
-                "RevistaModa/html/moda.html", getlFotos(), new HashSet<>(), new TreeMap<>());
-        a2.getSetUsuariosLike().add("janedoe");
-        a2.getMapaUsuariosVal().put("alicewonder", 5);
-
-        // Artículo 3
-        Articulo a3 = new Articulo(3, "Accesorios que marcarán el 2024", "Lucía Martínez", "2024-10-01", "Accesorios",
-                "RevistaModa/html/moda.html", getlFotos(), new HashSet<>(), new TreeMap<>());
-        a3.getSetUsuariosLike().add("johndoe");
-        a3.getSetUsuariosLike().add("janedoe");
-        a3.getMapaUsuariosVal().put("charliebrown", 3);
-        a3.getMapaUsuariosVal().put("bobsmith", 4);
-
-        // Agregar los artículos a la lista
-        lArticulos.add(a1);
-        lArticulos.add(a2);
-        lArticulos.add(a3);
-    }*/
-
-    // Cargar los usuarios
-
+    
     
     public static void cargarUsuariosBD() {
     	lUsuarios = GestorBD.cargarUsuarios();
     }
     
 
-    // Cargar las fotos
-  /*  public static void cargarFotos() {
-        FotoArt foto1 = new FotoArt(1, "Foto de portada otoño 2024", "RevistaModa/img/ropa1.jpeg");
-        FotoArt foto2 = new FotoArt(2, "Accesorios de moda", "RevistaModa/img/ropa2.jpeg");
-        FotoArt foto3 = new FotoArt(3, "Estilos streetwear 2024", "RevistaModa/img/ropa3.jpeg");
-        FotoArt foto4 = new FotoArt(4, "Calzado tendencia 2024", "RevistaModa/img/ropa4.jpeg");
-
-        lFotos.add(foto1);
-        lFotos.add(foto2);
-        lFotos.add(foto3);
-        lFotos.add(foto4);
-    }*/
-
     public static void cargarFotosArtBD() {
     	lFotos = (ArrayList<FotoArt>) GestorBD.cargarFotos();
     	
     }
 
+    
+    
+    public static ArrayList<Articulo> getlArtBelleza() {
+		return lArtBelleza;
+	}
+
+
+	public static void setlArtBelleza(ArrayList<Articulo> lArtBelleza) {
+		RevistaModa.lArtBelleza = lArtBelleza;
+	}
+
+
+	public static ArrayList<Articulo> getlArtModa() {
+		return lArtModa;
+	}
+
+
+	public static void setlArtModa(ArrayList<Articulo> lArtModa) {
+		RevistaModa.lArtModa = lArtModa;
+	}
+
+
+	public static void separarArticulos() {
+		lArtModa = new ArrayList<Articulo>();
+		lArtBelleza = new ArrayList<Articulo>();
+    	for(Articulo art : lArticulos) {
+    		if(art.getTipoArt().equals("1")) {
+    			lArtModa.add(art);
+    		}else if(art.getTipoArt().equals("2")) {
+    			lArtBelleza.add(art);
+    		}
+    	}    	
+    }
+    
+    
     // Método para obtener las fotos asociadas a un artículo en particular
     public static ArrayList<FotoArt> getFotosArticulo(int idArticulo) {
         return lFotos;
