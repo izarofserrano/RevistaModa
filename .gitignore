@@ -29,9 +29,8 @@ Thumbs.db
 # Configuración de entorno local
 .env
 
-# Incluir explícitamente la base de datos
-!RevistaModa/db/revistaModa.db
-
-# Ignorar todo lo demás en la carpeta db si aplica (opcional)
+# Ignorar todo en la carpeta db
 RevistaModa/db/*
+
+# Permitir específicamente la base de datos
 !RevistaModa/db/revistaModa.db
